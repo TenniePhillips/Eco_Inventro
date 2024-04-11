@@ -11,6 +11,14 @@ a {
   text-decoration: none;
 }
 
+.chakra-form-control {
+  margin-bottom: 14px;
+}
+
+.chakra-form__label {
+  margin-bottom: 4px !important;
+}
+
 * {
   box-sizing: border-box;
 }
