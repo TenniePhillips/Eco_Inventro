@@ -40,8 +40,8 @@ const DashboardLayout = ({ children }) => {
     },
     {
       icon: RiPieChart2Fill,
-      title: "Data Analytics",
-      route: "/data_analytics",
+      title: "Metrics",
+      route: "/metrics",
     },
   ];
 
@@ -94,11 +94,7 @@ const DashboardLayout = ({ children }) => {
 
         <Box py="32px" px="24px" display="flex" alignItems="center">
           {/* user login data */}
-          <Avatar
-            size="md"
-            name="Prosper Otemuyiwa"
-            src="https://bit.ly/prosper-baba"
-          />
+          <Avatar size="md" />
           <Box ml={["14px", "14px", "14px", "14px", "24px"]}>
             <Box fontSize="14px" fontWeight="400" color="#fff">
               Good Day

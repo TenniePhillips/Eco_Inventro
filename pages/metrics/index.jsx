@@ -110,7 +110,7 @@ const index = () => {
   return (
     <DashboardLayout>
       <Text fontSize="24px" fontWeight="700" my="24px">
-        Data Analytics
+        Metrics
       </Text>
       <Grid
         templateColumns="repeat(2, 1fr)" // Two columns with equal width
