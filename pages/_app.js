@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import "../styles/main_styles.css";
-import "antd/dist/antd.css";
+import "antd/dist/reset.css";
 
 function MyApp({ Component, pageProps }) {
   return (
