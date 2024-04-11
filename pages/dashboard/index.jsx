@@ -75,7 +75,6 @@ const index = () => {
         <Text fontSize="24px" fontWeight="700">
           Dashboard
         </Text>{" "}
-        <Button colorScheme="blue">Add Inventory</Button>
       </Flex>
       <Grid
         templateColumns="repeat(4, 1fr)" // Two columns with equal width
