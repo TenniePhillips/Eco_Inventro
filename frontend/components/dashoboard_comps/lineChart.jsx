@@ -17,8 +17,7 @@ import {
   useDisclosure,
   Select,
 } from "@chakra-ui/react";
-import { MdDeliveryDining, MdFactory, MdInventory } from "react-icons/md";
-import { RiMailSendFill } from "react-icons/ri";
+
 import {
   LineChart,
   Line,
@@ -64,7 +63,7 @@ const DahsboardLineChart = () => {
         justifyContent="space-between"
       >
         <Text fontSize="20px" fontWeight="600" mb="0px">
-          Inventory by Date
+          Recycle chart
         </Text>
         <RangePicker />
       </CardHeader>

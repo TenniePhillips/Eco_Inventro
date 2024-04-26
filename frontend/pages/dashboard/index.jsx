@@ -43,6 +43,7 @@ import CaculatorModal from "../../components/modal/calculator_modal";
 import DahsboardBarChart from "../../components/dashoboard_comps/barChart";
 import DashboardPieChart from "../../components/dashoboard_comps/pieChart";
 import DahsboardLineChart from "../../components/dashoboard_comps/lineChart";
+import DahsboardMultiChart from "../../components/dashoboard_comps/multiChart";
 
 const index = () => {
   const size = 24;
@@ -212,10 +213,12 @@ const index = () => {
         <DashboardPieChart />
       </Flex>
       <Flex mt="32px" mb="50px" flexDir={{ base: "column", lg: "row" }} gap={3}>
-        <Box width="60%">
+        <Box width="50%">
           <DahsboardLineChart />
         </Box>
-        <Box width="40%"></Box>
+        <Box width="50%">
+          <DahsboardMultiChart />
+        </Box>
       </Flex>
       <CaculatorModal isOpen={isOpen} onClose={onClose} />
     </DashboardLayout>
