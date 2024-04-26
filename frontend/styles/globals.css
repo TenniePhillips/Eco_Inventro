@@ -1,0 +1,94 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Nunito", sans-serif;
+  /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
+}
+
+:root {
+  --main-bg: #027f82;
+  /* #09e82e; */
+  /* #0d9276; */
+}
+.eco-color {
+  color: var(--main-bg);
+}
+
+.ant-layout-sider .ant-layout-sider-dark {
+  background: var(--main-bg) !important;
+}
+
+.ant-menu.ant-menu-dark,
+.ant-menu-dark .ant-menu-sub,
+.ant-menu.ant-menu-dark .ant-menu-sub {
+  background: var(--main-bg);
+}
+
+.ant-layout-sider {
+  background: var(--main-bg) !important;
+  position: relative;
+  min-width: 0;
+  background: #fff;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  box-shadow: 0.2px 0px 3px 0px #bfbfbf;
+  max-width: 0px !important;
+  width: 300px !important;
+  flex: 0 0 300px !important;
+  padding-left: 0rem;
+  padding-right: 0rem;
+  border-right: 0px solid white !important;
+}
+
+.ant-menu {
+  padding: 10px;
+}
+
+.ant-menu-dark .ant-menu-item {
+  padding-left: 10px !important;
+  padding-top: 24px !important;
+  padding-bottom: 24px !important;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.ant-menu-dark .ant-menu-item-selected {
+  background-color: #2e0d9245 !important;
+}
+
+@media (max-width: 991px) {
+  .ant-layout {
+    margin-left: 0 !important;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.chakra-form-control {
+  margin-bottom: 14px;
+}
+
+.chakra-form__label {
+  margin-bottom: 4px !important;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+}
