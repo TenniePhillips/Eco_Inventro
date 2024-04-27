@@ -24,7 +24,7 @@ import DashboardPieChart from "../../components/dashoboard_comps/pieChart";
 import DahsboardLineChart from "../../components/dashoboard_comps/lineChart";
 import DahsboardMultiChart from "../../components/dashoboard_comps/multiChart";
 
-const index = () => {
+const Index = () => {
   const size = 24;
 
   const color = "#027f82";
@@ -183,4 +183,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;
