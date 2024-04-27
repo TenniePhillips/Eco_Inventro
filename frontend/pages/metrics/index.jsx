@@ -1,6 +1,6 @@
 import React from "react";
 import DashboardLayout from "../../components/dashlayout";
-import { Box, Grid, Text } from "@chakra-ui/react";
+import { Box, Grid, Text, Flex } from "@chakra-ui/react";
 import * as Recharts from "recharts";
 const {
   LineChart,

@@ -77,7 +77,9 @@ const CaculatorModal = ({ isOpen, onClose }) => {
               mb="20px"
             >
               {data.map((item, id) => (
-                <option value={item.name}>{item.name}</option>
+                <option value={item.name} key={id}>
+                  {item.name}
+                </option>
               ))}
             </Select>
           </FormControl>
