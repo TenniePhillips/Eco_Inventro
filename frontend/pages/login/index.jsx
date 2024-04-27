@@ -25,7 +25,7 @@ const index = () => {
     >
       <Box width="580px" py="40px">
         <Card>
-          <CardBody py="40px" px="30px">
+          <CardBody py="40px" px="32px">
             <Flex justifyContent="center">
               <Image
                 src="/images/eco.png"
