@@ -85,7 +85,7 @@ const DahsboardMultiChart = () => {
         justifyContent="space-between"
       >
         <Text fontSize="20px" fontWeight="600" mb="0px">
-          Weight of waste
+          Weight of wastes
         </Text>
         <RangePicker />
       </CardHeader>
