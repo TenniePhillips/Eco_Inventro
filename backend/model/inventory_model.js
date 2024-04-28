@@ -1,3 +1,4 @@
+const moment = require("moment");
 const mongoose = require("mongoose");
 const validator = require("validator");
 
@@ -24,14 +25,11 @@ const InventorySchema = new mongoose.Schema({
   },
   orderDate: {
     type: Date,
-    validate: {
-      validator: function (value) {
-        // Custom validation function to check if the date is not in the past
-        return value >= new Date();
-      },
-      message: "Date cannot be in the past",
-    },
     required: true,
+    set: function (value) {
+      // Parse the string in "DD-MM-YYYY" format into a Date object
+      return moment(value, "DD-MM-YYYY").toDate();
+    },
   },
   deliveryDate: {
     type: Date,
@@ -43,19 +41,22 @@ const InventorySchema = new mongoose.Schema({
       message: "Date cannot be in the past",
     },
     required: true,
+    set: function (value) {
+      // Parse the string in "DD-MM-YYYY" format into a Date object
+      return moment(value, "DD-MM-YYYY").toDate();
+    },
   },
-  disposal: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Disposal",
-  },
+
   measurement: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Measurement",
+    type: String,
+    required: [true, "Measurement is required"],
+    enum: ["KG", "g"],
   },
   material: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Material",
+    type: String,
+    required: [true, "Material is required"],
+    enum: ["Plastic", "Styrofoam", "Biodradable"],
   },
 });
 
-module.exports = mongoose.model("User", InventorySchema);
+module.exports = mongoose.model("Inventory", InventorySchema);

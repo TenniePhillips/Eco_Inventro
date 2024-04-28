@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Box,
@@ -12,6 +12,7 @@ import {
   MenuList,
   Text,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { Table } from "antd";
 import { RiMore2Fill } from "react-icons/ri";
@@ -19,130 +20,71 @@ import { useRouter } from "next/router";
 import DashboardLayout from "../../components/dashlayout";
 import { ICON_CONST } from "../../components/constants";
 import AddInventryModal from "../../components/modal/add_inventry";
+import { HandleAllRequest } from "../../tools/request_handler";
 
 const index = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const dataSource = [
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      supplier: "ADC & co",
-      measurement: "KG",
-      type: "Polystyrene",
-      quantity: "50",
-      delivery: "12/04/2024",
-      disposal: "Recycle",
-      carbon: "0.50kg",
-      requested: "9/04/2024",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      supplier: "ADC & co",
-      measurement: "KG",
-      type: "Polystyrene",
-      quantity: "50",
-      delivery: "12/04/2024",
-      disposal: "Recycle",
-      carbon: "0.50kg",
-      requested: "9/04/2024",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      supplier: "ADC & co",
-      measurement: "KG",
-      type: "Polystyrene",
-      quantity: "50",
-      delivery: "12/04/2024",
-      disposal: "Recycle",
-      carbon: "0.50kg",
-      requested: "9/04/2024",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      supplier: "ADC & co",
-      measurement: "KG",
-      type: "Polystyrene",
-      quantity: "50",
-      delivery: "12/04/2024",
-      disposal: "Recycle",
-      carbon: "0.50kg",
-      requested: "9/04/2024",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      supplier: "ADC & co",
-      measurement: "KG",
-      type: "Polystyrene",
-      quantity: "50",
-      delivery: "12/04/2024",
-      disposal: "Recycle",
-      carbon: "0.50kg",
-      requested: "9/04/2024",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      supplier: "ADC & co",
-      measurement: "KG",
-      type: "Polystyrene",
-      quantity: "50",
-      delivery: "12/04/2024",
-      disposal: "Recycle",
-      carbon: "0.50kg",
-      requested: "9/04/2024",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      supplier: "ADC & co",
-      measurement: "KG",
-      type: "Polystyrene",
-      quantity: "50",
-      delivery: "12/04/2024",
-      disposal: "Recycle",
-      carbon: "0.50kg",
-      requested: "9/04/2024",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      supplier: "ADC & co",
-      measurement: "KG",
-      type: "Polystyrene",
-      quantity: "50",
-      delivery: "12/04/2024",
-      disposal: "Recycle",
-      carbon: "0.50kg",
-      requested: "9/04/2024",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      supplier: "ADC & co",
-      measurement: "KG",
-      type: "Polystyrene",
-      quantity: "50",
-      delivery: "12/04/2024",
-      disposal: "Recycle",
-      carbon: "0.50kg",
-      requested: "9/04/2024",
-    },
-  ];
+  const [inventoryData, setInventory] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+
+  const getInventory = async () => {
+    setLoading(true);
+    var req = await HandleAllRequest("/inventory/fetch", "get", "", {});
+
+    setLoading(false);
+    if (req.success == true) {
+      setInventory(req.data);
+    } else {
+      toast({
+        position: "bottom-right",
+        description: req.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      console.log("error", req.message);
+    }
+  };
+
+  const deleteInventory = async (id) => {
+    console.log("id", id);
+    setLoading(true);
+    var req = await HandleAllRequest(
+      `/inventory/delete/${id}`,
+      "delete",
+      "",
+      {}
+    );
+
+    setLoading(false);
+    if (req.success == true) {
+      toast({
+        position: "bottom-right",
+        description: req.message,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      getInventory();
+      // setInventory(req.data);
+    } else {
+      toast({
+        position: "bottom-right",
+        description: req.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      console.log("error", req.message);
+    }
+  };
+
+  useEffect(() => {
+    getInventory();
+  }, []);
 
   const columns = [
     {
@@ -157,13 +99,13 @@ const index = () => {
     },
     {
       title: "Material Type",
-      dataIndex: "type",
-      key: "type",
+      dataIndex: "material",
+      key: "material",
     },
     {
       title: "Quantity",
-      dataIndex: "quantity",
-      key: "quantity",
+      dataIndex: "quatity",
+      key: "quatity",
     },
     {
       title: "Measurement",
@@ -172,42 +114,33 @@ const index = () => {
     },
     {
       title: "Delivery Date",
-      dataIndex: "delivery",
-      key: "delivery",
+      dataIndex: "deliveryDate",
+      key: "deliveryDate",
     },
     {
       title: "Requested Date",
-      dataIndex: "requested",
-      key: "requested",
+      dataIndex: "orderDate",
+      key: "orderDate",
     },
-    // {
-    //   title: "Carbon Footprint",
-    //   dataIndex: "carbon",
-    //   key: "carbon",
-    // },
-    // {
-    //   title: "Disposal Method",
-    //   dataIndex: "disposal",
-    //   key: "disposal",
-    // },
+
     {
       title: "Action",
-      render: () => (
+      render: (item, id) => (
         <Menu isLazy>
           <MenuButton>
             <RiMore2Fill />
           </MenuButton>
           <MenuList>
-            {menuArr.map((item, id) => (
+            {menuArr.map((items, id) => (
               <MenuItem p="20px" key={id}>
                 <Flex
-                  onClick={() => router.push(`/users/${id}`)}
+                  onClick={() => deleteInventory(item._id)}
                   justifyContent="space-between"
                   alignItems="center"
                   w="100%"
                 >
-                  <Box>{item.text}</Box>
-                  <Icon as={item.img} size="32px" />
+                  <Box>{items.text}</Box>
+                  <Icon as={items.img} size="32px" />
                 </Flex>
               </MenuItem>
             ))}
@@ -239,12 +172,17 @@ const index = () => {
 
         <Table
           className="custom-table"
-          dataSource={dataSource}
+          dataSource={inventoryData}
           columns={columns}
+          loading={loading}
         />
       </Box>
 
-      <AddInventryModal isOpen={isOpen} onClose={onClose} />
+      <AddInventryModal
+        isOpen={isOpen}
+        callBack={getInventory}
+        onClose={onClose}
+      />
     </DashboardLayout>
   );
 };

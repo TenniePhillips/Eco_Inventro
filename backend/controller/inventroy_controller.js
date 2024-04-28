@@ -4,23 +4,23 @@ const createInventory = async (req, res) => {
   const {
     name,
     supplier,
-    type,
+    material,
     measurement,
     quatity,
     orderDate,
     deliveryDate,
-    disposal,
+    // disposal,
   } = req.body;
 
   if (
     !name ||
     !supplier ||
-    !type ||
+    !material ||
     !measurement ||
     !quatity ||
     !orderDate ||
-    !deliveryDate ||
-    !disposal
+    !deliveryDate
+    // !disposal
   ) {
     return res.status(400).json({
       message: "All input fields required",
@@ -32,12 +32,12 @@ const createInventory = async (req, res) => {
     const createInventory = await InventoryModel.create({
       name,
       supplier,
-      type,
+      material,
       measurement,
       quatity,
       orderDate,
       deliveryDate,
-      disposal,
+      // disposal,
     });
     res.status(200).json({
       message: "Inventory created successfully",
@@ -52,6 +52,30 @@ const createInventory = async (req, res) => {
   }
 };
 
+const fetchAllInventory = async (req, res) => {
+  try {
+    const inventory = await InventoryModel.find();
+
+    if (inventory) {
+      res.status(200).json({
+        success: true,
+        message: "Inventory found successfully",
+        data: inventory,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "Inventory not found",
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      message: error.message ?? "Invalid Supplier",
+      success: false,
+    });
+  }
+};
+
 const deleteInventroy = async (req, res) => {
   const { id } = req.params;
 
@@ -61,7 +85,7 @@ const deleteInventroy = async (req, res) => {
     if (inventory) {
       res.status(200).json({
         success: true,
-        message: "Inventory deleted",
+        message: "Inventory item deleted successfully",
       });
     } else {
       res.status(404).json({
@@ -80,4 +104,5 @@ const deleteInventroy = async (req, res) => {
 module.exports = {
   createInventory,
   deleteInventroy,
+  fetchAllInventory,
 };

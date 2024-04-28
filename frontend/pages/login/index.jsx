@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import {
   Box,
   Button,
@@ -8,12 +7,62 @@ import {
   Image,
   Input,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
+import { HandleAllRequest } from "../../tools/request_handler";
+// import useSuccessToast from "../../tools/successToast";
+// import { useSuccessToast } from "../../tools/helpers";
 
-const index = () => {
+const Index = () => {
   const router = useRouter();
+
+  const [userData, setData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setData({
+      ...userData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const [loading, setLoading] = useState(false);
+
+  const toast = useToast();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    var req = await HandleAllRequest("/user/login", "post", "", {
+      email: userData.email,
+      password: userData.password,
+    });
+
+    setLoading(false);
+    if (req.success == true) {
+      router.push("/dashboard");
+      toast({
+        position: "bottom-right",
+        description: req.message,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        position: "bottom-right",
+        description: req.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      console.log("error", e.message);
+    }
+  };
 
   return (
     <Box
@@ -51,19 +100,37 @@ const index = () => {
             <Text fontSize="18px" fontWeight="500" color="GrayText">
               Enter login credentials to continue
             </Text>
-            <Input placeholder="Email" mb="10px" size="lg" />
-            <Input placeholder="Password" mb="30px" size="lg" />
-            <Button
-              mt="20px"
-              height="52px"
-              colorScheme="teal"
-              width="100%"
-              onClick={() => router.push("/dashboard")}
-              py="20px"
-              px="34px"
-            >
-              Submit
-            </Button>
+            <form onSubmit={handleSubmit}>
+              <Input
+                placeholder="Email"
+                mb="10px"
+                size="lg"
+                name="email"
+                required
+                onChange={handleChange}
+              />
+              <Input
+                placeholder="Password"
+                mb="30px"
+                size="lg"
+                name="password"
+                type="password"
+                required
+                onChange={handleChange}
+              />
+              <Button
+                isLoading={loading}
+                mt="20px"
+                height="52px"
+                colorScheme="teal"
+                width="100%"
+                type="submit"
+                py="20px"
+                px="34px"
+              >
+                Submit
+              </Button>
+            </form>
           </CardBody>
         </Card>
       </Box>
@@ -71,4 +138,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

@@ -1,4 +1,4 @@
-const SupplierModel = require("../model/supplier_model");
+const Supplier = require("../model/supplier_model");
 
 const createSupplier = async (req, res) => {
   const { name, email, phone, supplier, address, website, payment } = req.body;
@@ -19,24 +19,47 @@ const createSupplier = async (req, res) => {
   }
 
   try {
-    const createSupplier = await SupplierModel.create({
+    const createSupplier = await Supplier.create({
       name,
       supplier,
-      type,
-      measurement,
-      quatity,
-      orderDate,
-      deliveryDate,
-      disposal,
+      email,
+      phone,
+      address,
+      website,
+      paymentType: payment,
     });
     res.status(200).json({
-      message: "Inventory created successfully",
+      message: "Supplier created successfully",
       data: createSupplier,
       success: true,
     });
   } catch (error) {
     res.status(400).json({
-      message: error.message ?? "Error creating category",
+      message: error.message ?? "Error creating supplier",
+      success: false,
+    });
+  }
+};
+
+const fetchAllSupplier = async (req, res) => {
+  try {
+    const supplier = await Supplier.find();
+
+    if (supplier) {
+      res.status(200).json({
+        success: true,
+        message: "Supplier found successfully",
+        data: supplier,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "Supplier not found",
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      message: error.message ?? "Invalid Supplier",
       success: false,
     });
   }
@@ -46,22 +69,22 @@ const deleteSupplier = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const supplier = await SupplierModel.findByIdAndDelete(id);
+    const supplier = await Supplier.findByIdAndDelete(id);
 
     if (supplier) {
       res.status(200).json({
         success: true,
-        message: "Inventory deleted",
+        message: "Supplier deleted",
       });
     } else {
       res.status(404).json({
         success: false,
-        message: "Inventory not found",
+        message: "Supplier not found",
       });
     }
   } catch (error) {
     res.status(400).json({
-      message: error.message ?? "Invalid Inventory",
+      message: error.message ?? "Invalid Supplier",
       success: false,
     });
   }
@@ -70,4 +93,5 @@ const deleteSupplier = async (req, res) => {
 module.exports = {
   createSupplier,
   deleteSupplier,
+  fetchAllSupplier,
 };

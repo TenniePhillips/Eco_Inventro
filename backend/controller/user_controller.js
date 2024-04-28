@@ -9,6 +9,7 @@ const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!email || !password) {
+      console.log("req", req.body);
       return res.status(400).json({
         message: "Invalid input",
         success: false,

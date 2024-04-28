@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   Avatar,
@@ -14,6 +14,7 @@ import {
   MenuList,
   Text,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { Table } from "antd";
 import { RiMore2Fill } from "react-icons/ri";
@@ -21,123 +22,77 @@ import { useRouter } from "next/router";
 import DashboardLayout from "../../components/dashlayout";
 import { ICON_CONST } from "../../components/constants";
 import AddSupplierModal from "../../components/modal/add_supplier";
+import { HandleAllRequest } from "../../tools/request_handler";
 
 const index = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const dataSource = [
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      email: "johndoe@gmail.com",
-      phone: "0705444444444",
-      supplier: "ADC & co",
-      website: "ADC.com.ng",
-      payment: "Bank Transfer",
-      address: "1 queens avenue, london",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      email: "johndoe@gmail.com",
-      phone: "0705444444444",
-      supplier: "ADC & co",
-      website: "ADC.com.ng",
-      payment: "Bank Transfer",
-      address: "1 queens avenue, london",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      email: "johndoe@gmail.com",
-      phone: "0705444444444",
-      supplier: "ADC & co",
-      website: "ADC.com.ng",
-      payment: "Bank Transfer",
-      address: "1 queens avenue, london",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      email: "johndoe@gmail.com",
-      phone: "0705444444444",
-      supplier: "ADC & co",
-      website: "ADC.com.ng",
-      payment: "Bank Transfer",
-      address: "1 queens avenue, london",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      email: "johndoe@gmail.com",
-      phone: "0705444444444",
-      supplier: "ADC & co",
-      website: "ADC.com.ng",
-      payment: "Bank Transfer",
-      address: "1 queens avenue, london",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      email: "johndoe@gmail.com",
-      phone: "0705444444444",
-      supplier: "ADC & co",
-      website: "ADC.com.ng",
-      payment: "Bank Transfer",
-      address: "1 queens avenue, london",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      email: "johndoe@gmail.com",
-      phone: "0705444444444",
-      supplier: "ADC & co",
-      website: "ADC.com.ng",
-      payment: "Bank Transfer",
-      address: "1 queens avenue, london",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      email: "johndoe@gmail.com",
-      phone: "0705444444444",
-      supplier: "ADC & co",
-      website: "ADC.com.ng",
-      payment: "Bank Transfer",
-      address: "1 queens avenue, london",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      email: "johndoe@gmail.com",
-      phone: "0705444444444",
-      supplier: "ADC & co",
-      website: "ADC.com.ng",
-      payment: "Bank Transfer",
-      address: "1 queens avenue, london",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Mike Adenuga",
-      email: "johndoe@gmail.com",
-      phone: "0705444444444",
-      supplier: "ADC & co",
-      website: "ADC.com.ng",
-      payment: "Bank Transfer",
-      address: "1 queens avenue, london",
-    },
-  ];
+  const [supplierDataData, setSupplierData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+
+  const getSuppplier = async () => {
+    setLoading(true);
+    var req = await HandleAllRequest("/supplier/fetch", "get", "", {});
+
+    setLoading(false);
+    if (req.success == true) {
+      setSupplierData(req.data);
+    } else {
+      toast({
+        position: "bottom-right",
+        description: req.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const deleteSupplier = async (id) => {
+    setLoading(true);
+    try {
+      var req = await HandleAllRequest(
+        `/supplier/delete/${id}`,
+        "delete",
+        "",
+        {}
+      );
+      setLoading(false);
+      if (req.success == true) {
+        toast({
+          position: "bottom-right",
+          description: req.message,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+        getSuppplier();
+      } else {
+        toast({
+          position: "bottom-right",
+          description: req.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      setLoading(false);
+      toast({
+        position: "bottom-right",
+        description: error.message ?? "Error",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  useEffect(() => {
+    getSuppplier();
+  }, []);
 
   const columns = [
     {
@@ -176,31 +131,29 @@ const index = () => {
     },
     {
       title: "Payment Option",
-      dataIndex: "payment",
-      key: "payment",
+      dataIndex: "paymentType",
+      key: "paymentType",
     },
 
     {
       title: "Action",
-      render: () => (
+      render: (item, id) => (
         <Menu isLazy>
           <MenuButton>
             <RiMore2Fill />
           </MenuButton>
           <MenuList>
-            {menuArr.map((item, id) => (
-              <MenuItem p="20px" key={id}>
-                <Flex
-                  onClick={() => router.push(`/users/${id}`)}
-                  justifyContent="space-between"
-                  alignItems="center"
-                  w="100%"
-                >
-                  <Box>{item.text}</Box>
-                  <Icon as={item.img} size="32px" />
-                </Flex>
-              </MenuItem>
-            ))}
+            <MenuItem p="20px">
+              <Flex
+                onClick={() => deleteSupplier(item._id)}
+                justifyContent="space-between"
+                alignItems="center"
+                w="100%"
+              >
+                <Box>Delete</Box>
+                <Icon as={ICON_CONST.deleteIcon} size="32px" />
+              </Flex>
+            </MenuItem>
           </MenuList>
         </Menu>
       ),
@@ -208,16 +161,6 @@ const index = () => {
   ];
 
   const menuArr = [
-    // {
-    //   text: "Activate",
-    //   img: ImageConst.activate,
-    //   route: "",
-    // },
-    // {
-    //   text: "Deactivate",
-    //   img: ImageConst.deactivate,
-    //   route: "",
-    // },
     {
       text: "Delete",
       img: ICON_CONST.deleteIcon,
@@ -259,12 +202,17 @@ const index = () => {
 
         <Table
           className="custom-table"
-          dataSource={dataSource}
+          dataSource={supplierDataData}
           columns={columns}
+          loading={loading}
         />
       </Box>
 
-      <AddSupplierModal isOpen={isOpen} onClose={onClose} />
+      <AddSupplierModal
+        isOpen={isOpen}
+        onClose={onClose}
+        callBack={getSuppplier}
+      />
     </DashboardLayout>
   );
 };
