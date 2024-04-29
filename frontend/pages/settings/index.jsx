@@ -20,41 +20,30 @@ import DashboardLayout from "../../components/dashlayout";
 import { ICON_CONST } from "../../components/constants";
 import AddInventryModal from "../../components/modal/add_inventry";
 
-const Measurement = () => {
+const category = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const dataSource = [
     {
       key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Grams",
-      shortName: "g",
-      base: "Kilograms",
-      value: "1000",
-    },
-    {
-      key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Piece",
-      shortName: "pc",
-      base: "Piece",
+      name: "Plastic",
+      measurement: "kg",
+      carbon: "0.2kg",
       value: "1",
     },
     {
       key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Grams",
-      shortName: "g",
-      base: "Kilograms",
-      value: "1000",
+      name: "Polystyrene",
+      measurement: "g",
+      carbon: "0.2kg",
+      value: "1",
     },
     {
       key: "1",
-      //   date: "Jan 13, 2024",
-      name: "Piece",
-      shortName: "pc",
-      base: "Piece",
+      name: "PET",
+      measurement: "kg",
+      carbon: "0.2kg",
       value: "1",
     },
   ];
@@ -66,14 +55,14 @@ const Measurement = () => {
       key: "name",
     },
     {
-      title: "Short Name",
-      dataIndex: "shortName",
-      key: "shortName",
+      title: "Measurement",
+      dataIndex: "measurement",
+      key: "measurement",
     },
     {
-      title: "Base Unit",
-      dataIndex: "base",
-      key: "base",
+      title: "Carbon",
+      dataIndex: "carbon",
+      key: "carbon",
     },
     {
       title: "Value",
@@ -120,17 +109,11 @@ const Measurement = () => {
     <DashboardLayout>
       <Box p="20px" borderRadius="10px" bg="#fff">
         <Text fontSize="24px" fontWeight="700">
-          Measurement
+          Settings
         </Text>
-
-        <Table
-          className="custom-table"
-          dataSource={dataSource}
-          columns={columns}
-        />
       </Box>
     </DashboardLayout>
   );
 };
 
-export default Measurement;
+export default category;

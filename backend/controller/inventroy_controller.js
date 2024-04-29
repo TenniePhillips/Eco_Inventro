@@ -6,7 +6,7 @@ const createInventory = async (req, res) => {
     supplier,
     material,
     measurement,
-    quatity,
+    quantity,
     orderDate,
     deliveryDate,
     // disposal,
@@ -17,7 +17,7 @@ const createInventory = async (req, res) => {
     !supplier ||
     !material ||
     !measurement ||
-    !quatity ||
+    !quantity ||
     !orderDate ||
     !deliveryDate
     // !disposal
@@ -34,7 +34,7 @@ const createInventory = async (req, res) => {
       supplier,
       material,
       measurement,
-      quatity,
+      quantity,
       orderDate,
       deliveryDate,
       // disposal,
@@ -54,7 +54,9 @@ const createInventory = async (req, res) => {
 
 const fetchAllInventory = async (req, res) => {
   try {
-    const inventory = await InventoryModel.find();
+    const inventory = await InventoryModel.find()
+      .populate("supplier")
+      .limit(100);
 
     if (inventory) {
       res.status(200).json({

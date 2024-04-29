@@ -4,8 +4,8 @@
   "description": "inventro",
   "main": "index.js",
   "scripts": {
-    "start": "node backend/index.js",
-    "server": "nodemon backend/index.js",
+    "start": "node index.js",
+    "server": "nodemon index.js",
     "client": "cd ./frontend && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\" --ignore client",
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -16,6 +16,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { HandleAllRequest } from "../../tools/request_handler";
+import moment from "moment";
 
 const AddInventryModal = ({ isOpen, onClose, callBack }) => {
   const [inventoryForm, setInventoryForm] = useState({
@@ -52,7 +53,7 @@ const AddInventryModal = ({ isOpen, onClose, callBack }) => {
 
   const handleChange = (e) => {
     setInventoryForm({
-      ...supplierForm,
+      ...inventoryForm,
       [e.target.name]: e.target.value,
     });
   };
@@ -63,6 +64,9 @@ const AddInventryModal = ({ isOpen, onClose, callBack }) => {
     e.preventDefault();
     setLoading(true);
 
+    var deliDate = moment(inventoryForm.deliveryDate).format("DD-MM-YYYY");
+    var ordDate = moment(inventoryForm.orderDate).format("DD-MM-YYYY");
+
     try {
       const req = await HandleAllRequest("/inventory/create", "post", "", {
         name: inventoryForm.name,
@@ -70,9 +74,11 @@ const AddInventryModal = ({ isOpen, onClose, callBack }) => {
         measurement: inventoryForm.measurement,
         supplier: inventoryForm.supplier,
         quantity: inventoryForm.quantity,
-        orderDate: inventoryForm.orderDate,
-        deliveryDate: inventoryForm.deliveryDate,
+        orderDate: ordDate,
+        deliveryDate: deliDate,
       });
+
+      setLoading(false);
 
       if (req.success) {
         toast({
@@ -168,9 +174,9 @@ const AddInventryModal = ({ isOpen, onClose, callBack }) => {
                 onChange={handleChange}
                 mb="20px"
               >
-                <option value="PET">PET</option>
                 <option value="Plastic">Plastic</option>
-                <option value="PolyStyrene">PolyStyrene</option>
+                <option value="Styrofoam">Styrofoam</option>
+                <option value="Biodegradable">Biodegradable</option>
               </Select>
             </FormControl>
             <FormControl>
@@ -178,7 +184,7 @@ const AddInventryModal = ({ isOpen, onClose, callBack }) => {
               <Select
                 placeholder="Measurement"
                 required
-                name="measure"
+                name="measurement"
                 value={inventoryForm.measurement}
                 onChange={handleChange}
                 mb="20px"

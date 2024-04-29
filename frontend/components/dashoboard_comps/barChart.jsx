@@ -100,7 +100,7 @@ const DahsboardBarChart = () => {
         justifyContent="space-between"
       >
         <Text fontSize="20px" fontWeight="600" mb="0px">
-          Waste generation chart
+          Transaction chart
         </Text>
         <RangePicker />
       </CardHeader>

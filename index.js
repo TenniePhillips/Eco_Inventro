@@ -1,10 +1,10 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
 const port = 4000;
-const userRoute = require("./routes/user_route");
-const supplierRoute = require("./routes/supplier_route");
-const inventoryRoutes = require("./routes/inventory_route");
-const connectDb = require("./config/db");
+const userRoute = require("./backend/routes/user_route");
+const supplierRoute = require("./backend/routes/supplier_route");
+const inventoryRoutes = require("./backend/routes/inventory_route");
+const connectDb = require("./backend/config/db");
 const path = require("path");
 const cors = require("cors");
 

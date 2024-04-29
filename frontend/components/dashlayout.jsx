@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { BsLaptopFill } from "react-icons/bs";
 import { PiArrowFatLineUpFill } from "react-icons/pi";
-// import { RiPieChart2Fill } from "react-icons/ri";
+import { RiPieChart2Fill } from "react-icons/ri";
 import { HiUserGroup } from "react-icons/hi";
 import { BiSolidUserAccount } from "react-icons/bi";
 const { SubMenu } = Menu;
@@ -35,6 +35,16 @@ const DashboardLayout = ({ children }) => {
       icon: HiUserGroup,
       title: "Suppliers",
       route: "/suppliers",
+    },
+    {
+      icon: RiPieChart2Fill,
+      title: "Transactions",
+      route: "/transactions",
+    },
+    {
+      icon: BiSolidUserAccount,
+      title: "Settings",
+      route: "/settings",
     },
   ];
 

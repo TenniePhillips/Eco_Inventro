@@ -27,11 +27,11 @@ const index = () => {
   // const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [inventoryData, setInventory] = useState([]);
+  const [transactionData, setTransactionData] = useState([]);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
-  const getInventory = async () => {
+  const getTransactions = async () => {
     setLoading(true);
     var req = await HandleAllRequest("/inventory/fetch", "get", "", {});
 
@@ -50,57 +50,9 @@ const index = () => {
     }
   };
 
-  const deleteInventory = async (id) => {
-    console.log("id", id);
-    setLoading(true);
-    var req = await HandleAllRequest(
-      `/inventory/delete/${id}`,
-      "delete",
-      "",
-      {}
-    );
-
-    setLoading(false);
-    if (req.success == true) {
-      toast({
-        position: "bottom-right",
-        description: req.message,
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-      getInventory();
-      // setInventory(req.data);
-    } else {
-      toast({
-        position: "bottom-right",
-        description: req.message,
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-      console.log("error", req.message);
-    }
-  };
-
-  useEffect(() => {
-    getInventory();
-  }, []);
+  useEffect(() => {}, []);
 
   const columns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Supplier",
-
-      key: "supplier",
-      render: (item, id) => (
-        <Box key={id}>{item?.supplier?.supplier ?? "N/A"}</Box>
-      ),
-    },
     {
       title: "Material Type",
       dataIndex: "material",
@@ -116,23 +68,14 @@ const index = () => {
       dataIndex: "measurement",
       key: "measurement",
     },
+
     {
-      title: "Delivery Date",
-      dataIndex: "deliveryDate",
-      key: "deliveryDate",
+      title: "Created Date",
+      dataIndex: "createdDate",
+      key: "createdDate",
       render: (item, id) => (
         <Box key={id}>
-          {moment(item?.deliveryDate).format("DD-MM-YYYY") ?? "N/A"}
-        </Box>
-      ),
-    },
-    {
-      title: "Requested Date",
-      dataIndex: "orderDate",
-      key: "orderDate",
-      render: (item, id) => (
-        <Box key={id}>
-          {moment(item?.orderDate).format("DD-MM-YYYY") ?? "N/A"}
+          {moment(item?.createdDate).format("DD-MM-YYYY") ?? "N/A"}
         </Box>
       ),
     },
@@ -177,26 +120,26 @@ const index = () => {
       <Box p="20px" borderRadius="10px" bg="#fff">
         <Flex justifyContent="space-between" alignItems="center" my="34px">
           <Text fontSize="24px" fontWeight="600" mb="0px">
-            Inventory Management
+            Transaction History
           </Text>
           <Button onClick={onOpen} height="52px" colorScheme="teal" px="24px">
-            Add Inventory
+            Add Transaction
           </Button>
         </Flex>
 
         <Table
           className="custom-table"
-          dataSource={inventoryData}
+          dataSource={transactionData}
           columns={columns}
           loading={loading}
         />
       </Box>
 
-      <AddInventryModal
+      {/* <AddInventryModal
         isOpen={isOpen}
         callBack={getInventory}
         onClose={onClose}
-      />
+      /> */}
     </DashboardLayout>
   );
 };

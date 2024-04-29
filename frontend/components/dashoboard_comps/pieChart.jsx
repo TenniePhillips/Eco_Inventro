@@ -88,7 +88,7 @@ const DashboardPieChart = () => {
         justifyContent="space-between"
       >
         <Text fontSize="16px" fontWeight="600" mb="0px">
-          Material Used Type
+          Material Chart
         </Text>
         <Box h="30px" pos="relative">
           <Icon
@@ -128,27 +128,33 @@ const DashboardPieChart = () => {
               </Flex>
             ))}
           </Flex>
-          <ResponsiveContainer height={240} width="100%">
-            <PieChart width={200} height={200}>
-              <Pie
-                activeIndex={activeIndex}
-                activeShape={renderActiveShape}
-                onMouseEnter={onPieEnter}
-                data={data}
-                cx={150}
-                cy={150}
-                innerRadius={60}
-                outerRadius={80}
-                fill="#8884d8"
-                dataKey="value"
+          <Flex pt="20px" justifyContent="center" alignItems="center">
+            <ResponsiveContainer height={340} width={300}>
+              <PieChart
+                width={240}
+                height={200}
+                style={{ marginRight: "auto", marginLeft: "auto" }}
               >
-                {data?.map((entry, index) => (
-                  <Cell fill={entry?.color} key={index} />
-                ))}
-              </Pie>
-              <Tooltip content={CustomTooltip} />
-            </PieChart>
-          </ResponsiveContainer>
+                <Pie
+                  activeIndex={activeIndex}
+                  activeShape={renderActiveShape}
+                  onMouseEnter={onPieEnter}
+                  data={data}
+                  cx={150}
+                  cy={150}
+                  innerRadius={60}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {data?.map((entry, index) => (
+                    <Cell fill={entry?.color} key={index} />
+                  ))}
+                </Pie>
+                <Tooltip content={CustomTooltip} />
+              </PieChart>
+            </ResponsiveContainer>
+          </Flex>
         </Box>
       </CardBody>
     </Card>

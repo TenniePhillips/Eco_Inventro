@@ -48,7 +48,7 @@ const Index = () => {
 
     {
       icon: <RiMailSendFill size={size} color={color} />,
-      title: "Total Delivered",
+      title: "Total Transactions",
       total: 20,
       sub: "",
     },

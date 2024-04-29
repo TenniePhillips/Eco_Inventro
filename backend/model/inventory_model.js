@@ -13,7 +13,7 @@ const InventorySchema = new mongoose.Schema({
     },
     require: [true, "Name is required"],
   },
-  quatity: {
+  quantity: {
     type: Number,
     min: 1,
     required: true,
@@ -55,7 +55,7 @@ const InventorySchema = new mongoose.Schema({
   material: {
     type: String,
     required: [true, "Material is required"],
-    enum: ["Plastic", "Styrofoam", "Biodradable"],
+    enum: ["Plastic", "Styrofoam", "Biodegradable"],
   },
 });
 
