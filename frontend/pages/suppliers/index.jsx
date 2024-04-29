@@ -36,13 +36,26 @@ const index = () => {
     setLoading(true);
     var req = await HandleAllRequest("/supplier/fetch", "get", "", {});
 
-    setLoading(false);
-    if (req.success == true) {
-      setSupplierData(req.data);
-    } else {
+    try {
+      setLoading(false);
+      if (req.success == true) {
+        setLoading(false);
+        setSupplierData(req.data);
+      } else {
+        setLoading(false);
+        toast({
+          position: "bottom-right",
+          description: req.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      setLoading(false);
       toast({
         position: "bottom-right",
-        description: req.message,
+        description: error.message ?? "Error",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -139,7 +152,7 @@ const index = () => {
       title: "Action",
       render: (item, id) => (
         <Menu isLazy>
-          <MenuButton>
+          <MenuButton p="10px">
             <RiMore2Fill />
           </MenuButton>
           <MenuList>

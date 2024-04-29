@@ -8,9 +8,8 @@ import { BsLaptopFill } from "react-icons/bs";
 import { PiArrowFatLineUpFill } from "react-icons/pi";
 import { RiPieChart2Fill } from "react-icons/ri";
 import { HiUserGroup } from "react-icons/hi";
-import { BiSolidUserAccount } from "react-icons/bi";
-const { SubMenu } = Menu;
-const { Header, Content, Footer, Sider } = Layout;
+import { IoIosSettings } from "react-icons/io";
+const { Header, Content, Sider } = Layout;
 
 const DashboardLayout = ({ children }) => {
   let location = useRouter();
@@ -42,7 +41,7 @@ const DashboardLayout = ({ children }) => {
       route: "/transactions",
     },
     {
-      icon: BiSolidUserAccount,
+      icon: IoIosSettings,
       title: "Settings",
       route: "/settings",
     },
@@ -135,7 +134,7 @@ const DashboardLayout = ({ children }) => {
                     color="#fff"
                     boxSize="45px"
                     padding="14px"
-                    size="14px"
+                    size="16px"
                     // mr="12px"
                   />
                 }

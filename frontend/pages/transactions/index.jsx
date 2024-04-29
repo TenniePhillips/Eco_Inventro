@@ -16,28 +16,24 @@ import {
 } from "@chakra-ui/react";
 import { Table } from "antd";
 import { RiMore2Fill } from "react-icons/ri";
-import { useRouter } from "next/router";
 import DashboardLayout from "../../components/dashlayout";
 import { ICON_CONST } from "../../components/constants";
-import AddInventryModal from "../../components/modal/add_inventry";
 import { HandleAllRequest } from "../../tools/request_handler";
 import moment from "moment";
+import AddTransactionModal from "../../components/modal/add_transaction";
 
 const index = () => {
-  // const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const [transactionData, setTransactionData] = useState([]);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
   const getTransactions = async () => {
     setLoading(true);
-    var req = await HandleAllRequest("/inventory/fetch", "get", "", {});
-
+    var req = await HandleAllRequest("/transaction/fetch", "get", "", {});
     setLoading(false);
     if (req.success == true) {
-      setInventory(req.data);
+      setTransactionData(req.data);
     } else {
       toast({
         position: "bottom-right",
@@ -50,7 +46,9 @@ const index = () => {
     }
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getTransactions();
+  }, []);
 
   const columns = [
     {
@@ -68,7 +66,6 @@ const index = () => {
       dataIndex: "measurement",
       key: "measurement",
     },
-
     {
       title: "Created Date",
       dataIndex: "createdDate",
@@ -79,7 +76,6 @@ const index = () => {
         </Box>
       ),
     },
-
     {
       title: "Action",
       render: (item, id) => (
@@ -135,11 +131,11 @@ const index = () => {
         />
       </Box>
 
-      {/* <AddInventryModal
+      <AddTransactionModal
         isOpen={isOpen}
-        callBack={getInventory}
+        callBack={getTransactions}
         onClose={onClose}
-      /> */}
+      />
     </DashboardLayout>
   );
 };

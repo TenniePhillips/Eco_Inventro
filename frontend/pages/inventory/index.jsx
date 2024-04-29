@@ -136,12 +136,11 @@ const index = () => {
         </Box>
       ),
     },
-
     {
       title: "Action",
       render: (item, id) => (
         <Menu isLazy>
-          <MenuButton>
+          <MenuButton p="10px">
             <RiMore2Fill />
           </MenuButton>
           <MenuList>

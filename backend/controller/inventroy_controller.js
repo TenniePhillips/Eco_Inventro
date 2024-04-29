@@ -46,7 +46,7 @@ const createInventory = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({
-      message: error.message ?? "Error creating category",
+      message: error.message ?? "Error creating inventory",
       success: false,
     });
   }
@@ -72,7 +72,7 @@ const fetchAllInventory = async (req, res) => {
     }
   } catch (error) {
     res.status(400).json({
-      message: error.message ?? "Invalid Supplier",
+      message: error.message ?? "Error",
       success: false,
     });
   }
