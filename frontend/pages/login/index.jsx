@@ -92,7 +92,7 @@ const Index = () => {
               color="#000"
               mt="20px"
             >
-              Inventro
+              Eco Inventro
             </Text>
             <Text fontSize="26px" fontWeight="700" mb="10px" color="#000">
               Login

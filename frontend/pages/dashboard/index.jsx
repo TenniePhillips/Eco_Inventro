@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
+import React, { useState, useEffect } from "react";
 import DashboardLayout from "../../components/dashlayout";
 import {
   Box,
@@ -14,6 +14,7 @@ import {
   Button,
   Link,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { MdFactory, MdInventory } from "react-icons/md";
 import { RiMailSendFill } from "react-icons/ri";
@@ -23,6 +24,7 @@ import DahsboardBarChart from "../../components/dashoboard_comps/barChart";
 import DashboardPieChart from "../../components/dashoboard_comps/pieChart";
 import DahsboardLineChart from "../../components/dashoboard_comps/lineChart";
 import DahsboardMultiChart from "../../components/dashoboard_comps/multiChart";
+import { HandleAllRequest } from "../../tools/request_handler";
 
 const Index = () => {
   const size = 24;
@@ -31,25 +33,75 @@ const Index = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const toast = useToast();
+
+  const [chartTotal, setChartTotal] = useState({
+    totalInventory: 0,
+    totalTransactions: 0,
+    totalSuppliers: 0,
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  const getOverview = async () => {
+    setLoading(true);
+    try {
+      var req = await HandleAllRequest("/metrics/overview", "get", "", {});
+
+      setLoading(false);
+      if (req.success == true) {
+        const data = req.data;
+        console.log("data", data);
+        setChartTotal({
+          ...chartTotal,
+          totalInventory: data.totalInventory ?? 0,
+          totalSuppliers: data.totalSupplier ?? 0,
+          totalTransactions: data.totalTransaction ?? 0,
+        });
+      } else {
+        toast({
+          position: "bottom-right",
+          description: req.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      toast({
+        position: "bottom-right",
+        description: error.message ?? "Error",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  useEffect(() => {
+    getOverview();
+    // getMartialChart();
+  }, []);
+
   const dahsboardData = [
     {
       icon: <MdInventory size={size} color={color} />,
       title: "Inventory",
-      total: 40,
+      total: chartTotal.totalInventory,
       sub: "",
     },
 
     {
       icon: <MdFactory size={size} color={color} />,
       title: "Suppliers",
-      total: 55,
+      total: chartTotal.totalSuppliers,
       sub: "",
     },
 
     {
       icon: <RiMailSendFill size={size} color={color} />,
       title: "Total Transactions",
-      total: 20,
+      total: chartTotal.totalTransactions,
       sub: "",
     },
   ];

@@ -18,6 +18,7 @@ import {
   Tab,
   TabPanel,
   TabIndicator,
+  useToast,
 } from "@chakra-ui/react";
 import { Table } from "antd";
 import { RiMore2Fill } from "react-icons/ri";
@@ -25,23 +26,85 @@ import { useRouter } from "next/router";
 import DashboardLayout from "../../components/dashlayout";
 import { ICON_CONST } from "../../components/constants";
 import RegisterModal from "../../components/modal/add_user";
+import { HandleAllRequest } from "../../tools/request_handler";
 
-const category = () => {
+const Index = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
-  const dataSource = [
-    {
-      key: "1",
-      name: "Plastic",
-      measurement: "kg",
-      carbon: "0.2kg",
-      value: "1",
-    },
-  ];
+  const getUsers = async () => {
+    setLoading(true);
+
+    try {
+      var req = await HandleAllRequest("/user/fetch", "get", "", {});
+
+      setLoading(false);
+      if (req.success == true) {
+        setUserData(req.data);
+      } else {
+        toast({
+          position: "bottom-right",
+          description: req.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      toast({
+        position: "bottom-right",
+        description: error.message ?? "Error",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const deleteUser = async (id) => {
+    setLoading(true);
+    try {
+      setLoading(false);
+      var req = await HandleAllRequest(`/user/delete/${id}`, "delete", "", {});
+
+      if (req.success == true) {
+        toast({
+          position: "bottom-right",
+          description: req.message,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+        getUsers();
+      } else {
+        toast({
+          position: "bottom-right",
+          description: req.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+        console.log("error", req.message);
+      }
+    } catch (error) {
+      console.log("error", error);
+      toast({
+        position: "bottom-right",
+        description: error.message ?? "error",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   const columns = [
     {
@@ -61,15 +124,15 @@ const category = () => {
     },
     {
       title: "Action",
-      render: () => (
+      render: (item, id) => (
         <Menu isLazy>
           <MenuButton>
             <RiMore2Fill />
           </MenuButton>
           <MenuList>
-            <MenuItem p="20px" key={id}>
+            <MenuItem p="20px">
               <Flex
-                // onClick={() => router.push(`/users/${id}`)}
+                onClick={() => deleteUser(item._id)}
                 justifyContent="space-between"
                 alignItems="center"
                 w="100%"
@@ -81,14 +144,6 @@ const category = () => {
           </MenuList>
         </Menu>
       ),
-    },
-  ];
-
-  const menuArr = [
-    {
-      text: "Delete",
-      img: ICON_CONST.deleteIcon,
-      route: "",
     },
   ];
 
@@ -104,12 +159,7 @@ const category = () => {
             <Text fontSize="24px" fontWeight="600" mb="0px">
               User Management
             </Text>
-            <Button
-              // onClick={onOpen}
-              height="52px"
-              colorScheme="teal"
-              px="24px"
-            >
+            <Button onClick={onOpen} height="52px" colorScheme="teal" px="24px">
               Add New User
             </Button>
           </Flex>
@@ -122,13 +172,9 @@ const category = () => {
         </Box>
       </Box>
 
-      <RegisterModal
-        isOpen={isOpen}
-        onClose={onClose}
-        callBack={() => console.log("e")}
-      />
+      <RegisterModal isOpen={isOpen} onClose={onClose} callBack={getUsers} />
     </DashboardLayout>
   );
 };
 
-export default category;
+export default Index;

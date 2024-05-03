@@ -22,7 +22,7 @@ const DashboardLayout = ({ children }) => {
   const menuArr = [
     {
       icon: BsLaptopFill,
-      title: "Home",
+      title: "Dashboard",
       route: "/dashboard",
     },
     {
@@ -115,7 +115,7 @@ const DashboardLayout = ({ children }) => {
               mb="0px"
               pb="0px"
             >
-              Inventro
+              Eco Inventro
             </Box>
           </Box>
 

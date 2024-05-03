@@ -16,9 +16,8 @@ import {
   Link,
   useDisclosure,
   Select,
+  useToast,
 } from "@chakra-ui/react";
-import { MdDeliveryDining, MdFactory, MdInventory } from "react-icons/md";
-import { RiMailSendFill } from "react-icons/ri";
 import {
   LineChart,
   Line,
@@ -42,14 +41,75 @@ const { RangePicker } = DatePicker;
 import { FaCalculator } from "react-icons/fa6";
 import CaculatorModal from "../../components/modal/calculator_modal";
 import { MdCalendarMonth } from "react-icons/md";
+import { HandleAllRequest } from "../../tools/request_handler";
 
 const DashboardPieChart = () => {
+  useEffect(() => {
+    getMartialChart();
+  }, []);
+
+  const [pieChartData, setChartData] = useState({
+    Plastic: 0,
+    Styrofoam: 0,
+    Biodegradable: 0,
+  });
+  const [loading, setLoading] = useState(false);
+
+  const toast = useToast();
+
   const data = [
-    { name: "Plastic", value: 400, color: "#0E3EC6" },
-    { name: "Polystyrene", value: 300, color: "#09E82E" },
-    { name: "Biodegradable", value: 300, color: "#EBF400" },
-    { name: "Styrofoam ", value: 200, color: "#EABE6C" },
+    { name: "Plastic", value: pieChartData?.Plastic ?? 0, color: "#0E3EC6" },
+    {
+      name: "Polystyrene",
+      value: pieChartData?.Styrofoam ?? 0,
+      color: "#09E82E",
+    },
+    {
+      name: "Biodegradable",
+      value: pieChartData?.Biodegradable ?? 0,
+      color: "#EBF400",
+    },
+    // { name: "Styrofoam ", value: pieChartData?., color: "#EABE6C" },
   ];
+  const getMartialChart = async () => {
+    setLoading(true);
+    try {
+      var req = await HandleAllRequest(
+        "/metrics/material_overview",
+        "get",
+        "",
+        {}
+      );
+
+      setLoading(false);
+      if (req.success == true) {
+        const data = req.data;
+        setChartData({
+          ...pieChartData,
+          Plastic: data[0].totalQuantity,
+          Styrofoam: data[2].totalQuantity,
+          Biodegradable: data[1].totalQuantity,
+        });
+        console.log("data", data);
+      } else {
+        toast({
+          position: "bottom-right",
+          description: req.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      toast({
+        position: "bottom-right",
+        description: error.message ?? "Error",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {

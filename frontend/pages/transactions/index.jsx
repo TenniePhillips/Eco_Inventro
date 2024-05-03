@@ -67,6 +67,11 @@ const index = () => {
       key: "measurement",
     },
     {
+      title: "Action Type",
+      dataIndex: "action",
+      key: "action",
+    },
+    {
       title: "Created Date",
       dataIndex: "createdDate",
       key: "createdDate",

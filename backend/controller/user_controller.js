@@ -38,8 +38,57 @@ const login = async (req, res) => {
   }
 };
 
+const fetchUsers = async (req, res) => {
+  try {
+    const user = await User.find().limit(100);
+
+    if (user) {
+      res.status(200).json({
+        success: true,
+        message: "User found successfully",
+        data: user,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      message: error.message ?? "Error",
+      success: false,
+    });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findByIdAndDelete(id);
+
+    if (user) {
+      res.status(200).json({
+        success: true,
+        message: "User deleted successfully",
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      message: error.message ?? "Invalid User",
+      success: false,
+    });
+  }
+};
+
 const register = async (req, res) => {
-  const { name, phone, email, password } = req.body;
+  const { name, phone, email, password, userType } = req.body;
 
   const userExist = await User.findOne({ email });
 
@@ -66,6 +115,7 @@ const register = async (req, res) => {
       phone,
       password: hashPassword,
       email,
+      userType,
     })
       .then(async (data) => {
         console.log("register data", data);
@@ -98,4 +148,6 @@ generateToken = (id) => {
 module.exports = {
   login,
   register,
+  fetchUsers,
+  deleteUser,
 };

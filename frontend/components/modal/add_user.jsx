@@ -23,6 +23,7 @@ const RegisterModal = ({ isOpen, onClose, callBack }) => {
     name: "",
     email: "",
     phone: "",
+    password: "",
   });
 
   const toast = useToast();
@@ -45,6 +46,8 @@ const RegisterModal = ({ isOpen, onClose, callBack }) => {
         name: userForm.name,
         email: userForm.email,
         phone: userForm.phone,
+        password: userForm.password,
+        userType: "admin",
       });
 
       setLoading(false);
@@ -59,10 +62,11 @@ const RegisterModal = ({ isOpen, onClose, callBack }) => {
         });
         onClose();
         callBack();
-        setTransactionForm({
-          material: "",
-          measurement: "",
-          quantity: "",
+        setUserForm({
+          name: "",
+          email: "",
+          phone: "",
+          password: "",
         });
       } else {
         toast({
@@ -118,6 +122,16 @@ const RegisterModal = ({ isOpen, onClose, callBack }) => {
                 type="number"
                 name="phone"
                 value={userForm.phone}
+                required
+                onChange={handleChange}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Password</FormLabel>
+              <Input
+                type="password"
+                name="password"
+                value={userForm.password}
                 required
                 onChange={handleChange}
               />

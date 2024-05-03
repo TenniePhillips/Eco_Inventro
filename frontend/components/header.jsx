@@ -16,7 +16,7 @@ export const Header = () => {
       <Box height="100%" className="custom-container">
         <Flex justifyContent="center" alignItems="center" height="100%">
           <Text fontSize="36px" fontWeight="700" color="#000" mb="0px">
-            Inventro
+            Eco Inventro
           </Text>
           <Spacer />
         </Flex>

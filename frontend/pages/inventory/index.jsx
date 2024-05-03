@@ -59,27 +59,36 @@ const index = () => {
       "",
       {}
     );
-
-    setLoading(false);
-    if (req.success == true) {
+    try {
+      setLoading(false);
+      if (req.success == true) {
+        toast({
+          position: "bottom-right",
+          description: req.message,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+        getInventory();
+        // setInventory(req.data);
+      } else {
+        toast({
+          position: "bottom-right",
+          description: req.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+        console.log("error", req.message);
+      }
+    } catch (error) {
       toast({
         position: "bottom-right",
-        description: req.message,
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-      getInventory();
-      // setInventory(req.data);
-    } else {
-      toast({
-        position: "bottom-right",
-        description: req.message,
+        description: error.message ?? "",
         status: "error",
         duration: 5000,
         isClosable: true,
       });
-      console.log("error", req.message);
     }
   };
 
