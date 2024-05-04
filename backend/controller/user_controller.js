@@ -142,7 +142,7 @@ const register = async (req, res) => {
 };
 
 generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_KEY, { expiresIn: "30d" });
+  return jwt.sign({ id }, "inventro8080", { expiresIn: "30d" });
 };
 
 module.exports = {
