@@ -2,7 +2,6 @@ import axios from "axios";
 
 export const BaseURL = {
   Api: "https://eco-inventro-server.vercel.app/",
-  // "http://localhost:4000/",
 };
 
 export const HandleAllRequest = async (
