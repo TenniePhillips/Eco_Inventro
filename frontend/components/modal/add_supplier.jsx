@@ -132,7 +132,7 @@ const AddSupplierModal = ({ isOpen, onClose, callBack }) => {
               />
             </FormControl>{" "}
             <FormControl>
-              <FormLabel>Supplier</FormLabel>
+              <FormLabel>Company Name</FormLabel>
               <Input
                 type="text"
                 name="supplier"
