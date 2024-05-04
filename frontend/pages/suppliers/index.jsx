@@ -27,7 +27,15 @@ import { HandleAllRequest } from "../../tools/request_handler";
 const index = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [userType, setUserType] = useState("");
 
+  useEffect(() => {
+    getSuppplier();
+    if (typeof window !== "undefined") {
+      const type = window.sessionStorage.getItem("type") || "user";
+      setUserType(type);
+    }
+  }, []);
   const [supplierDataData, setSupplierData] = useState([]);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
@@ -103,10 +111,6 @@ const index = () => {
     }
   };
 
-  useEffect(() => {
-    getSuppplier();
-  }, []);
-
   const columns = [
     {
       title: "Name",
@@ -155,19 +159,21 @@ const index = () => {
           <MenuButton p="10px">
             <RiMore2Fill />
           </MenuButton>
-          <MenuList>
-            <MenuItem p="20px">
-              <Flex
-                onClick={() => deleteSupplier(item._id)}
-                justifyContent="space-between"
-                alignItems="center"
-                w="100%"
-              >
-                <Box>Delete</Box>
-                <Icon as={ICON_CONST.deleteIcon} size="32px" />
-              </Flex>
-            </MenuItem>
-          </MenuList>
+          {userType == "admin" ?? (
+            <MenuList>
+              <MenuItem p="20px">
+                <Flex
+                  onClick={() => deleteSupplier(item._id)}
+                  justifyContent="space-between"
+                  alignItems="center"
+                  w="100%"
+                >
+                  <Box>Delete</Box>
+                  <Icon as={ICON_CONST.deleteIcon} size="32px" />
+                </Flex>
+              </MenuItem>
+            </MenuList>
+          )}
         </Menu>
       ),
     },
@@ -208,9 +214,11 @@ const index = () => {
           <Text fontSize="24px" fontWeight="600" mb="0px">
             Supplier Management
           </Text>
-          <Button onClick={onOpen} height="52px" colorScheme="teal" px="24px">
-            Add Supplier
-          </Button>
+          {userType == "admin" ?? (
+            <Button onClick={onOpen} height="52px" colorScheme="teal" px="24px">
+              Add Supplier
+            </Button>
+          )}
         </Flex>
 
         <Table

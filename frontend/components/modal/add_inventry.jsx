@@ -190,7 +190,7 @@ const AddInventryModal = ({ isOpen, onClose, callBack }) => {
                 mb="20px"
               >
                 <option value="KG">KG</option>
-                <option value="g">G</option>
+                {/* <option value="g">G</option> */}
                 {/* <option value="Litres">Litres</option> */}
               </Select>
             </FormControl>{" "}

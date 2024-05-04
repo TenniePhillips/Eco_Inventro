@@ -116,6 +116,15 @@ const index = () => {
     },
   ];
 
+  const [userType, setUserType] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const type = window.sessionStorage.getItem("type") || "user";
+      setUserType(type);
+    }
+  }, []);
+
   return (
     <DashboardLayout>
       <Box p="20px" borderRadius="10px" bg="#fff">
@@ -123,9 +132,11 @@ const index = () => {
           <Text fontSize="24px" fontWeight="600" mb="0px">
             Transaction History
           </Text>
-          <Button onClick={onOpen} height="52px" colorScheme="teal" px="24px">
-            Add Transaction
-          </Button>
+          {userType == "admin" && (
+            <Button onClick={onOpen} height="52px" colorScheme="teal" px="24px">
+              Add Transaction
+            </Button>
+          )}
         </Flex>
 
         <Table

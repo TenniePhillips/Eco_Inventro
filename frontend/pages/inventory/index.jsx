@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+"useClient";
 import React, { useEffect, useState } from "react";
 
 import {
@@ -31,10 +32,20 @@ const index = () => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
+  const [userType, setUserType] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const type = window.sessionStorage.getItem("type") || "user";
+      setUserType(type);
+    }
+  }, []);
+
+  console.log("user", userType);
+
   const getInventory = async () => {
     setLoading(true);
     var req = await HandleAllRequest("/inventory/fetch", "get", "", {});
-
     setLoading(false);
     if (req.success == true) {
       setInventory(req.data);
@@ -152,21 +163,23 @@ const index = () => {
           <MenuButton p="10px">
             <RiMore2Fill />
           </MenuButton>
-          <MenuList>
-            {menuArr.map((items, id) => (
-              <MenuItem p="20px" key={id}>
-                <Flex
-                  onClick={() => deleteInventory(item._id)}
-                  justifyContent="space-between"
-                  alignItems="center"
-                  w="100%"
-                >
-                  <Box>{items.text}</Box>
-                  <Icon as={items.img} size="32px" />
-                </Flex>
-              </MenuItem>
-            ))}
-          </MenuList>
+          {userType == "admin" ?? (
+            <MenuList>
+              {menuArr.map((items, id) => (
+                <MenuItem p="20px" key={id}>
+                  <Flex
+                    onClick={() => deleteInventory(item._id)}
+                    justifyContent="space-between"
+                    alignItems="center"
+                    w="100%"
+                  >
+                    <Box>{items.text}</Box>
+                    <Icon as={items.img} size="32px" />
+                  </Flex>
+                </MenuItem>
+              ))}
+            </MenuList>
+          )}
         </Menu>
       ),
     },
@@ -187,9 +200,13 @@ const index = () => {
           <Text fontSize="24px" fontWeight="600" mb="0px">
             Inventory Management
           </Text>
-          <Button onClick={onOpen} height="52px" colorScheme="teal" px="24px">
-            Add Inventory
-          </Button>
+          {userType == "admin" ? (
+            <Button onClick={onOpen} height="52px" colorScheme="teal" px="24px">
+              Add Inventory
+            </Button>
+          ) : (
+            <Box></Box>
+          )}
         </Flex>
 
         <Table

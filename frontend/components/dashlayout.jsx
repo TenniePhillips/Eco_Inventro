@@ -19,6 +19,19 @@ const DashboardLayout = ({ children }) => {
       : location.pathname
   );
 
+  const [name, setName] = useState("");
+  const [userType, setUserType] = useState("");
+
+  useEffect(() => {
+    setSelectedMenuItem(router.asPath);
+    if (typeof window !== "undefined") {
+      const dt = window.sessionStorage.getItem("name") || null;
+      const type = window.sessionStorage.getItem("type") || null;
+      setName(dt);
+      setUserType(type);
+    }
+  }, []);
+
   const menuArr = [
     {
       icon: BsLaptopFill,
@@ -47,12 +60,32 @@ const DashboardLayout = ({ children }) => {
     },
   ];
 
+  const userArr = [
+    {
+      icon: BsLaptopFill,
+      title: "Dashboard",
+      route: "/dashboard",
+    },
+    {
+      icon: PiArrowFatLineUpFill,
+      title: "Inventory",
+      route: "/inventory",
+    },
+    {
+      icon: HiUserGroup,
+      title: "Suppliers",
+      route: "/suppliers",
+    },
+    {
+      icon: RiPieChart2Fill,
+      title: "Transactions",
+      route: "/transactions",
+    },
+  ];
+
+  const userMenus = [];
+
   const router = useRouter();
-
-  useEffect(() => {
-    setSelectedMenuItem(router.asPath);
-  }, []);
-
   const [selectedMenuItem, setSelectedMenuItem] = React.useState("");
 
   return (
@@ -68,9 +101,15 @@ const DashboardLayout = ({ children }) => {
         }}
       >
         <Flex height="100%" justifyContent="end" alignItems="center">
-          <Avatar size="sm" />
+          <Avatar
+            size="sm"
+            onClick={() => {
+              sessionStorage.clear();
+              router.push("/");
+            }}
+          />
           <Box ml="20px" mr="50px" fontSize="16px" fontWeight="600">
-            Hi Admin
+            Hi {name}
           </Box>
         </Flex>
       </Header>
@@ -101,13 +140,6 @@ const DashboardLayout = ({ children }) => {
             alignItems="center"
             justifyContent="center"
           >
-            {/* <Image
-              src="/images/recycle.png"
-              height="34px"
-              width="34px"
-              alt="recycle"
-              mr="10px"
-            /> */}
             <Box
               fontSize="24px"
               color="#fff"
@@ -121,7 +153,7 @@ const DashboardLayout = ({ children }) => {
 
           <div className="demo-logo-vertical" />
           <Menu theme="dark" mode="inline" selectedKeys={[selectedMenuItem]}>
-            {menuArr.map((item, index) => (
+            {(userType == "admin" ? menuArr : userArr).map((item, index) => (
               <Menu.Item
                 style={{
                   fontSize: 16,
@@ -135,7 +167,6 @@ const DashboardLayout = ({ children }) => {
                     boxSize="45px"
                     padding="14px"
                     size="16px"
-                    // mr="12px"
                   />
                 }
                 key={item.route}
@@ -143,33 +174,6 @@ const DashboardLayout = ({ children }) => {
                 <Link href={item.route}>{item.title}</Link>
               </Menu.Item>
             ))}
-            {/* <SubMenu
-              key="sub1"
-              style={{
-                fontSize: 16,
-                marginTop: "20px",
-                marginBottom: "20px",
-              }}
-              icon={
-                <Icon
-                  as={BiSolidUserAccount}
-                  color="#fff"
-                  boxSize="45px"
-                  padding="10px"
-                  size="18px"
-                  mr="12px"
-                />
-              }
-              title="Settings"
-            >
-              <Menu.Item key="2">
-                <Link href="/settings/category">Categories</Link>
-              </Menu.Item>
-
-              <Menu.Item key="3">
-                <Link href="/settings/measurement">Measurement</Link>
-              </Menu.Item>
-            </SubMenu> */}
           </Menu>
           <Spacer />
         </Sider>

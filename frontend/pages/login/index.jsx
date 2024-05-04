@@ -44,6 +44,11 @@ const Index = () => {
 
     setLoading(false);
     if (req.success == true) {
+      window.sessionStorage.setItem("name", req.data.name);
+      window.sessionStorage.setItem("token", req.data.token);
+      window.sessionStorage.setItem("type", req.data.userType);
+      window.sessionStorage.setItem("email", req.data.email);
+
       router.push("/dashboard");
       toast({
         position: "bottom-right",
@@ -78,8 +83,7 @@ const Index = () => {
             <Flex justifyContent="center">
               <Image
                 src="/images/eco.png"
-                height="104px"
-                // width="54px"
+                height="90px"
                 alt="recycle"
                 mr="10px"
               />
@@ -104,7 +108,7 @@ const Index = () => {
               <Input
                 placeholder="Email"
                 mb="10px"
-                size="lg"
+                size="md"
                 name="email"
                 required
                 onChange={handleChange}
@@ -112,7 +116,7 @@ const Index = () => {
               <Input
                 placeholder="Password"
                 mb="30px"
-                size="lg"
+                size="md"
                 name="password"
                 type="password"
                 required
