@@ -143,8 +143,8 @@ const AddTransactionModal = ({ isOpen, onClose, callBack }) => {
                 onChange={handleChange}
                 mb="20px"
               >
-                <option value="Recycled">Recycle</option>
-                <option value="Raw">Raw</option>
+                <option value="Recycled">Recycled</option>
+                <option value="Disposed">Disposed</option>
               </Select>
             </FormControl>
             <Button

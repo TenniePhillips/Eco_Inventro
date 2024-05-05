@@ -129,30 +129,6 @@ const getDailyTransactions = async (req, res) => {
   console.log("end ", endDate.toDate());
 
   try {
-    // const dailyTransactions = await Transaction.aggregate([
-    //   {
-    //     $match: {
-    //       createdAt: { $gte: startDate.toDate(), $lte: endDate.toDate() },
-    //     },
-    //   },
-    //   {
-    //     $group: {
-    //       _id: {
-    //         material: "$material",
-    //         date: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-    //       },
-    //       totalQuantity: { $sum: "$quantity" },
-    //     },
-    //   },
-    //   // {
-    //   //   $project: {
-    //   //     _id: 0,
-    //   //     material: "$_id.material",
-    //   //     date: "$_id.date",
-    //   //     totalQuantity: 1,
-    //   //   },
-    //   // },
-    // ]);
     const dailyTransactions = await Transaction.aggregate([
       {
         $match: {

@@ -18,6 +18,8 @@ import {
   BarChart,
   Bar,
   Pie,
+  Tooltip,
+  Legend,
 } from "recharts";
 import { DatePicker, Space } from "antd";
 import { HandleAllRequest } from "../../tools/request_handler";
@@ -30,7 +32,7 @@ const DahsboardBarChart = () => {
   const [chartData, setChartData] = useState([]);
 
   const CustomXAxis = ({ x, y, stroke, payload }) => {
-    console.log("payload", payload);
+    // console.log("payload", payload);
     return (
       <g transform={`translate(${x},${y})`}>
         <text
@@ -41,7 +43,7 @@ const DahsboardBarChart = () => {
           fill="#2C2C2C"
           fontWeight={700}
         >
-          {payload?.date}
+          {payload?.value}
         </text>
       </g>
     );
@@ -51,7 +53,7 @@ const DahsboardBarChart = () => {
     setLoading(true);
     try {
       var req = await HandleAllRequest(
-        "/metrics/daily_transaction",
+        "/transaction/sum_transaction",
         "get",
         "",
         {}
@@ -134,27 +136,27 @@ const DahsboardBarChart = () => {
   //   },
   // ];
 
-  const formatChartData = (data) => {
-    const newData = [];
-    chartData.forEach((entry) => {
-      entry.data.forEach((item) => {
-        const existingEntry = newData.find(
-          (chartEntry) => chartEntry.material === item.material
-        );
-        if (existingEntry) {
-          existingEntry[entry.date] = parseInt(item.value);
-        } else {
-          const newEntry = {
-            material: item.material,
-            [entry.date]: parseInt(item.value),
-          };
-          newData.push(newEntry);
-        }
-      });
-    });
-    // setChartData(newData);
-    return newData;
-  };
+  // const formatChartData = (data) => {
+  //   const newData = [];
+  //   chartData.forEach((entry) => {
+  //     entry.data.forEach((item) => {
+  //       const existingEntry = newData.find(
+  //         (chartEntry) => chartEntry.material === item.material
+  //       );
+  //       if (existingEntry) {
+  //         existingEntry[entry.date] = parseInt(item.value);
+  //       } else {
+  //         const newEntry = {
+  //           material: item.material,
+  //           [entry.date]: parseInt(item.value),
+  //         };
+  //         newData.push(newEntry);
+  //       }
+  //     });
+  //   });
+  //   // setChartData(newData);
+  //   return newData;
+  // };
 
   return (
     <Card w={{ base: "100%", lg: "70%" }}>
@@ -166,7 +168,7 @@ const DahsboardBarChart = () => {
         justifyContent="space-between"
       >
         <Text fontSize="20px" fontWeight="600" mb="0px">
-          Transaction chart
+          Daily Transaction chart
         </Text>
         <RangePicker />
       </CardHeader>
@@ -175,7 +177,7 @@ const DahsboardBarChart = () => {
           <BarChart
             width="100%"
             height={300}
-            data={formatChartData()}
+            data={chartData}
             margin={{
               top: 15,
               right: 0,
@@ -183,17 +185,11 @@ const DahsboardBarChart = () => {
               bottom: -10,
             }}
           >
+            <Tooltip />
+            <Legend />
             <XAxis tick={<CustomXAxis />} dataKey="date" />
             <YAxis />
-            {chartData.map((entry, id) => (
-              <Bar key={entry.date} dataKey={entry.date} fill={colors[id]} />
-            ))}
-            {/* <Bar
-              maxBarSize={40}
-              radius={[6, 6, 0, 0]}
-              dataKey="amt"
-              fill="#09E82E"
-            /> */}
+            <Bar key="date" dataKey="total" fill="#09E82E" />
           </BarChart>
         </ResponsiveContainer>
       </CardBody>

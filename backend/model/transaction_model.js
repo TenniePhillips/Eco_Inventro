@@ -12,7 +12,7 @@ const TransactionSchema = new mongoose.Schema(
     measurement: {
       type: String,
       required: [true, "Measurement is required"],
-      enum: ["KG", "g"],
+      enum: ["KG"],
     },
     material: {
       type: String,
@@ -22,7 +22,7 @@ const TransactionSchema = new mongoose.Schema(
     action: {
       type: String,
       required: [true, "Aciton is required"],
-      enum: ["Recycled", "Raw"],
+      enum: ["Recycled", "Disposed"],
     },
   },
   { timestamps: true }

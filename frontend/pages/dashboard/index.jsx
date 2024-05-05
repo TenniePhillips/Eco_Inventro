@@ -25,6 +25,7 @@ import DashboardPieChart from "../../components/dashoboard_comps/pieChart";
 import DahsboardLineChart from "../../components/dashoboard_comps/lineChart";
 import DahsboardMultiChart from "../../components/dashoboard_comps/multiChart";
 import { HandleAllRequest } from "../../tools/request_handler";
+import { useRouter } from "next/router";
 
 const Index = () => {
   const size = 24;
@@ -106,6 +107,8 @@ const Index = () => {
     },
   ];
 
+  const router = useRouter();
+
   return (
     <DashboardLayout>
       <Flex
@@ -178,7 +181,7 @@ const Index = () => {
           </Box>
         ))}
 
-        <Card onClick={onOpen}>
+        <Card cursor="pointer" onClick={() => router.push("/calculator")}>
           <CardBody px="20px" py="24px">
             <Flex justifyContent="space-between">
               <Box>

@@ -1,57 +1,101 @@
 "use client";
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import DashboardLayout from "../../components/dashlayout";
+import { Text, Card, CardHeader, CardBody, useToast } from "@chakra-ui/react";
 import {
-  Box,
-  Grid,
-  Text,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Icon,
-  Flex,
-  Button,
-  Link,
-  useDisclosure,
-  Select,
-} from "@chakra-ui/react";
-
-import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Area,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  Rectangle,
-  PieChart,
-  Pie,
-  Cell,
-  Sector,
   Legend,
+  ResponsiveContainer,
 } from "recharts";
+// import {
+//   LineChart,
+//   Line,
+//   XAxis,
+//   YAxis,
+//   CartesianGrid,
+//   Tooltip,
+//   Area,
+//   ResponsiveContainer,
+//   BarChart,
+//   Bar,
+//   Rectangle,
+//   PieChart,
+//   Pie,
+//   Cell,
+//   Sector,
+//   Legend,
+// } from "recharts";
 import { DatePicker, Space } from "antd";
+import { HandleAllRequest } from "../../tools/request_handler";
 const { RangePicker } = DatePicker;
-import { FaCalculator } from "react-icons/fa6";
-import CaculatorModal from "../../components/modal/calculator_modal";
-import { MdCalendarMonth } from "react-icons/md";
 
 const DahsboardLineChart = () => {
-  const lineData = [
-    { name: "Page A", uv: 4000 },
-    { name: "Page B", uv: 3000 },
-    { name: "Page C", uv: 2000 },
-    { name: "Page D", uv: 2600 },
-    { name: "Page E", uv: 1890 },
-    { name: "Page F", uv: 2390 },
-    { name: "Page G", uv: 3490 },
-  ];
+  const transformDataForRecharts = (data) => {
+    const foo = data.map(({ materials, date }) => {
+      const transformedMaterials = materials.reduce(
+        (acc, { material, total }) => {
+          acc[material.toLowerCase()] = total;
+          return acc;
+        },
+        {}
+      );
+
+      return {
+        name: date,
+        ...transformedMaterials,
+      };
+    });
+
+    setTransformedData(foo);
+  };
+
+  const [transformedData, setTransformedData] = useState([]);
+
+  const toast = useToast();
+
+  const [data, setChartData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getRecycled = async () => {
+    setLoading(true);
+    try {
+      var req = await HandleAllRequest("/transaction/recycled", "get", "", {});
+
+      setLoading(false);
+      if (req.success == true) {
+        const data = req.data;
+        // setChartData(data);
+        transformDataForRecharts(data);
+        // formatChartData(data);
+        console.log("data", data);
+      } else {
+        toast({
+          position: "bottom-right",
+          description: req.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      toast({
+        position: "bottom-right",
+        description: error.message ?? "Error",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  useEffect(() => {
+    getRecycled();
+  }, []);
 
   return (
     <Card>
@@ -69,33 +113,44 @@ const DahsboardLineChart = () => {
       </CardHeader>
       <CardBody p="40px">
         <ResponsiveContainer height={400}>
-          <LineChart
-            width="100%"
-            height={500}
-            data={lineData}
+          {/* transformedData */}
+          <BarChart
+            width={500}
+            height={300}
+            data={transformedData}
             margin={{
-              top: 15,
-              right: 0,
-              left: -10,
-              bottom: -10,
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 5,
             }}
           >
-            <CartesianGrid strokeDasharray="2 2" />
+            <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
-            <YAxis />
+            <YAxis yAxisId="left" orientation="left" />
+            <YAxis yAxisId="right" orientation="right" />
             <Tooltip />
             <Legend />
-            <Line
-              type="monotone"
-              dataKey="uv"
-              stroke="#0E3EC6"
-              strokeWidth={2}
-            />
-          </LineChart>
+            <Bar yAxisId="left" dataKey="plastic" fill="#09E82E" />
+            <Bar yAxisId="right" dataKey="styrofoam" fill="#EBF400" />
+          </BarChart>
         </ResponsiveContainer>
       </CardBody>
     </Card>
   );
+};
+
+// "#09E82E", "#EBF400",
+
+const getColor = (material) => {
+  switch (material) {
+    case "Plastic":
+      return "#8884d8";
+    case "Styrofoam":
+      return "#82ca9d";
+    default:
+      return "#000000";
+  }
 };
 
 export default DahsboardLineChart;

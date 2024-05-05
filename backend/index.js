@@ -10,6 +10,7 @@ const metricsRoutes = require("./routes/metrics_route");
 const connectDb = require("./config/db");
 const path = require("path");
 const cors = require("cors");
+// const Analytics = "@vercel/analytics/react"
 
 const app = express();
 connectDb();

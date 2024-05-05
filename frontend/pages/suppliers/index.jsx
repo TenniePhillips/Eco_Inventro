@@ -214,7 +214,7 @@ const index = () => {
           <Text fontSize="24px" fontWeight="600" mb="0px">
             Supplier Management
           </Text>
-          {userType == "admin" ?? (
+          {userType == "admin" && (
             <Button onClick={onOpen} height="52px" colorScheme="teal" px="24px">
               Add Supplier
             </Button>

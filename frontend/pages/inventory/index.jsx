@@ -41,7 +41,7 @@ const index = () => {
     }
   }, []);
 
-  console.log("user", userType);
+  // console.log("user", userType);
 
   const getInventory = async () => {
     setLoading(true);
@@ -200,12 +200,10 @@ const index = () => {
           <Text fontSize="24px" fontWeight="600" mb="0px">
             Inventory Management
           </Text>
-          {userType == "admin" ? (
+          {userType == "admin" && (
             <Button onClick={onOpen} height="52px" colorScheme="teal" px="24px">
               Add Inventory
             </Button>
-          ) : (
-            <Box></Box>
           )}
         </Flex>
 
