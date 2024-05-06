@@ -244,7 +244,13 @@ const index = () => {
           gap={6}
         >
           {fooData.map((item, id) => (
-            <Box display="flex" p="20px" borderRadius="10px" bg="#dff0fa">
+            <Box
+              key={id}
+              display="flex"
+              p="20px"
+              borderRadius="10px"
+              bg="#dff0fa"
+            >
               <Box
                 height="50px"
                 width="50px"

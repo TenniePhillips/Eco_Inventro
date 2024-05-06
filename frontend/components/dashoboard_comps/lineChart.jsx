@@ -98,7 +98,7 @@ const DahsboardLineChart = () => {
   }, []);
 
   return (
-    <Card>
+    <Card w="100%">
       <CardHeader
         borderBottom=" 1px solid rgba(63, 63, 68, 0.005);
           box-shadow: 0px 1px 0px rgba(63, 63, 68, 0.05)"
@@ -111,11 +111,11 @@ const DahsboardLineChart = () => {
         </Text>
         <RangePicker />
       </CardHeader>
-      <CardBody p="40px">
-        <ResponsiveContainer height={400}>
+      <CardBody>
+        <ResponsiveContainer height={400} width="100%">
           {/* transformedData */}
           <BarChart
-            width={500}
+            width="100%"
             height={300}
             data={transformedData}
             margin={{

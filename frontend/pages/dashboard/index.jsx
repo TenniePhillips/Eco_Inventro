@@ -221,18 +221,31 @@ const Index = () => {
         </Card>
       </Grid>
 
-      <Flex mt="32px" mb="50px" flexDir={{ base: "column", lg: "row" }} gap={3}>
-        <DahsboardBarChart />
-        <DashboardPieChart />
-      </Flex>
-      <Flex mt="32px" mb="50px" flexDir={{ base: "column", lg: "row" }} gap={3}>
-        <Box width="50%">
-          <DahsboardLineChart />
-        </Box>
-        <Box width="50%">
-          <DahsboardMultiChart />
-        </Box>
-      </Flex>
+      <Box overflow="scroll">
+        <Flex
+          mt="32px"
+          mb="50px"
+          flexDir={{ base: "column", lg: "row" }}
+          gap={3}
+        >
+          <DahsboardBarChart />
+          <DashboardPieChart />
+        </Flex>
+        <Flex
+          mt="32px"
+          mb="50px"
+          flexDir={{ base: "column", lg: "row" }}
+          gap={3}
+        >
+          <Box width="50%">
+            <DahsboardLineChart />
+          </Box>
+          <Box width="50%">
+            <DahsboardMultiChart />
+          </Box>
+        </Flex>
+      </Box>
+
       <CaculatorModal isOpen={isOpen} onClose={onClose} />
     </DashboardLayout>
   );

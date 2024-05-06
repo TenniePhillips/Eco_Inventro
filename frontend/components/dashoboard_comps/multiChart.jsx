@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Grid,
@@ -6,13 +6,7 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
-  Icon,
-  Flex,
-  Button,
-  Link,
-  useDisclosure,
-  Select,
+  useToast,
 } from "@chakra-ui/react";
 import {
   BarChart,
@@ -27,56 +21,76 @@ import {
 } from "recharts";
 
 import { DatePicker, Space } from "antd";
+import { HandleAllRequest } from "../../tools/request_handler";
 const { RangePicker } = DatePicker;
 
-const data = [
-  {
-    name: "Plastic",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Polysteryne",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Biodegrade",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
+// inventory/recent_inventory
 
 const DahsboardMultiChart = () => {
+  const [loading, setLoading] = useState(false);
+  const [chartData, setChartData] = useState([]);
+  const toast = useToast();
+
+  const getRecentInventory = async () => {
+    setLoading(true);
+    try {
+      var req = await HandleAllRequest(
+        "/inventory/recent_inventory",
+        "get",
+        "",
+        {}
+      );
+
+      setLoading(false);
+      if (req.success == true) {
+        const data = req.data;
+        setChartData(data);
+        // formatChartData(data);
+        console.log("data", data);
+      } else {
+        toast({
+          position: "bottom-right",
+          description: req.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      toast({
+        position: "bottom-right",
+        description: error.message ?? "Error",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const CustomXAxis = ({ x, y, stroke, payload }) => {
+    console.log("payload", payload);
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text
+          x={0}
+          y={0}
+          dy={10}
+          textAnchor="middle"
+          fill="#2C2C2C"
+          fontWeight={700}
+        >
+          {payload?.value}
+        </text>
+      </g>
+    );
+  };
+
+  useEffect(() => {
+    getRecentInventory();
+  }, []);
+
   return (
-    <Card>
+    <Card w="100%">
       <CardHeader
         borderBottom=" 1px solid rgba(63, 63, 68, 0.005);
           box-shadow: 0px 1px 0px rgba(63, 63, 68, 0.05)"
@@ -85,7 +99,7 @@ const DahsboardMultiChart = () => {
         justifyContent="space-between"
       >
         <Text fontSize="20px" fontWeight="600" mb="0px">
-          Supplier Chart
+          Recent Inventory
         </Text>
         <RangePicker />
       </CardHeader>
@@ -94,7 +108,7 @@ const DahsboardMultiChart = () => {
           <BarChart
             width="100%"
             height={400}
-            data={data}
+            data={chartData}
             margin={{
               top: 20,
               right: 30,
@@ -102,13 +116,18 @@ const DahsboardMultiChart = () => {
               bottom: 5,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
+            {/* <CartesianGrid strokeDasharray="3 3" /> */}
+            <XAxis tick={<CustomXAxis />} dataKey="name" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="pv" stackId="a" fill="#8884d8" />
-            <Bar dataKey="uv" stackId="a" fill="#82ca9d" />
+
+            <Bar
+              key="name"
+              dataKey="quantity" // This specifies the data property to be used as the value for the bar
+              name="quantity" // This specifies the label for the bar
+              fill="#8884d8"
+            />
           </BarChart>
         </ResponsiveContainer>
       </CardBody>
