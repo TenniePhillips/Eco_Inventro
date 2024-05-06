@@ -24,6 +24,8 @@ const LandifllCalculator = () => {
     type: "",
     unit: "",
     weight: "",
+    styrofoamUnit: "",
+    styrofoamWeight: "",
     dencity: "",
     percentage: "",
     plastic: "",
@@ -31,6 +33,8 @@ const LandifllCalculator = () => {
   });
 
   console.log("wasteData", wasteData);
+
+  const landfillSize = 800;
 
   //   const [weightTotal, setWeightTotal] = useState(0);
   const [wasteTotal, setWasteTotal] = useState(0);
@@ -45,9 +49,13 @@ const LandifllCalculator = () => {
 
   const calculateData = (e) => {
     e.preventDefault();
-    const { styrofoam, plastic, dencity } = wasteData;
+    const { styrofoam, plastic, styrofoamUnit, unit } = wasteData;
 
-    var weightTot = (plastic + styrofoam) / dencity;
+    const styrofoamTotal = Number(styrofoam) * Number(styrofoamUnit);
+
+    const plasticTotal = Number(plastic) * Number(unit);
+
+    var weightTot = (plasticTotal + styrofoamTotal) / landfillSize;
 
     setWasteTotal(weightTot);
   };
@@ -83,6 +91,17 @@ const LandifllCalculator = () => {
               </InputGroup>
             </FormControl>
             <FormControl>
+              <FormLabel>Average Food Deleivery</FormLabel>
+              <Input
+                name="unit"
+                type="number"
+                placeholder="Unit"
+                onChange={handleChange}
+              />
+            </FormControl>
+
+            <Divider my="30px" />
+            <FormControl>
               <FormLabel>Styrofoam </FormLabel>
               <InputGroup size="md">
                 <InputLeftAddon>KG</InputLeftAddon>
@@ -96,6 +115,16 @@ const LandifllCalculator = () => {
               </InputGroup>
             </FormControl>
             <FormControl>
+              <FormLabel>Average Food Deleivery</FormLabel>
+              <Input
+                type="number"
+                name="styrofoamUnit"
+                placeholder="Unit"
+                onChange={handleChange}
+              />
+            </FormControl>
+
+            {/* <FormControl>
               <FormLabel textTransform="capitalize">Landfill Dencity</FormLabel>
               <InputGroup size="md">
                 <InputLeftAddon>Dencity</InputLeftAddon>
@@ -106,7 +135,7 @@ const LandifllCalculator = () => {
                   onChange={handleChange}
                 />
               </InputGroup>
-            </FormControl>
+            </FormControl> */}
 
             <Button
               w="100%"
@@ -144,7 +173,7 @@ const LandifllCalculator = () => {
 
             <Box>
               <Text fontSize="40px" fontWeight="800" color="teal" mb="0px">
-                {wasteTotal.toLocaleString()}
+                {wasteTotal.toLocaleString()} KG / m³
               </Text>
               <Text fontSize="16px" fontWeight="400">
                 Landfill Dencity

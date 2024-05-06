@@ -80,7 +80,10 @@ const fetchAllInventory = async (req, res) => {
 
 const recentInventory = async (req, res) => {
   try {
-    const inventory = await InventoryModel.find().populate("supplier").limit(5);
+    const inventory = await InventoryModel.find()
+      .populate("supplier")
+      .sort({ createdAt: -1 })
+      .limit(5);
 
     if (inventory) {
       res.status(200).json({

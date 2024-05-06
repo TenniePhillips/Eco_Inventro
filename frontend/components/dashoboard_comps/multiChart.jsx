@@ -103,11 +103,11 @@ const DahsboardMultiChart = () => {
         </Text>
         <RangePicker />
       </CardHeader>
-      <CardBody p="40px">
+      <CardBody>
         <ResponsiveContainer width="100%" height={400}>
           <BarChart
             width="100%"
-            height={400}
+            height={300}
             data={chartData}
             margin={{
               top: 20,
@@ -126,7 +126,7 @@ const DahsboardMultiChart = () => {
               key="name"
               dataKey="quantity" // This specifies the data property to be used as the value for the bar
               name="quantity" // This specifies the label for the bar
-              fill="#8884d8"
+              fill="#0E3EC6"
             />
           </BarChart>
         </ResponsiveContainer>
