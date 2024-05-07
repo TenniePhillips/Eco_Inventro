@@ -93,7 +93,7 @@ const WasteGenCalculator = () => {
             </Select>
           </FormControl>
           <FormControl>
-            <FormLabel>Average Food Deleivery</FormLabel>
+            <FormLabel>Average Food Delivery</FormLabel>
             <Input
               type="number"
               placeholder="Unit"
@@ -206,14 +206,11 @@ const WasteGenCalculator = () => {
 
           <Divider />
           <Text fontSize="16px">
-            The ubiquity of plastic is a terrifying fact – it's everywhere
-            around us: in the ground and in the oceans, in our food, and in the
-            water we drink. More than 8 million tons of plastic are dumped in
-            our oceans every year; by 2050, we are going to have more plastic
-            waste than fish. But what can we do about this? Isn't this a problem
-            just for big companies and industries? Of course not. Remember that
-            little drops make the mighty ocean! Inform yourself and others, be
-            aware, change your lifestyle, and take action.
+            Plastic waste from food packaging is overwhelming our oceans and
+            landfills, damaging the environment. Switching to biodegradable
+            packaging reduces pollution, aligns with customer eco-friendly
+            expectations, and promotes a healthier planet. Make a change that
+            benefits both your business and the Earth.
           </Text>
         </CardBody>
       </Card>

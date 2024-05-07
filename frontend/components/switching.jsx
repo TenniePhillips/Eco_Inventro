@@ -62,7 +62,7 @@ const SwitchingCalculator = () => {
       const landfill =
         (Number(plastic) + Number(styrofoam)) * (Number(percentage) / 100);
 
-      console.log("reduction", reduction);
+      // console.log("reduction", reduction);
       setLandfillReduction(landfill);
       setWasteTotal(reduction);
     }
@@ -115,20 +115,6 @@ const SwitchingCalculator = () => {
                 />
               </InputGroup>
             </FormControl>
-            <FormControl>
-              <FormLabel textTransform="capitalize">Percentage (%)</FormLabel>
-              <InputGroup size="md">
-                <InputLeftAddon>%</InputLeftAddon>
-                <Input
-                  placeholder="Percentage"
-                  min={1}
-                  max={100}
-                  required
-                  name="percentage"
-                  onChange={handleChange}
-                />
-              </InputGroup>
-            </FormControl>
 
             <Button
               w="100%"
@@ -166,10 +152,10 @@ const SwitchingCalculator = () => {
 
             <Box>
               <Text fontSize="40px" fontWeight="800" color="teal" mb="0px">
-                {wasteTotal.toLocaleString()}KG
+                {wasteTotal.toLocaleString()}CO2-eq/kg
               </Text>
               <Text fontSize="16px" fontWeight="400">
-                GHG Reduction
+                GHG Gas emission
               </Text>
             </Box>
           </Flex>
@@ -198,16 +184,6 @@ const SwitchingCalculator = () => {
             </Box>
           </Flex>
           <Divider my="40px" />
-          <Text fontSize="16px">
-            The ubiquity of plastic is a terrifying fact – it's everywhere
-            around us: in the ground and in the oceans, in our food, and in the
-            water we drink. More than 8 million tons of plastic are dumped in
-            our oceans every year; by 2050, we are going to have more plastic
-            waste than fish. But what can we do about this? Isn't this a problem
-            just for big companies and industries? Of course not. Remember that
-            little drops make the mighty ocean! Inform yourself and others, be
-            aware, change your lifestyle, and take action.
-          </Text>
         </CardBody>
       </Card>
       {/* </Box> */}

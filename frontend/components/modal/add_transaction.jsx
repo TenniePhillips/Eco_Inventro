@@ -18,7 +18,7 @@ import {
 import { HandleAllRequest } from "../../tools/request_handler";
 // import moment from "moment";
 
-const AddTransactionModal = ({ isOpen, onClose, callBack }) => {
+const AddTransactionModal = ({ isOpen, onClose, callBack, data }) => {
   const [transactionForm, setTransactionForm] = useState({
     material: "",
     measurement: "",
@@ -39,6 +39,44 @@ const AddTransactionModal = ({ isOpen, onClose, callBack }) => {
 
   const createTransaction = async (e) => {
     e.preventDefault();
+
+    if (
+      transactionForm.material == "Plastic" &&
+      data.plastic < transactionForm.quantity
+    ) {
+      toast({
+        position: "bottom-right",
+        description: "Quantity must be lesser than inventory value",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      return false;
+    } else if (
+      transactionForm.material == "Styrofoam" &&
+      data.styrofoam < transactionForm.quantity
+    ) {
+      toast({
+        position: "bottom-right",
+        description: "Quantity must be lesser than inventory value",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      return false;
+    } else if (
+      transactionForm.material == "Biodegradable" &&
+      data.biodegradable < transactionForm.quantity
+    ) {
+      toast({
+        position: "bottom-right",
+        description: "Quantity must be lesser than inventory value",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      return false;
+    }
     setLoading(true);
 
     try {
@@ -120,7 +158,7 @@ const AddTransactionModal = ({ isOpen, onClose, callBack }) => {
                 mb="20px"
               >
                 <option value="KG">KG</option>
-                <option value="g">G</option>
+                {/* <option value="g">G</option> */}
               </Select>
             </FormControl>{" "}
             <FormControl>

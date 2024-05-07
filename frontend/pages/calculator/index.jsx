@@ -21,8 +21,8 @@ const index = () => {
         <Tabs position="relative" variant="unstyled" colorScheme="green">
           <TabList>
             <Tab>Waste Calculator</Tab>
-            <Tab>Landfill Dencity Calculator</Tab>
-            <Tab>Green Reduction</Tab>
+            <Tab>GHG Calculator</Tab>
+            {/* <Tab>Green Reduction</Tab> */}
           </TabList>
           <TabIndicator
             mt="-2.5px"
@@ -37,9 +37,9 @@ const index = () => {
             <TabPanel>
               <LandifllCalculator />
             </TabPanel>
-            <TabPanel>
+            {/* <TabPanel>
               <SwitchingCalculator />
-            </TabPanel>
+            </TabPanel> */}
           </TabPanels>
         </Tabs>
         {/* <WasteGenCalculator />

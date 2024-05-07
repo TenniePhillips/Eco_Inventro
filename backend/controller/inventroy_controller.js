@@ -1,4 +1,5 @@
 const InventoryModel = require("../model/inventory_model");
+const TransactionModel = require("../model/transaction_model");
 
 const createInventory = async (req, res) => {
   const {
@@ -170,6 +171,79 @@ const inventoryOverview = async (req, res) => {
     }
 
     console.log("materialTotals", materialTotals);
+  } catch (error) {
+    res.status(400).json({
+      message: error?.message ?? "Invalid Transactions",
+      success: false,
+    });
+  }
+};
+
+const checkBalanceOverview = async (req, res) => {
+  try {
+    const inventory = await InventoryModel.aggregate([
+      {
+        $group: {
+          _id: "$material",
+          totalQuantity: { $sum: "$quantity" },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          material: "$_id",
+          total: "$totalQuantity",
+        },
+      },
+    ]);
+
+    const materialInventory = {};
+
+    inventory.forEach((item) => {
+      materialInventory[item.material] = item.total;
+    });
+
+    const transaction = await TransactionModel.aggregate([
+      {
+        $group: {
+          _id: "$material",
+          totalQuantity: { $sum: "$quantity" },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          material: "$_id",
+          total: "$totalQuantity",
+        },
+      },
+    ]);
+
+    const materialTotals = {};
+
+    transaction.forEach((item) => {
+      materialTotals[item.material] = item.total;
+    });
+
+    const calculateTotal = {
+      plastic: materialInventory.Plastic - materialTotals.Plastic,
+      styrofoam: materialInventory.Styrofoam - materialTotals.Styrofoam,
+      biodegradable:
+        materialInventory.Biodegradable - materialTotals.Biodegradable,
+    };
+
+    if (transaction) {
+      res.status(200).json({
+        success: true,
+        message: "Transaction found successfully",
+        data: calculateTotal,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "Transaction not found",
+      });
+    }
   } catch (error) {
     res.status(400).json({
       message: error?.message ?? "Invalid Transactions",
@@ -381,5 +455,6 @@ module.exports = {
   fetchAllInventory,
   inventoryOverview,
   recentInventory,
+  checkBalanceOverview,
   // dailyInventryOverview,
 };

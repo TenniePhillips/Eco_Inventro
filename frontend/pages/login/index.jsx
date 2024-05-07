@@ -9,7 +9,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { HandleAllRequest } from "../../tools/request_handler";
 // import useSuccessToast from "../../tools/successToast";

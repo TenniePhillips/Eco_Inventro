@@ -76,16 +76,21 @@ const index = () => {
   const getInventroyOverview = async () => {
     setLoading(true);
     try {
-      var req = await HandleAllRequest("/inventory/overview", "get", "", {});
+      var req = await HandleAllRequest(
+        "/inventory/check-balance",
+        "get",
+        "",
+        {}
+      );
       setLoading(false);
       if (req.success == true) {
         // console.log("sum of material", req.data);
         const data = req.data;
         setOverview({
           ...materialOverview,
-          plastic: data.Plastic ?? 0,
-          styrofoam: data?.Styrofoam ?? 0,
-          biodegradable: data.Biodegradable ?? 0,
+          plastic: data.plastic ?? 0,
+          styrofoam: data?.styrofoam ?? 0,
+          biodegradable: data.biodegradable ?? 0,
         });
         // setTransactionData(req.data);
       } else {
@@ -235,6 +240,9 @@ const index = () => {
   return (
     <DashboardLayout>
       <Box p="20px" borderRadius="10px" bg="#fff">
+        <Text fontSize="24px" fontWeight="600" mb="20px">
+          Current Stock
+        </Text>
         <Grid
           templateColumns={{
             base: "reapeat(1,1fr)",
@@ -302,8 +310,12 @@ const index = () => {
 
       <AddTransactionModal
         isOpen={isOpen}
-        callBack={getTransactions}
+        callBack={() => {
+          getTransactions();
+          getInventroyOverview();
+        }}
         onClose={onClose}
+        data={materialOverview}
       />
     </DashboardLayout>
   );
