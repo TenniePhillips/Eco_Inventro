@@ -163,23 +163,22 @@ const index = () => {
           <MenuButton p="10px">
             <RiMore2Fill />
           </MenuButton>
-          {userType == "admin" ?? (
-            <MenuList>
-              {menuArr.map((items, id) => (
-                <MenuItem p="20px" key={id}>
-                  <Flex
-                    onClick={() => deleteInventory(item._id)}
-                    justifyContent="space-between"
-                    alignItems="center"
-                    w="100%"
-                  >
-                    <Box>{items.text}</Box>
-                    <Icon as={items.img} size="32px" />
-                  </Flex>
-                </MenuItem>
-              ))}
-            </MenuList>
-          )}
+
+          <MenuList>
+            {menuArr.map((items, id) => (
+              <MenuItem p="20px" key={id}>
+                <Flex
+                  onClick={() => deleteInventory(item._id)}
+                  justifyContent="space-between"
+                  alignItems="center"
+                  w="100%"
+                >
+                  <Box>{items.text}</Box>
+                  <Icon as={items.img} size="32px" />
+                </Flex>
+              </MenuItem>
+            ))}
+          </MenuList>
         </Menu>
       ),
     },
@@ -200,11 +199,10 @@ const index = () => {
           <Text fontSize="24px" fontWeight="600" mb="0px">
             Inventory Management
           </Text>
-          {userType == "admin" && (
-            <Button onClick={onOpen} height="52px" colorScheme="teal" px="24px">
-              Add Inventory
-            </Button>
-          )}
+
+          <Button onClick={onOpen} height="52px" colorScheme="teal" px="24px">
+            Add Inventory
+          </Button>
         </Flex>
 
         <Table

@@ -16,6 +16,8 @@ import {
   InputGroup,
   InputLeftAddon,
   Switch,
+  UnorderedList,
+  ListItem,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { GiGreenhouse } from "react-icons/gi";
@@ -97,12 +99,24 @@ const LandifllCalculator = () => {
       gap={6}
     >
       <Card>
-        <CardHeader>
-          <Heading size="md" mb="0px">
-            GHG Switch Calculator
-          </Heading>
-        </CardHeader>
         <CardBody>
+          <Heading size="md" mb="20px">
+            Packaging Impact Calculator
+          </Heading>
+          <Text fontSize="16px">
+            The{" "}
+            <Box as="span" fontWeight="600">
+              {" "}
+              Packaging Impact Calculator
+            </Box>{" "}
+            is designed for food delivery businesses, to assess the
+            environmental impact of their packaging choices. By entering the
+            weight and total usage of materials like plastic and styrofoam, you
+            can compare their greenhouse gas emissions. This powerful tool aids
+            in evaluating the benefits of switching to more sustainable
+            packaging, helping your business to reduce its carbon footprint and
+            enhance its commitment to environmental stewardship.
+          </Text>
           <form action="" onSubmit={calculateData}>
             <FormControl>
               <FormLabel>Plastic (PET)</FormLabel>
@@ -208,18 +222,20 @@ const LandifllCalculator = () => {
           </Heading>
         </CardHeader>
         <CardBody>
-          <Flex alignItems="flex-end">
-            <Box
-              height="120px"
-              width="120px"
-              borderRadius="24px"
-              backgroundColor="teal.200"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              mr="20px"
-            >
-              <GiGreenhouse color="teal" size="60px" />
+          <Flex alignItems="flex-start">
+            <Box width="200px">
+              <Box
+                height="120px"
+                width="120px"
+                borderRadius="24px"
+                backgroundColor="teal.200"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                mr="20px"
+              >
+                <GiGreenhouse color="teal" size="60px" />
+              </Box>
             </Box>
 
             <Box>
@@ -227,55 +243,81 @@ const LandifllCalculator = () => {
                 {wasteTotal.toLocaleString()} KG / m³
               </Text>
               <Text fontSize="16px" fontWeight="400">
-                Landfill Dencity
+                {/* Landfill Dencity */}
+                Volume of Waste Contributed to Landfill
+              </Text>
+              <Text>
+                This metric estimates the amount of waste your business’s
+                packaging sends to landfill spaces. Reducing this figure through
+                the use of biodegradable packaging can significantly lessen your
+                environmental footprint by decreasing landfill contributions.
               </Text>
             </Box>
           </Flex>
           <Divider my="20px" />
-          <Flex alignItems="flex-end">
-            <Box
-              height="120px"
-              width="120px"
-              borderRadius="24px"
-              backgroundColor="teal.200"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              mr="20px"
-            >
-              <LuLeafyGreen color="teal" size="60px" />
+          <Flex alignItems="flex-start">
+            <Box width="200px">
+              <Box
+                height="120px"
+                width="120px"
+                borderRadius="24px"
+                backgroundColor="teal.200"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                mr="20px"
+              >
+                <LuLeafyGreen color="teal" size="60px" />
+              </Box>
             </Box>
 
             <Box>
               <Text fontSize="40px" fontWeight="800" color="teal" mb="0px">
-                {ghgTotal.toLocaleString()} CO2-eq/kg
+                {ghgTotal.toLocaleString()} kg CO2-eq
               </Text>
               <Text fontSize="16px" fontWeight="400">
-                GHG Gas emission
+                Greenhouse Gas Emissions Reduction.
+              </Text>
+
+              <Text>
+                This metric reflects decreased CO2-equivalent emissions per
+                kilogram when using biodegradable materials. Lowering these
+                emissions is important for reducing your carbon footprint and
+                combating climate change.
               </Text>
             </Box>
           </Flex>
           <Divider my="20px" />
-          <Flex alignItems="flex-end">
-            <Box
-              height="120px"
-              width="120px"
-              borderRadius="24px"
-              backgroundColor="teal.200"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              mr="20px"
-            >
-              <GiEcology color="teal" size="60px" />
+          <Flex alignItems="flex-start">
+            <Box width="200px">
+              <Box
+                height="120px"
+                width="120px"
+                borderRadius="24px"
+                backgroundColor="teal.200"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                mr="20px"
+              >
+                <GiEcology color="teal" size="60px" />
+              </Box>
             </Box>
 
             <Box>
               <Text fontSize="40px" fontWeight="800" color="teal" mb="0px">
-                {landfillReduction.toLocaleString()} KG
+                {landfillReduction.toLocaleString()} KG m³
               </Text>
               <Text fontSize="16px" fontWeight="400">
-                Reduction In Landfill
+                {/* Reduction In Landfill
+                 */}
+                Landfill Reduction with Biodegradable Packaging
+              </Text>
+              <Text>
+                This value represents the reduction in landfill waste achieved
+                by using biodegradable packaging. Transitioning to more
+                sustainable materials helps decrease your environmental
+                footprint and supports a healthier planet.
               </Text>
             </Box>
           </Flex>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -28,6 +28,10 @@ const AddSupplierModal = ({ isOpen, onClose, callBack }) => {
     payment: "",
   });
 
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
   const toast = useToast();
 
   const handleChange = (e) => {
@@ -53,7 +57,7 @@ const AddSupplierModal = ({ isOpen, onClose, callBack }) => {
         website: supplierForm.website,
         payment: supplierForm.payment,
       });
-
+      setLoading(false);
       if (req.success) {
         toast({
           position: "bottom-right",

@@ -47,7 +47,7 @@ const RegisterModal = ({ isOpen, onClose, callBack }) => {
         email: userForm.email,
         phone: userForm.phone,
         password: userForm.password,
-        userType: "admin",
+        userType: "user",
       });
 
       setLoading(false);

@@ -14,6 +14,8 @@ import {
   FormLabel,
   FormHelperText,
   useToast,
+  InputGroup,
+  InputLeftAddon,
 } from "@chakra-ui/react";
 import { HandleAllRequest } from "../../tools/request_handler";
 // import moment from "moment";
@@ -21,7 +23,7 @@ import { HandleAllRequest } from "../../tools/request_handler";
 const AddTransactionModal = ({ isOpen, onClose, callBack, data }) => {
   const [transactionForm, setTransactionForm] = useState({
     material: "",
-    measurement: "",
+    // measurement: "KG",
     quantity: "",
     action: "",
   });
@@ -82,7 +84,7 @@ const AddTransactionModal = ({ isOpen, onClose, callBack, data }) => {
     try {
       const req = await HandleAllRequest("/transaction/create", "post", "", {
         material: transactionForm.material,
-        measurement: transactionForm.measurement,
+        // measurement: transactionForm.measurement,
         quantity: transactionForm.quantity,
         action: transactionForm.action,
       });
@@ -147,7 +149,7 @@ const AddTransactionModal = ({ isOpen, onClose, callBack, data }) => {
                 <option value="Biodegradable">Biodegradable</option>
               </Select>
             </FormControl>
-            <FormControl>
+            {/* <FormControl>
               <FormLabel>Measurement</FormLabel>
               <Select
                 placeholder="Measurement"
@@ -158,18 +160,20 @@ const AddTransactionModal = ({ isOpen, onClose, callBack, data }) => {
                 mb="20px"
               >
                 <option value="KG">KG</option>
-                {/* <option value="g">G</option> */}
               </Select>
-            </FormControl>{" "}
+            </FormControl>{" "} */}
             <FormControl>
               <FormLabel>Quantity</FormLabel>
-              <Input
-                type="number"
-                name="quantity"
-                value={transactionForm.quantity}
-                required
-                onChange={handleChange}
-              />
+              <InputGroup size="md">
+                <InputLeftAddon>KG</InputLeftAddon>
+                <Input
+                  type="number"
+                  name="quantity"
+                  value={transactionForm.quantity}
+                  required
+                  onChange={handleChange}
+                />
+              </InputGroup>
             </FormControl>
             <FormControl>
               <FormLabel>Action Type</FormLabel>

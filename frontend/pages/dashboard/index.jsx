@@ -62,7 +62,7 @@ const Index = () => {
       } else {
         toast({
           position: "bottom-right",
-          description: req.message,
+          description: req?.message ?? "No Data",
           status: "error",
           duration: 5000,
           isClosable: true,

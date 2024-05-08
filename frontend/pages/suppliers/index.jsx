@@ -159,21 +159,20 @@ const index = () => {
           <MenuButton p="10px">
             <RiMore2Fill />
           </MenuButton>
-          {userType == "admin" ?? (
-            <MenuList>
-              <MenuItem p="20px">
-                <Flex
-                  onClick={() => deleteSupplier(item._id)}
-                  justifyContent="space-between"
-                  alignItems="center"
-                  w="100%"
-                >
-                  <Box>Delete</Box>
-                  <Icon as={ICON_CONST.deleteIcon} size="32px" />
-                </Flex>
-              </MenuItem>
-            </MenuList>
-          )}
+
+          <MenuList>
+            <MenuItem p="20px">
+              <Flex
+                onClick={() => deleteSupplier(item._id)}
+                justifyContent="space-between"
+                alignItems="center"
+                w="100%"
+              >
+                <Box>Delete</Box>
+                <Icon as={ICON_CONST.deleteIcon} size="32px" />
+              </Flex>
+            </MenuItem>
+          </MenuList>
         </Menu>
       ),
     },
@@ -214,11 +213,9 @@ const index = () => {
           <Text fontSize="24px" fontWeight="600" mb="0px">
             Supplier Management
           </Text>
-          {userType == "admin" && (
-            <Button onClick={onOpen} height="52px" colorScheme="teal" px="24px">
-              Add Supplier
-            </Button>
-          )}
+          <Button onClick={onOpen} height="52px" colorScheme="teal" px="24px">
+            Add Supplier
+          </Button>
         </Flex>
 
         <Table

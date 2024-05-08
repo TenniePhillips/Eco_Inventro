@@ -1,5 +1,5 @@
-import { Box, Text } from "@chakra-ui/react";
-import DashboarLayout from "../components/dashlayout";
+// import { Box, Text } from "@chakra-ui/react";
+// import DashboarLayout from "../components/dashlayout";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 

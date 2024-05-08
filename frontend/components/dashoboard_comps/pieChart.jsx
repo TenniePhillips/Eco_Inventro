@@ -86,9 +86,9 @@ const DashboardPieChart = () => {
         const data = req.data;
         setChartData({
           ...pieChartData,
-          Plastic: data[0].totalQuantity,
-          Styrofoam: data[2].totalQuantity,
-          Biodegradable: data[1].totalQuantity,
+          Plastic: data[0]?.totalQuantity ?? 0,
+          Styrofoam: data[2]?.totalQuantity ?? 0,
+          Biodegradable: data[1]?.totalQuantity ?? 0,
         });
         console.log("data", data);
       } else {

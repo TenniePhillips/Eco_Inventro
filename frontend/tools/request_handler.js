@@ -5,6 +5,14 @@ export const BaseURL = {
   Api: "https://eco-inventro-server.vercel.app/",
 };
 
+const getUserToken = () => {
+  // Check if window is defined before accessing it
+  if (typeof window !== "undefined") {
+    return window.sessionStorage.getItem("token") || null;
+  }
+  return null;
+};
+
 export const HandleAllRequest = async (
   URL,
   type,
@@ -12,6 +20,7 @@ export const HandleAllRequest = async (
   jsonData
   // token
 ) => {
+  console.log("userToken", getUserToken());
   const request = type;
   let apiClient = axios.create({
     baseURL: BaseURL.Api,
@@ -19,7 +28,7 @@ export const HandleAllRequest = async (
       "Content-type": "application/json",
       "Access-Control-Allow-Origin": "*",
       Accept: "application/json",
-      Authorization: `Bearer ${access_token}`,
+      Authorization: `Bearer ${getUserToken()}`,
     },
     // cancelToken: token,
   });

@@ -198,23 +198,22 @@ const index = () => {
           <MenuButton>
             <RiMore2Fill />
           </MenuButton>
-          {userType == "admin" && (
-            <MenuList>
-              {menuArr.map((items, id) => (
-                <MenuItem p="20px" key={id}>
-                  <Flex
-                    onClick={() => deleteTransaction(item._id)}
-                    justifyContent="space-between"
-                    alignItems="center"
-                    w="100%"
-                  >
-                    <Box>{items.text}</Box>
-                    <Icon as={items.img} size="32px" />
-                  </Flex>
-                </MenuItem>
-              ))}
-            </MenuList>
-          )}
+
+          <MenuList>
+            {menuArr.map((items, id) => (
+              <MenuItem p="20px" key={id}>
+                <Flex
+                  onClick={() => deleteTransaction(item._id)}
+                  justifyContent="space-between"
+                  alignItems="center"
+                  w="100%"
+                >
+                  <Box>{items.text}</Box>
+                  <Icon as={items.img} size="32px" />
+                </Flex>
+              </MenuItem>
+            ))}
+          </MenuList>
         </Menu>
       ),
     },
@@ -293,11 +292,10 @@ const index = () => {
           <Text fontSize="24px" fontWeight="600" mb="0px">
             Transaction History
           </Text>
-          {userType == "admin" && (
-            <Button onClick={onOpen} height="52px" colorScheme="teal" px="24px">
-              Add Transaction
-            </Button>
-          )}
+
+          <Button onClick={onOpen} height="52px" colorScheme="teal" px="24px">
+            Add Transaction
+          </Button>
         </Flex>
 
         <Table

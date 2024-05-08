@@ -10,7 +10,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HandleAllRequest } from "../../tools/request_handler";
 // import useSuccessToast from "../../tools/successToast";
 // import { useSuccessToast } from "../../tools/helpers";
@@ -23,6 +23,10 @@ const Index = () => {
     password: "",
   });
 
+  useEffect(() => {
+    window.sessionStorage.clear();
+  }, []);
+
   const handleChange = (e) => {
     setData({
       ...userData,
@@ -31,6 +35,14 @@ const Index = () => {
   };
 
   const [loading, setLoading] = useState(false);
+
+  const setAllData = (req) => {
+    sessionStorage.clear();
+    sessionStorage.setItem("name", req.data.name);
+    sessionStorage.setItem("token", req.token);
+    sessionStorage.setItem("type", req.data.userType);
+    sessionStorage.setItem("email", req.data.email);
+  };
 
   const toast = useToast();
 
@@ -44,11 +56,8 @@ const Index = () => {
 
     setLoading(false);
     if (req.success == true) {
-      window.sessionStorage.setItem("name", req.data.name);
-      window.sessionStorage.setItem("token", req.data.token);
-      window.sessionStorage.setItem("type", req.data.userType);
-      window.sessionStorage.setItem("email", req.data.email);
-
+      console.log("data", req);
+      setAllData(req);
       router.push("/dashboard");
       toast({
         position: "bottom-right",

@@ -13,6 +13,8 @@ import {
   Heading,
   Divider,
   Flex,
+  UnorderedList,
+  ListItem,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { GiNuclearWaste } from "react-icons/gi";
@@ -69,7 +71,7 @@ const WasteGenCalculator = () => {
       }}
       gap={6}
     >
-      <Card>
+      <Card height="100%">
         <CardHeader>
           <Heading size="md" mb="0px">
             Waste Calculator
@@ -132,10 +134,9 @@ const WasteGenCalculator = () => {
           >
             Submit
           </Button>
-          {/* </Box> */}
         </CardBody>
       </Card>
-      {/* <Box p="24px" bg="#fff" borderRadius="10px" height="100%"> */}
+
       <Card>
         <CardHeader>
           <Heading size="md" mb="0px">
@@ -143,68 +144,80 @@ const WasteGenCalculator = () => {
           </Heading>
         </CardHeader>
         <CardBody>
-          {/* <Flex justifyContent="space-between">
-            <Text fontSize="18px" fontWeight="600">
-              Total waste per month:
-            </Text>
-            <Text>{wasteTotal * 30}kg</Text>
-          </Flex>
-          <Flex justifyContent="space-between">
-            <Text fontSize="18px" fontWeight="600">
-              Total waste per year:
-            </Text>
-            <Text>{wasteTotal * 365}kg</Text>
-          </Flex> */}
-          <Flex alignItems="flex-end">
-            <Box
-              height="120px"
-              width="120px"
-              borderRadius="24px"
-              backgroundColor="teal.200"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              mr="20px"
-            >
-              <GiNuclearWaste color="teal" size="60px" />
+          <Flex alignItems="flex-start">
+            <Box width="200px">
+              <Box
+                height="120px"
+                width="120px"
+                borderRadius="24px"
+                backgroundColor="teal.200"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                mr="20px"
+              >
+                <GiNuclearWaste color="teal" size="60px" />
+              </Box>
             </Box>
 
             <Box>
               <Text fontSize="40px" fontWeight="800" color="teal" mb="0px">
                 {(wasteTotal * 30).toLocaleString()}KG
               </Text>
-              <Text fontSize="16px" fontWeight="400">
+              <Text fontSize="16px" fontWeight="600">
                 Total waste per month
               </Text>
+              <UnorderedList fontSize="14px" fontWeight="500" lineHeight="28px">
+                <ListItem>
+                  Total waste per month with biodegradable packaging.
+                </ListItem>
+                <ListItem>
+                  Significantly reduced! Switching to biodegradable options can
+                  decrease monthly waste, contributing to a healthier
+                  environment.
+                </ListItem>
+              </UnorderedList>
             </Box>
           </Flex>
           <Divider my="20px" />
-          <Flex alignItems="flex-end">
-            <Box
-              height="120px"
-              width="120px"
-              borderRadius="24px"
-              backgroundColor="teal.200"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              mr="20px"
-            >
-              <GiNuclearWaste color="teal" size="60px" />
+          <Flex alignItems="flex-start">
+            <Box width="200px">
+              <Box
+                height="120px"
+                width="120px"
+                borderRadius="24px"
+                backgroundColor="teal.200"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                mr="20px"
+              >
+                <GiNuclearWaste color="teal" size="60px" />
+              </Box>
             </Box>
 
             <Box>
               <Text fontSize="40px" fontWeight="800" color="teal" mb="0px">
                 {(wasteTotal * 365).toLocaleString()}KG
               </Text>
-              <Text fontSize="16px" fontWeight="400">
+              <Text fontSize="16px" fontWeight="600">
                 Total waste per year
               </Text>
+
+              <UnorderedList fontSize="14px" fontWeight="500" lineHeight="28px">
+                <ListItem>
+                  Total waste per year with biodegradable packaging
+                </ListItem>
+                <ListItem>
+                  This figure represents your annual waste footprint. Transition
+                  to sustainable materials to make a lasting positive impact on
+                  our planet
+                </ListItem>
+              </UnorderedList>
             </Box>
           </Flex>
-          <Divider my="40px" />
+          <Divider my="20px" />
 
-          <Divider />
           <Text fontSize="16px">
             Plastic waste from food packaging is overwhelming our oceans and
             landfills, damaging the environment. Switching to biodegradable
