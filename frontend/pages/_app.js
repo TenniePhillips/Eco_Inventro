@@ -17,9 +17,6 @@ function MyApp({ Component, pageProps }) {
   //     .catch((e) => console.log("error", e));
   // };
 
-  // useEffect(() => {
-  //   initMessage();
-  // }, []);
 
   return (
     <ChakraProvider>
