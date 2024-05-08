@@ -1,7 +1,9 @@
 const Inventory = require("../model/inventory_model");
 const Supplier = require("../model/supplier_model");
 const Transaction = require("../model/transaction_model");
-const moment = require("moment");
+const {
+  Types: { ObjectId },
+} = require("mongoose");
 
 async function getInventoryData(req, res) {
   let startDate, endDate;
@@ -20,6 +22,7 @@ async function getInventoryData(req, res) {
   try {
     // Fetch inventory data from the database within the selected date range
     const inventoryData = await Inventory.find({
+      userId: req.user.id,
       orderDate: { $gte: startDate.toDate(), $lte: endDate.toDate() },
     });
 
@@ -50,11 +53,17 @@ async function getInventoryData(req, res) {
 
 const getOverview = async (req, res) => {
   try {
-    const totalInventory = await Inventory.countDocuments();
-    const totalTransaction = await Transaction.countDocuments();
-    const totalSupplier = await Supplier.countDocuments();
+    const totalInventory = await Inventory.find({
+      userId: req.user.id,
+    }).countDocuments();
+    const totalTransaction = await Transaction.find({
+      userId: req.user.id,
+    }).countDocuments();
+    const totalSupplier = await Supplier.find({
+      userId: req.user.id,
+    }).countDocuments();
 
-    if (totalInventory && totalTransaction && totalSupplier) {
+    if (totalInventory || totalTransaction || totalSupplier) {
       res.status(200).json({
         success: true,
         data: {
@@ -80,7 +89,7 @@ const getOverview = async (req, res) => {
 
 const getMaterialOverview = async (req, res) => {
   try {
-    const inventoryData = await Inventory.find();
+    const inventoryData = await Inventory.find({ userId: req.user.id });
 
     // Group inventory data by material and calculate total quantity for each material
     const groupedData = inventoryData.reduce((acc, inventory) => {
@@ -129,9 +138,11 @@ const getDailyTransactions = async (req, res) => {
   console.log("end ", endDate.toDate());
 
   try {
+    const id = new ObjectId(req.user.id);
     const dailyTransactions = await Transaction.aggregate([
       {
         $match: {
+          userId: id,
           createdAt: { $gte: startDate.toDate(), $lte: endDate.toDate() },
         },
       },

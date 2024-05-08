@@ -1,12 +1,24 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../model/user_model");
+const SubUser = require("../model/sub_user_model");
 
 const login = async (req, res) => {
   const { email, password } = req.body;
 
+  var isSub = false;
+
   try {
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
+    isSub = false;
+    if (!user) {
+      // If not found in User collection, check in SubUser collection
+      user = await SubUser.findOne({ email });
+      isSub = true;
+      if (!user) {
+        throw new Error("User not found");
+      }
+    }
 
     if (!email || !password) {
       console.log("req", req.body);
@@ -19,7 +31,9 @@ const login = async (req, res) => {
     if (user && (await bcrypt.compare(password, user.password))) {
       res.status(200).json({
         message: "Logged in",
-        data: await User.findOne({ email }).select("-password"),
+        data: !isSub
+          ? await User.findOne({ email }).select("-password")
+          : await SubUser.findOne({ email }).select("-password"),
         token: generateToken(user.id),
         success: true,
       });
@@ -38,6 +52,62 @@ const login = async (req, res) => {
   }
 };
 
+const createSubUser = async (req, res) => {
+  const { name, phone, email, password } = req.body;
+
+  var userExist = await SubUser.findOne({ email });
+  if (!userExist) {
+    userExist = await User.findOne({ email });
+  }
+
+  if (!name || !phone || !email || !password) {
+    res.status(400).json({
+      message: "All input fields required",
+      success: false,
+    });
+  }
+
+  if (userExist) {
+    return res.status(400).json({
+      message: "Email already exist",
+      success: false,
+    });
+  }
+
+  try {
+    const salt = await bcrypt.genSalt();
+    const hashPassword = await bcrypt.hash(password, salt);
+    const user = await SubUser.create({
+      name,
+      phone,
+      password: hashPassword,
+      email,
+      company: req.user.id,
+    })
+      .then(async (data) => {
+        console.log("register data", data);
+        const userData = await SubUser.findOne({ email }).select("-password");
+        res.status(200).json({
+          message: "Registered successfully",
+          success: true,
+          data: userData,
+          token: generateToken(userData._id),
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          message: error.message ?? "invalid login credentials",
+          success: false,
+        });
+      });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message ?? "Internal server error",
+      success: false,
+    });
+  }
+};
+
 const fetchUsers = async (req, res) => {
   try {
     const user = await User.find().limit(100);
@@ -47,6 +117,54 @@ const fetchUsers = async (req, res) => {
         success: true,
         message: "User found successfully",
         data: user,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      message: error.message ?? "Error",
+      success: false,
+    });
+  }
+};
+
+const fetchAllSubUsers = async (req, res) => {
+  try {
+    const user = await SubUser.find().limit(100);
+
+    if (user) {
+      res.status(200).json({
+        success: true,
+        message: "User found successfully",
+        data: user,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "Users not found",
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      message: error.message ?? "Error",
+      success: false,
+    });
+  }
+};
+
+const fetchSubUsers = async (req, res) => {
+  try {
+    const subUsers = await SubUser.find({ company: req.user._id });
+
+    if (subUsers) {
+      res.status(200).json({
+        success: true,
+        message: "Users found successfully",
+        data: subUsers,
       });
     } else {
       res.status(404).json({
@@ -100,7 +218,6 @@ const register = async (req, res) => {
   }
 
   if (userExist) {
-    // console.log("user data".bgYellow, userExist);
     return res.status(400).json({
       message: "User already exist",
       success: false,
@@ -150,4 +267,7 @@ module.exports = {
   register,
   fetchUsers,
   deleteUser,
+  createSubUser,
+  fetchSubUsers,
+  fetchAllSubUsers,
 };

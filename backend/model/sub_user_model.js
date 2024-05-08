@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-const User = new mongoose.Schema(
+const SubUser = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -35,8 +35,12 @@ const User = new mongoose.Schema(
     },
     userType: {
       type: String,
-      require: [true, "User type is required"],
-      enum: ["admin", "user"],
+      default: "user",
+    },
+    company: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      require: [true, "Company is required"],
     },
     password: {
       type: String,
@@ -52,11 +56,11 @@ const User = new mongoose.Schema(
   { timestamps: true }
 );
 
-User.pre("save", function (next) {
-  if (!this.userType) {
-    this.userType = "user";
-  }
-  next();
-});
+// SubUser.pre("save", function (next) {
+//   if (!this.userType) {
+//     this.userType = "user";
+//   }
+//   next();
+// });
 
-module.exports = mongoose.model("User", User);
+module.exports = mongoose.model("SubUser", SubUser);

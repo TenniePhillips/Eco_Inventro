@@ -12,14 +12,15 @@ const protect = async (req, res, next) => {
   }
 
   // Verify the token
-  jwt.verify(token, process.env.JWT_KEY, async (err, decoded) => {
+  jwt.verify(token, "inventro8080", async (err, decoded) => {
+    console.log("decoded data", decoded);
     if (err) {
       return res.status(403).json({ success: false, message: "Invalid token" });
     }
 
     try {
       // Find the user associated with the token
-      const user = await User.findById(decoded.userId);
+      const user = await User.findById(decoded.id);
 
       if (!user) {
         return res

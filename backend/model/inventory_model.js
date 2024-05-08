@@ -19,6 +19,11 @@ const InventorySchema = new mongoose.Schema(
       min: 1,
       required: true,
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      require: true,
+    },
     supplier: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Supplier",

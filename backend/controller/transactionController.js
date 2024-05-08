@@ -1,9 +1,14 @@
 const TransactionSchema = require("../model/transaction_model");
+const {
+  Types: { ObjectId },
+} = require("mongoose");
+
+// const objectId = new ObjectId();
 
 const createTransaction = async (req, res) => {
-  const { material, measurement, quantity, action } = req.body;
+  const { material, quantity, action } = req.body;
 
-  if (!material || !measurement || !quantity || !action) {
+  if (!material || !quantity || !action) {
     return res.status(400).json({
       message: "All input fields required",
       success: false,
@@ -13,9 +18,10 @@ const createTransaction = async (req, res) => {
   try {
     const createTransactions = await TransactionSchema.create({
       material,
-      measurement,
+      measurement: "KG",
       quantity,
       action,
+      userId: req.user.id,
     });
     res.status(200).json({
       message: "Transaction created successfully",
@@ -57,7 +63,9 @@ const deleteTransaction = async (req, res) => {
 
 const fetchAllTransaction = async (req, res) => {
   try {
-    const transactions = await TransactionSchema.find().limit(100);
+    const transactions = await TransactionSchema.find({
+      userId: req.user.id,
+    }).limit(100);
 
     if (transactions) {
       res.status(200).json({
@@ -79,64 +87,6 @@ const fetchAllTransaction = async (req, res) => {
   }
 };
 
-// const sumTotalOfMaterial = async (req, res) => {
-//   try {
-//     const { startDate, endDate } = req.query;
-//     const currentDate = new Date();
-//     const defaultStartDate = new Date(currentDate);
-//     defaultStartDate.setDate(currentDate.getDate() - 7); // Last 7 days
-
-//     const transactions = await TransactionSchema.aggregate([
-//       // Match transactions within the date range
-//       {
-//         $match: {
-//           createdAt: {
-//             $gte: startDate ? new Date(startDate) : defaultStartDate,
-//             $lte: endDate ? new Date(endDate) : currentDate,
-//           },
-//         },
-//       },
-//       // Group transactions by day and material
-//       {
-//         $group: {
-//           _id: {
-//             day: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-//             material: "$material",
-//           },
-//           totalQuantity: { $sum: "$quantity" },
-//         },
-//       },
-//       // Project the result
-//       {
-//         $project: {
-//           _id: 0,
-//           day: "$_id.day",
-//           material: "$_id.material",
-//           total: "$totalQuantity",
-//         },
-//       },
-//     ]);
-
-//     if (transactions.length > 0) {
-//       res.status(200).json({
-//         success: true,
-//         message: "Transactions found successfully",
-//         data: transactions,
-//       });
-//     } else {
-//       res.status(404).json({
-//         success: false,
-//         message: "Transactions not found",
-//       });
-//     }
-//   } catch (error) {
-//     res.status(400).json({
-//       message: error?.message ?? "Invalid Transactions",
-//       success: false,
-//     });
-//   }
-// };
-
 const sumTotalOfMaterial = async (req, res) => {
   try {
     // Extract startDate and endDate from req.query or use default values
@@ -144,11 +94,12 @@ const sumTotalOfMaterial = async (req, res) => {
     const currentDate = new Date();
     const defaultStartDate = new Date(currentDate);
     defaultStartDate.setDate(currentDate.getDate() - 21); // Last 7 days
-
+    const id = new ObjectId(req.user.id);
     const transactions = await TransactionSchema.aggregate([
       // Match transactions within the date range
       {
         $match: {
+          userId: id,
           createdAt: {
             $gte: startDate ? new Date(startDate) : defaultStartDate,
             $lte: endDate ? new Date(endDate) : currentDate,
@@ -215,6 +166,7 @@ const sumTotalOfMaterial = async (req, res) => {
 
 const sumRecycledMaterial = async (req, res) => {
   try {
+    const id = new ObjectId(req.user.id);
     // Extract startDate and endDate from req.query or use default values
     const { startDate, endDate } = req.query;
     const currentDate = new Date();
@@ -225,6 +177,7 @@ const sumRecycledMaterial = async (req, res) => {
       // Match transactions within the date range and with action "Recycled"
       {
         $match: {
+          userId: id,
           createdAt: {
             $gte: startDate ? new Date(startDate) : defaultStartDate,
             $lte: endDate ? new Date(endDate) : currentDate,

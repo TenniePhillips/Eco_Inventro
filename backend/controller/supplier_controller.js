@@ -27,6 +27,7 @@ const createSupplier = async (req, res) => {
       address,
       website,
       paymentType: payment,
+      userId: req.user.id,
     });
     res.status(200).json({
       message: "Supplier created successfully",
@@ -43,7 +44,7 @@ const createSupplier = async (req, res) => {
 
 const fetchAllSupplier = async (req, res) => {
   try {
-    const supplier = await Supplier.find();
+    const supplier = await Supplier.find({ userId: req.user.id });
 
     if (supplier) {
       res.status(200).json({

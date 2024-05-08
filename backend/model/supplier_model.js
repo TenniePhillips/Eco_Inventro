@@ -43,6 +43,11 @@ const supplierSchema = new mongoose.Schema(
       },
       require: [true, "Supplier is required"],
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      require: true,
+    },
     address: {
       type: String,
       require: [true, "Address is required"],

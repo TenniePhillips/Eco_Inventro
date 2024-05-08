@@ -14,6 +14,11 @@ const TransactionSchema = new mongoose.Schema(
       required: [true, "Measurement is required"],
       enum: ["KG"],
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      require: true,
+    },
     material: {
       type: String,
       required: [true, "Material is required"],

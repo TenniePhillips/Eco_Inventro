@@ -5,13 +5,14 @@ const {
   sumTotalOfMaterial,
   sumRecycledMaterial,
 } = require("../controller/transactionController");
+const { protect } = require("../middleware/auth_middleware");
 
 const router = require("express").Router();
 
-router.post("/create", createTransaction);
-router.get("/fetch", fetchAllTransaction);
-router.delete("/delete/:id", deleteTransaction);
-router.get("/sum_transaction", sumTotalOfMaterial);
-router.get("/recycled", sumRecycledMaterial);
+router.post("/create", protect, createTransaction);
+router.get("/fetch", protect, fetchAllTransaction);
+router.delete("/delete/:id", protect, deleteTransaction);
+router.get("/sum_transaction", protect, sumTotalOfMaterial);
+router.get("/recycled", protect, sumRecycledMaterial);
 
 module.exports = router;
