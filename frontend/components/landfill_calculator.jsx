@@ -68,16 +68,18 @@ const LandifllCalculator = () => {
     const { styrofoam, plastic, styrofoamUnit, unit, percentage } = wasteData;
 
     const styrofoamTotal = Number(styrofoam) * Number(styrofoamUnit);
-
     const plasticTotal = Number(plastic) * Number(unit);
 
     var weightTot = (plasticTotal + styrofoamTotal) / landfillSize;
 
-    const plasticTotal2 = Number(plastic) * plasticGhG;
-    const styrofoamTotal2 = Number(styrofoam) * styrofoamGhG;
+    const plasticQty = Number(plastic) * Number(unit);
+    const styrofoamQty = Number(styrofoam) * Number(styrofoamUnit);
+
+    const plasticTotal2 = plasticQty * plasticGhG;
+    const styrofoamTotal2 = styrofoamQty * styrofoamGhG;
 
     const volumeTotal = plasticTotal2 + styrofoamTotal2;
-    const bioVal = bioGHG * (Number(plastic) + Number(styrofoam));
+    const bioVal = bioGHG * plasticQty + styrofoamQty;
 
     const reduction = (Number(volumeTotal) - bioVal) * 0.2;
 
@@ -104,18 +106,14 @@ const LandifllCalculator = () => {
             Packaging Impact Calculator
           </Heading>
           <Text fontSize="16px">
-            The{" "}
-            <Box as="span" fontWeight="600">
-              {" "}
-              Packaging Impact Calculator
-            </Box>{" "}
-            is designed for food delivery businesses, to assess the
-            environmental impact of their packaging choices. By entering the
-            weight and total usage of materials like plastic and styrofoam, you
-            can compare their greenhouse gas emissions. This powerful tool aids
-            in evaluating the benefits of switching to more sustainable
-            packaging, helping your business to reduce its carbon footprint and
-            enhance its commitment to environmental stewardship.
+            The Packaging Impact Calculator is designed for food delivery
+            businesses, to assess the environmental impact of their packaging
+            choices. By entering the weight and total usage of materials like
+            plastic and styrofoam, you can compare their greenhouse gas
+            emissions. This powerful tool aids in evaluating the benefits of
+            switching to more sustainable packaging, helping your business to
+            reduce its carbon footprint and enhance its commitment to
+            environmental stewardship.
           </Text>
           <form action="" onSubmit={calculateData}>
             <FormControl>
@@ -160,7 +158,7 @@ const LandifllCalculator = () => {
               <Input
                 type="number"
                 name="styrofoamUnit"
-                placeholder="Unit"
+                placeholder="unit of styrofoam"
                 onChange={handleChange}
               />
             </FormControl>
@@ -240,7 +238,7 @@ const LandifllCalculator = () => {
 
             <Box>
               <Text fontSize="40px" fontWeight="800" color="teal" mb="0px">
-                {wasteTotal.toLocaleString()} KG / m³
+                {wasteTotal.toLocaleString()} m³
               </Text>
               <Text fontSize="16px" fontWeight="400">
                 {/* Landfill Dencity */}
@@ -273,7 +271,7 @@ const LandifllCalculator = () => {
 
             <Box>
               <Text fontSize="40px" fontWeight="800" color="teal" mb="0px">
-                {ghgTotal.toLocaleString()} kg CO2-eq
+                {ghgTotal.toLocaleString()} CO2-eq
               </Text>
               <Text fontSize="16px" fontWeight="400">
                 Greenhouse Gas Emissions Reduction.
@@ -309,8 +307,6 @@ const LandifllCalculator = () => {
                 {landfillReduction.toLocaleString()} KG m³
               </Text>
               <Text fontSize="16px" fontWeight="400">
-                {/* Reduction In Landfill
-                 */}
                 Landfill Reduction with Biodegradable Packaging
               </Text>
               <Text>

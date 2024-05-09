@@ -8,7 +8,8 @@
     "server": "nodemon ./index.js",
     "client": "cd ../frontend && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\" --ignore client",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --config ./jest.config.json",
+    "test:watch": "npm run test -- --watch"
   },
   "proxy": "http://localhost:3000",
   "author": "teeni",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.0"
   }
 }

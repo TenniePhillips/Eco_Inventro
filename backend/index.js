@@ -27,3 +27,4 @@ app.use("/metrics", metricsRoutes);
 app.listen(port, () => console.log("app started on", port));
 
 //mongodb+srv://donmarito5:znb8RFCsk0aYKiPq@cluster0.uwyfr2o.mongodb.net/?retryWrites=true&w=majority .
+// "test": "echo \"Error: no test specified\" && exit 1"
