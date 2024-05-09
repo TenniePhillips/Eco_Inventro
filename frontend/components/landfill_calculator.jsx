@@ -67,24 +67,25 @@ const LandifllCalculator = () => {
     e.preventDefault();
     const { styrofoam, plastic, styrofoamUnit, unit, percentage } = wasteData;
 
-    const styrofoamTotal = Number(styrofoam) * Number(styrofoamUnit);
-    const plasticTotal = Number(plastic) * Number(unit);
+    const styrofoamTotal =
+      Number(styrofoam) * Number(styrofoamUnit) * 0.65 * 365;
+    const plasticTotal = Number(plastic) * Number(unit) * 0.35 * 365;
 
     var weightTot = (plasticTotal + styrofoamTotal) / landfillSize;
 
-    const plasticQty = Number(plastic) * Number(unit);
-    const styrofoamQty = Number(styrofoam) * Number(styrofoamUnit);
+    const plasticQty = Number(plastic) * Number(unit) * 0.35 * 365;
+    const styrofoamQty = Number(styrofoam) * Number(styrofoamUnit) * 0.65 * 365;
 
     const plasticTotal2 = plasticQty * plasticGhG;
     const styrofoamTotal2 = styrofoamQty * styrofoamGhG;
 
     const volumeTotal = plasticTotal2 + styrofoamTotal2;
-    const bioVal = bioGHG * plasticQty + styrofoamQty;
+    const bioVal = bioGHG * (plasticQty + styrofoamQty);
 
-    const reduction = (Number(volumeTotal) - bioVal) * 0.2;
+    const reduction =
+      (Number(volumeTotal) - bioVal) * (Number(percentage) / 100);
 
-    const landfill =
-      (Number(plastic) + Number(styrofoam)) * (Number(percentage) / 100);
+    const landfill = Number(weightTot) * (Number(percentage) / 100);
 
     setGhgTotal(reduction);
     setLandfillReduction(landfill);
@@ -241,7 +242,6 @@ const LandifllCalculator = () => {
                 {wasteTotal.toLocaleString()} m³
               </Text>
               <Text fontSize="16px" fontWeight="400">
-                {/* Landfill Dencity */}
                 Volume of Waste Contributed to Landfill
               </Text>
               <Text>
@@ -265,23 +265,22 @@ const LandifllCalculator = () => {
                 alignItems="center"
                 mr="20px"
               >
-                <LuLeafyGreen color="teal" size="60px" />
+                <GiEcology color="teal" size="60px" />
               </Box>
             </Box>
 
             <Box>
               <Text fontSize="40px" fontWeight="800" color="teal" mb="0px">
-                {ghgTotal.toLocaleString()} CO2-eq
+                {landfillReduction.toLocaleString()} m³
               </Text>
               <Text fontSize="16px" fontWeight="400">
-                Greenhouse Gas Emissions Reduction.
+                Landfill Reduction with Biodegradable Packaging
               </Text>
-
               <Text>
-                This metric reflects decreased CO2-equivalent emissions per
-                kilogram when using biodegradable materials. Lowering these
-                emissions is important for reducing your carbon footprint and
-                combating climate change.
+                This value represents the reduction in landfill waste achieved
+                by using biodegradable packaging. Transitioning to more
+                sustainable materials helps decrease your environmental
+                footprint and supports a healthier planet.
               </Text>
             </Box>
           </Flex>
@@ -298,22 +297,26 @@ const LandifllCalculator = () => {
                 alignItems="center"
                 mr="20px"
               >
-                <GiEcology color="teal" size="60px" />
+                <LuLeafyGreen color="teal" size="60px" />
               </Box>
             </Box>
 
             <Box>
               <Text fontSize="40px" fontWeight="800" color="teal" mb="0px">
-                {landfillReduction.toLocaleString()} KG m³
+                {(Number(ghgTotal) / 1000).toLocaleString()}{" "}
+                <Box as="span" fontSize="20px">
+                  tonnes / CO2-eq
+                </Box>
               </Text>
               <Text fontSize="16px" fontWeight="400">
-                Landfill Reduction with Biodegradable Packaging
+                Greenhouse Gas Emissions Reduction.
               </Text>
+
               <Text>
-                This value represents the reduction in landfill waste achieved
-                by using biodegradable packaging. Transitioning to more
-                sustainable materials helps decrease your environmental
-                footprint and supports a healthier planet.
+                This metric reflects decreased CO2-equivalent emissions per
+                kilogram when using biodegradable materials. Lowering these
+                emissions is important for reducing your carbon footprint and
+                combating climate change.
               </Text>
             </Box>
           </Flex>

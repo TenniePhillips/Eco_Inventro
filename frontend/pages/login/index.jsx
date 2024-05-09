@@ -55,7 +55,7 @@ const Index = () => {
     });
 
     setLoading(false);
-    if (req.success == true) {
+    if (req?.success == true) {
       console.log("data", req);
       setAllData(req);
       router.push("/dashboard");

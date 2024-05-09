@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { GiNuclearWaste } from "react-icons/gi";
+import { formatNumber } from "../tools/helpers";
 
 const WasteGenCalculator = () => {
   const data = [
@@ -48,6 +49,7 @@ const WasteGenCalculator = () => {
 
   const calculateData = () => {
     const { type, unit, weight } = wasteData;
+    console.log("weight", weight);
 
     var weightTot = Number(weight) * Number(unit);
     var wasteTotal;
@@ -162,7 +164,8 @@ const WasteGenCalculator = () => {
 
             <Box>
               <Text fontSize="40px" fontWeight="800" color="teal" mb="0px">
-                {(wasteTotal * 30).toLocaleString()}KG
+                {/* {formatNumber(Number(wasteTotal * 30))} / KG */}
+                {Number(wasteTotal * 30).toLocaleString()} KG
               </Text>
               <Text fontSize="16px" fontWeight="600">
                 Total waste per month
@@ -198,7 +201,8 @@ const WasteGenCalculator = () => {
 
             <Box>
               <Text fontSize="40px" fontWeight="800" color="teal" mb="0px">
-                {(wasteTotal * 365).toLocaleString()}KG
+                {/* {formatNumber(Number(wasteTotal * 365))} / KG */}
+                {Number(wasteTotal * 365).toLocaleString()} KG
               </Text>
               <Text fontSize="16px" fontWeight="600">
                 Total waste per year

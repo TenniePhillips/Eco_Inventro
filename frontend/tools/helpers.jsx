@@ -11,3 +11,15 @@ export const NumberFormat = ({ value }) => {
 
   return <span>{formatNumber(value)}</span>;
 };
+
+export function formatNumber(number) {
+  if (number >= 1e9) {
+    return `${(number / 1e9).toFixed(2)}b`; // Billion
+  } else if (number >= 1e6) {
+    return `${(number / 1e6).toFixed(2)}m`; // Million
+  } else if (number >= 1e3) {
+    return `${(number / 1e3).toFixed(2)}k`; // Thousand
+  } else {
+    return number.toString();
+  }
+}
