@@ -244,33 +244,6 @@ const sumRecycledMaterial = async (req, res) => {
   }
 };
 
-// Create a transporter object using SMTP transport
-let transporter = nodemailer.createTransport({
-  service: "Gmail", // use your email service
-  auth: {
-    user: "your_email@gmail.com", // your email
-    pass: "your_password", // your password
-  },
-});
-
-// Email content
-let mailOptions = {
-  from: "your_email@gmail.com", // sender address
-  to: "recipient_email@example.com", // list of receivers
-  subject: "Subject of your email", // Subject line
-  text: "Body of your email", // plain text body
-  html: "<b>HTML body of your email</b>", // html body
-};
-
-// Send email
-transporter.sendMail(mailOptions, function (error, info) {
-  if (error) {
-    console.error("Error sending email:", error);
-  } else {
-    console.log("Email sent:", info.response);
-  }
-});
-
 const fillMissingDates = (transactions, startDate, endDate) => {
   const filledTransactions = [];
   const currentDate = new Date(startDate);
