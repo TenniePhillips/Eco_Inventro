@@ -2138,7 +2138,7 @@
   resolved "https://registry.npmjs.org/@firebase/app-types/-/app-types-0.9.1.tgz"
   integrity sha512-nFGqTYsnDFn1oXf1tCwPAc+hQPxyvBT/QB7qDjwK+IDYThOn63nGhzdUTXxVD9Ca8gUY/e5PQMngeo0ZW/E3uQ==
 
-"@firebase/app@0.10.2", "@firebase/app@0.x":
+"@firebase/app@^0.10.2", "@firebase/app@0.10.2", "@firebase/app@0.x":
   version "0.10.2"
   resolved "https://registry.npmjs.org/@firebase/app/-/app-0.10.2.tgz"
   integrity sha512-Sk0lQYG0IRIUXkj6Ovaxu0o1E1OdC+IR+UYEYLjXuddr6YjnpFuZ69rTxVja2Ef4TpidJky9o8OoVIaXNjDJ5A==
@@ -2330,7 +2330,7 @@
   resolved "https://registry.npmjs.org/@firebase/messaging-interop-types/-/messaging-interop-types-0.2.1.tgz"
   integrity sha512-jfGJ7Jc32BDHXvXHyXi34mVLzZY8X0t929DTMwz7Tj2Hc40Zuzx8VRCIPLRrRUyvBrJCd5EpIcQgCygXhtaN1A==
 
-"@firebase/messaging@0.12.8":
+"@firebase/messaging@^0.12.8", "@firebase/messaging@0.12.8":
   version "0.12.8"
   resolved "https://registry.npmjs.org/@firebase/messaging/-/messaging-0.12.8.tgz"
   integrity sha512-FbCTNhv5DUBo8It+Wj3XbKM1xf3PeoHsHk8PjMWBNm0yP+LL8Jhd3ejRsukEYdysTMvgxY4sU5Cs5YNTK44qTQ==

@@ -3,22 +3,24 @@ import React, { useEffect } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import "antd/dist/reset.css";
 import { Analytics } from "@vercel/analytics/react";
+// import { getTokens, onMessageListener } from "../firebase";
 
 function MyApp({ Component, pageProps }) {
-  // const initMessage = () => {
-  //   const messaging = firebase.messaging();
-  //   messaging
-  //     .requestPermission()
-  //     .then(() => {
-  //       return messaging.getToken();
-  //     })
-  //     .then((token) => console.log("token", token))
-  //     .catch((e) => console.log("error", e));
-  // };
+  // const [show, setShow] = useState(false);
+  // const [notification, setNotification] = useState({ title: "", body: "" });
+  // const [isTokenFound, setTokenFound] = useState(false);
+  // getTokens(setTokenFound);
 
-  // useEffect(() => {
-  //   initMessage();
-  // }, []);
+  // onMessageListener()
+  //   .then((payload) => {
+  //     setShow(true);
+  //     setNotification({
+  //       title: payload.notification.title,
+  //       body: payload.notification.body,
+  //     });
+  //     console.log(payload);
+  //   })
+  //   .catch((err) => console.log("failed: ", err));
 
   return (
     <ChakraProvider>

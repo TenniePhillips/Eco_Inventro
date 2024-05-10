@@ -137,25 +137,22 @@ const index = () => {
       key: "measurement",
     },
     {
-      title: "Delivery Date",
-      dataIndex: "deliveryDate",
-      key: "deliveryDate",
-      render: (item, id) => (
-        <Box key={id}>
-          {moment(item?.deliveryDate).format("DD-MM-YYYY") ?? "N/A"}
-        </Box>
-      ),
-    },
-    {
       title: "Requested Date",
-      dataIndex: "orderDate",
-      key: "orderDate",
       render: (item, id) => (
         <Box key={id}>
           {moment(item?.orderDate).format("DD-MM-YYYY") ?? "N/A"}
         </Box>
       ),
     },
+    {
+      title: "Delivery Date",
+      render: (item, id) => (
+        <Box key={id}>
+          {moment(item.deliveryDate).format("DD-MM-YYYY") ?? "N/A"}
+        </Box>
+      ),
+    },
+
     {
       title: "Action",
       render: (item, id) => (

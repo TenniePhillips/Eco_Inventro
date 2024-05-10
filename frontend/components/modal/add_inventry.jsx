@@ -64,8 +64,13 @@ const AddInventryModal = ({ isOpen, onClose, callBack }) => {
     e.preventDefault();
     setLoading(true);
 
-    var deliDate = moment(inventoryForm.deliveryDate).format("DD-MM-YYYY");
-    var ordDate = moment(inventoryForm.orderDate).format("DD-MM-YYYY");
+    // var deliDate = moment(inventoryForm.deliveryDate).format("DD-MM-YYYY");
+    // var ordDate = moment(inventoryForm.orderDate).format("DD-MM-YYYY");
+
+    var deliDate = new Date(inventoryForm.deliveryDate);
+    var ordDate = new Date(inventoryForm.orderDate);
+
+    // console.log("delivery", deliDate, "ordered", ordDate);
 
     try {
       const req = await HandleAllRequest("/inventory/create", "post", "", {
