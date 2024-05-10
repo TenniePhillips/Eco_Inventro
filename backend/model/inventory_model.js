@@ -48,6 +48,11 @@ const InventorySchema = new mongoose.Schema(
       required: [true, "Measurement is required"],
       enum: ["KG", "g"],
     },
+    status: {
+      type: String,
+      default: "pending",
+      enum: ["pending", "delivered"],
+    },
     material: {
       type: String,
       required: [true, "Material is required"],

@@ -25,7 +25,7 @@ const AddTransactionModal = ({ isOpen, onClose, callBack, data }) => {
     material: "",
     // measurement: "KG",
     quantity: "",
-    action: "",
+    action: "Recycled",
   });
 
   const toast = useToast();
@@ -86,7 +86,7 @@ const AddTransactionModal = ({ isOpen, onClose, callBack, data }) => {
         material: transactionForm.material,
         // measurement: transactionForm.measurement,
         quantity: transactionForm.quantity,
-        action: transactionForm.action,
+        action: "Recycled",
       });
 
       setLoading(false);
@@ -169,13 +169,15 @@ const AddTransactionModal = ({ isOpen, onClose, callBack, data }) => {
                 <Input
                   type="number"
                   name="quantity"
+                  placeholder="1KG per unit"
                   value={transactionForm.quantity}
                   required
                   onChange={handleChange}
                 />
               </InputGroup>
             </FormControl>
-            <FormControl>
+
+            {/* <FormControl>
               <FormLabel>Action Type</FormLabel>
               <Select
                 placeholder="Action Type"
@@ -188,7 +190,7 @@ const AddTransactionModal = ({ isOpen, onClose, callBack, data }) => {
                 <option value="Recycled">Recycled</option>
                 <option value="Disposed">Disposed</option>
               </Select>
-            </FormControl>
+            </FormControl> */}
             <Button
               isLoading={loading}
               type="submit"

@@ -79,24 +79,76 @@ const Index = () => {
     }
   };
 
+  const [summary, setSummary] = useState({
+    plastic: 0,
+    styrofoam: 0,
+  });
+
+  const getSummary = async () => {
+    setLoading(true);
+    try {
+      var req = await HandleAllRequest(
+        "/inventory/check_delivered",
+        "get",
+        "",
+        {}
+      );
+
+      setLoading(false);
+      if (req.success == true) {
+        const data = req.data;
+        console.log("summary data", data);
+        setSummary({
+          ...summary,
+          plastic: Number(data?.Plastic) * 0.35 ?? 0,
+          styrofoam: Number(data?.Styrofoam) * 0.65 ?? 0,
+        });
+
+        // setChartTotal({
+        //   ...chartTotal,
+        //   totalInventory: data.totalInventory ?? 0,
+        //   totalSuppliers: data.totalSupplier ?? 0,
+        //   totalTransactions: data.totalTransaction ?? 0,
+        // });
+      } else {
+        toast({
+          position: "bottom-right",
+          description: req?.message ?? "No Data",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      toast({
+        position: "bottom-right",
+        description: error.message ?? "Error",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
   useEffect(() => {
     getOverview();
+    getSummary();
     // getMartialChart();
   }, []);
 
   const dahsboardData = [
     {
       icon: <MdInventory size={size} color={color} />,
-      title: "Inventory",
-      total: chartTotal.totalInventory,
-      sub: "",
+      title: "Volume Of Waste",
+      total: summary.plastic,
+      sub: "Plastic",
     },
 
     {
       icon: <MdFactory size={size} color={color} />,
-      title: "Suppliers",
-      total: chartTotal.totalSuppliers,
-      sub: "",
+      title: "Volume Of Waste",
+      total: summary.styrofoam,
+      sub: "Styrofoam",
     },
 
     {
@@ -130,26 +182,30 @@ const Index = () => {
       >
         {dahsboardData.map((item, id) => (
           <Box key={id}>
-            <Card>
+            <Card height="100%">
               <CardBody px="20px" py="24px">
                 <Flex justifyContent="space-between">
                   <Box>
-                    <Text
+                    <Box
                       fontSize="32px"
                       fontWeight="800"
                       mb="0px"
                       color="#495057"
                     >
                       {item.total}
-                      <span
-                        style={{
-                          fontSize: "18px",
-                          fontWeight: "600",
-                        }}
-                      >
-                        {item.sub}
-                      </span>
-                    </Text>
+                      {id < 2 ? (
+                        <Box
+                          as="span"
+                          mr="10px"
+                          fontSize="18px"
+                          fontWeight="600"
+                        >
+                          KG
+                        </Box>
+                      ) : (
+                        <Box></Box>
+                      )}
+                    </Box>
                     <Text
                       fontSize="16px"
                       fontWeight="500"
@@ -158,9 +214,10 @@ const Index = () => {
                     >
                       {item.title}
                     </Text>
-                    <Link fontSize="14px" href="">
-                      See more
-                    </Link>
+
+                    <Text mb="0px" fontSize="14px" fontWeight="600">
+                      {item.sub}
+                    </Text>
                   </Box>
 
                   <Box

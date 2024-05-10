@@ -83,6 +83,36 @@ const fetchAllInventory = async (req, res) => {
   }
 };
 
+const updateInventory = async (req, res) => {
+  try {
+    const id = req.params.id; // Use params instead of param
+    const { status } = req.body;
+    const inventory = await InventoryModel.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+
+    if (inventory) {
+      res.status(200).json({
+        success: true,
+        message: "Inventory updated successfully",
+        data: inventory,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "Inventory not found",
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      message: error.message ?? "Error",
+      success: false,
+    });
+  }
+};
+
 const recentInventory = async (req, res) => {
   try {
     const inventory = await InventoryModel.find({ userId: req.user.id })
@@ -191,6 +221,59 @@ const inventoryOverview = async (req, res) => {
   }
 };
 
+const checkDeliveredTotal = async (req, res) => {
+  try {
+    const id = new ObjectId(req.user.id);
+
+    const transaction = await TransactionModel.aggregate([
+      {
+        $match: {
+          userId: id,
+        },
+      },
+      {
+        $group: {
+          _id: "$material",
+          totalQuantity: { $sum: "$quantity" },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          material: "$_id",
+          total: "$totalQuantity",
+        },
+      },
+    ]);
+
+    const materialInventory = {};
+
+    transaction.forEach((item) => {
+      materialInventory[item.material] = item.total;
+    });
+
+    if (transaction) {
+      res.status(200).json({
+        success: true,
+        message: "Transaction found successfully",
+        data: materialInventory,
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "Transaction not found",
+      });
+    }
+  } catch (error) {
+    res.status(400).json({
+      message: error?.message ?? "Invalid Transactions",
+      success: false,
+    });
+  }
+
+  console.log("data", req.user.id);
+};
+
 const checkBalanceOverview = async (req, res) => {
   try {
     const id = new ObjectId(req.user.id);
@@ -198,6 +281,7 @@ const checkBalanceOverview = async (req, res) => {
       {
         $match: {
           userId: id,
+          status: "delivered",
         },
       },
       {
@@ -292,5 +376,7 @@ module.exports = {
   inventoryOverview,
   recentInventory,
   checkBalanceOverview,
+  updateInventory,
+  checkDeliveredTotal,
   // dailyInventryOverview,
 };

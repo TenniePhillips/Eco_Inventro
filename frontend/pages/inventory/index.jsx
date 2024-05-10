@@ -23,10 +23,16 @@ import { ICON_CONST } from "../../components/constants";
 import AddInventryModal from "../../components/modal/add_inventry";
 import { HandleAllRequest } from "../../tools/request_handler";
 import moment from "moment";
+import EditInventryModal from "../../components/modal/update_status";
 
 const index = () => {
   // const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isStatusOpen,
+    onOpen: onStatusOpen,
+    onClose: onStatusClose,
+  } = useDisclosure();
 
   const [inventoryData, setInventory] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -152,7 +158,24 @@ const index = () => {
         </Box>
       ),
     },
-
+    {
+      title: "Status",
+      render: (item, id) => (
+        <Box
+          key={id}
+          py="5px"
+          px="10px"
+          fontWeight="700"
+          bg={item.status == "delivered" ? "teal.300" : "yellow.300"}
+          display="inline"
+          borderRadius="5px"
+          color={item.status == "delivered" ? "teal.700" : "yellow.700"}
+          textTransform="capitalize"
+        >
+          {item.status}
+        </Box>
+      ),
+    },
     {
       title: "Action",
       render: (item, id) => (
@@ -160,18 +183,17 @@ const index = () => {
           <MenuButton p="10px">
             <RiMore2Fill />
           </MenuButton>
-
           <MenuList>
-            {menuArr.map((items, id) => (
+            {menuArr.map((sub, id) => (
               <MenuItem p="20px" key={id}>
                 <Flex
-                  onClick={() => deleteInventory(item._id)}
+                  onClick={() => sub.action(item)}
                   justifyContent="space-between"
                   alignItems="center"
                   w="100%"
                 >
-                  <Box>{items.text}</Box>
-                  <Icon as={items.img} size="32px" />
+                  <Box>{sub.text}</Box>
+                  <Icon as={sub.img} size="32px" />
                 </Flex>
               </MenuItem>
             ))}
@@ -181,11 +203,22 @@ const index = () => {
     },
   ];
 
+  const [id, setId] = useState("");
+
   const menuArr = [
     {
       text: "Delete",
       img: ICON_CONST.deleteIcon,
-      route: "",
+      action: (item) => deleteInventory(item._id),
+    },
+    {
+      text: "Update Status",
+      img: ICON_CONST.deleteIcon,
+      action: (item) => {
+        console.log("");
+        setId(item._id);
+        onStatusOpen();
+      },
     },
   ];
 
@@ -214,6 +247,12 @@ const index = () => {
         isOpen={isOpen}
         callBack={getInventory}
         onClose={onClose}
+      />
+      <EditInventryModal
+        isOpen={isStatusOpen}
+        id={id}
+        callBack={getInventory}
+        onClose={onStatusClose}
       />
     </DashboardLayout>
   );

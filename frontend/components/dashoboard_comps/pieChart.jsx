@@ -247,7 +247,7 @@ const renderActiveShape = (props) => {
         textAnchor="middle"
         fill={fill}
       >
-        {payload?.value || "0"}%
+        {payload?.value || "0"}
       </text>
 
       <Sector
