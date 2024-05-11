@@ -134,7 +134,7 @@ const fetchUsers = async (req, res) => {
 
 const fetchAllSubUsers = async (req, res) => {
   try {
-    const user = await SubUser.find().limit(100);
+    const user = await SubUser.find()(100);
 
     if (user) {
       res.status(200).json({

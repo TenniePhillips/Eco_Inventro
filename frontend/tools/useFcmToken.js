@@ -39,7 +39,9 @@ const useFcmToken = () => {
 
     retrieveToken();
   }, []);
-
+  if (typeof window !== "undefined") {
+    window.sessionStorage.setItem("fcmToken", token) || null;
+  }
   return { fcmToken: token, notificationPermissionStatus };
 };
 

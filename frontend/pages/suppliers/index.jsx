@@ -157,7 +157,7 @@ const index = () => {
       render: (item, id) => (
         <Menu isLazy>
           <MenuButton p="10px">
-            <RiMore2Fill />
+            <RiMore2Fill size="20px" />
           </MenuButton>
 
           <MenuList>
@@ -168,8 +168,8 @@ const index = () => {
                 alignItems="center"
                 w="100%"
               >
-                <Box>Delete</Box>
-                <Icon as={ICON_CONST.deleteIcon} size="32px" />
+                <Box fontWeight="500">Delete</Box>
+                <Icon as={ICON_CONST.deleteIcon} boxSize="24px" size="32px" />
               </Flex>
             </MenuItem>
           </MenuList>

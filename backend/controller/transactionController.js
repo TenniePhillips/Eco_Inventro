@@ -4,13 +4,14 @@ const {
 } = require("mongoose");
 const sendFcmToken = require("../config/fem_controller");
 const admin = require("firebase-admin");
+const InventoryModel = require("../model/inventory_model");
 
-const fcmToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2M2E4YmFlZmIyZDU0NmU5NzdiODYwMSIsImlhdCI6MTcxNTQyNDAzMCwiZXhwIjoxNzE4MDE2MDMwfQ.3e4mOVrDQzoaIeYLXFgu8Bc5nrQOngaWzCAF3Ojh9jk";
+// const fcmToken =
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2M2E4YmFlZmIyZDU0NmU5NzdiODYwMSIsImlhdCI6MTcxNTQyNDAzMCwiZXhwIjoxNzE4MDE2MDMwfQ.3e4mOVrDQzoaIeYLXFgu8Bc5nrQOngaWzCAF3Ojh9jk";
 // const objectId = new ObjectId();
 
 const createTransaction = async (req, res) => {
-  const { material, quantity, action } = req.body;
+  const { material, quantity, action, fcmToken } = req.body;
 
   if (!material || !quantity || !action) {
     return res.status(400).json({
@@ -18,6 +19,8 @@ const createTransaction = async (req, res) => {
       success: false,
     });
   }
+
+  console.log("request body", req.body);
 
   try {
     const createTransactions = await TransactionSchema.create({
@@ -28,14 +31,15 @@ const createTransaction = async (req, res) => {
       userId: req.user.id,
     });
 
-    const message = {
-      notification: {
-        title: "Transaction Update",
-        body: "Inventroy stats updated",
-      },
-      to: fcmToken,
-    };
-    sendFcmToken(message);
+    checkSummaryOverview(req, res, fcmToken);
+    // const message = {
+    //   notification: {
+    //     title: "Transaction Update",
+    //     body: "Inventroy stats updated",
+    //   },
+    //   token: fcmToken,
+    // };
+    // sendFcmToken(message);
 
     res.status(200).json({
       message: "Transaction created successfully",
@@ -79,7 +83,9 @@ const fetchAllTransaction = async (req, res) => {
   try {
     const transactions = await TransactionSchema.find({
       userId: req.user.id,
-    }).limit(100);
+    })
+      .limit(500)
+      .sort({ createdAt: -1 });
 
     if (transactions) {
       res.status(200).json({
@@ -98,6 +104,97 @@ const fetchAllTransaction = async (req, res) => {
       message: error.message ?? "Invalid Transactions",
       success: false,
     });
+  }
+};
+
+const checkSummaryOverview = async (req, res, fcmToken) => {
+  try {
+    const id = new ObjectId(req.user.id);
+
+    // Fetch total inventory quantities for each material
+    const inventory = await InventoryModel.aggregate([
+      {
+        $match: {
+          userId: id,
+          status: "delivered",
+        },
+      },
+      {
+        $group: {
+          _id: "$material",
+          totalQuantity: { $sum: "$quantity" },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          material: "$_id",
+          total: "$totalQuantity",
+        },
+      },
+    ]);
+
+    // Calculate total quantities of each material from transactions
+    const transaction = await TransactionSchema.aggregate([
+      {
+        $match: {
+          userId: id,
+        },
+      },
+      {
+        $group: {
+          _id: "$material",
+          totalQuantity: { $sum: "$quantity" },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          material: "$_id",
+          total: "$totalQuantity",
+        },
+      },
+    ]);
+
+    // Create objects to store material totals
+    const materialInventory = {};
+    const materialTotals = {};
+
+    // Populate material totals from inventory and transactions
+    inventory.forEach((item) => {
+      materialInventory[item.material] = item.total;
+    });
+
+    transaction.forEach((item) => {
+      materialTotals[item.material] = item.total;
+    });
+
+    // Calculate balance for each material
+    const calculateTotal = {
+      plastic: materialInventory.Plastic - (materialTotals.Plastic || 0),
+      styrofoam: materialInventory.Styrofoam - (materialTotals.Styrofoam || 0),
+      biodegradable:
+        materialInventory.Biodegradable - (materialTotals.Biodegradable || 0),
+    };
+
+    // Find materials with low inventory
+    const lowInventoryMaterials = Object.entries(calculateTotal)
+      .filter(([material, quantity]) => quantity < 100 && quantity !== 0)
+      .map(([material]) => material);
+    console.log("low inventory", lowInventoryMaterials);
+    // Send notification if there are materials with low inventory
+    if (lowInventoryMaterials.length > 0) {
+      const message = {
+        notification: {
+          title: "Low Inventory Alert",
+          body: `${lowInventoryMaterials.join(", ")} inventory is running low.`,
+        },
+        token: fcmToken, // Assuming fcmToken is defined
+      };
+      sendFcmToken(message);
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 

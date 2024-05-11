@@ -80,7 +80,6 @@ const EditInventryModal = ({ isOpen, onClose, id, callBack }) => {
         <ModalCloseButton />
         <ModalBody py="30px">
           <form onSubmit={updateStatus} action="">
-            <Text color="#000">{id}</Text>
             <FormControl>
               <FormLabel>Status</FormLabel>
               <Select

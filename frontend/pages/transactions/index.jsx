@@ -176,11 +176,6 @@ const index = () => {
       dataIndex: "measurement",
       key: "measurement",
     },
-    // {
-    //   title: "Action Type",
-    //   dataIndex: "action",
-    //   key: "action",
-    // },
     {
       title: "Created Date",
       dataIndex: "createdDate",
@@ -196,7 +191,7 @@ const index = () => {
       render: (item, id) => (
         <Menu isLazy>
           <MenuButton>
-            <RiMore2Fill />
+            <RiMore2Fill size="20px" />
           </MenuButton>
 
           <MenuList>
@@ -208,8 +203,8 @@ const index = () => {
                   alignItems="center"
                   w="100%"
                 >
-                  <Box>{items.text}</Box>
-                  <Icon as={items.img} size="32px" />
+                  <Box fontWeight="500">{items.text}</Box>
+                  <Icon as={items.img} boxSize="24px" size="32px" />
                 </Flex>
               </MenuItem>
             ))}

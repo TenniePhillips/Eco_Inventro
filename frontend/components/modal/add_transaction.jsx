@@ -23,7 +23,6 @@ import { HandleAllRequest } from "../../tools/request_handler";
 const AddTransactionModal = ({ isOpen, onClose, callBack, data }) => {
   const [transactionForm, setTransactionForm] = useState({
     material: "",
-    // measurement: "KG",
     quantity: "",
     action: "Recycled",
   });
@@ -81,10 +80,15 @@ const AddTransactionModal = ({ isOpen, onClose, callBack, data }) => {
     }
     setLoading(true);
 
+    var fcmToken;
+    if (typeof window !== "undefined") {
+      fcmToken = window.sessionStorage.getItem("fcmToken") || null;
+    }
+
     try {
       const req = await HandleAllRequest("/transaction/create", "post", "", {
         material: transactionForm.material,
-        // measurement: transactionForm.measurement,
+        fcmToken: fcmToken,
         quantity: transactionForm.quantity,
         action: "Recycled",
       });

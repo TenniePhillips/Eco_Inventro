@@ -12,10 +12,14 @@ import {
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { HandleAllRequest } from "../../tools/request_handler";
+import useFcmToken from "../../tools/useFcmToken";
+
 // import useSuccessToast from "../../tools/successToast";
 // import { useSuccessToast } from "../../tools/helpers";
 
 const Index = () => {
+  const { fcmToken, notificationPermissionStatus } = useFcmToken();
+
   const router = useRouter();
 
   const [userData, setData] = useState({
@@ -38,6 +42,7 @@ const Index = () => {
 
   const setAllData = (req) => {
     sessionStorage.clear();
+    window.sessionStorage.setItem("fcmToken", fcmToken) || null;
     sessionStorage.setItem("name", req.data.name);
     sessionStorage.setItem("token", req.token);
     sessionStorage.setItem("type", req.data.userType);

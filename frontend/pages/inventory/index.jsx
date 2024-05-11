@@ -24,6 +24,7 @@ import AddInventryModal from "../../components/modal/add_inventry";
 import { HandleAllRequest } from "../../tools/request_handler";
 import moment from "moment";
 import EditInventryModal from "../../components/modal/update_status";
+import { RiEdit2Line } from "react-icons/ri";
 
 const index = () => {
   // const router = useRouter();
@@ -53,17 +54,17 @@ const index = () => {
     setLoading(true);
     var req = await HandleAllRequest("/inventory/fetch", "get", "", {});
     setLoading(false);
-    if (req.success == true) {
-      setInventory(req.data);
+    if (req?.success == true) {
+      setInventory(req?.data ?? []);
     } else {
       toast({
         position: "bottom-right",
-        description: req.message,
+        description: req?.message,
         status: "error",
         duration: 5000,
         isClosable: true,
       });
-      console.log("error", req.message);
+      console.log("error", req?.message);
     }
   };
 
@@ -181,7 +182,7 @@ const index = () => {
       render: (item, id) => (
         <Menu isLazy>
           <MenuButton p="10px">
-            <RiMore2Fill />
+            <RiMore2Fill size="20px" />
           </MenuButton>
           <MenuList>
             {menuArr.map((sub, id) => (
@@ -192,8 +193,8 @@ const index = () => {
                   alignItems="center"
                   w="100%"
                 >
-                  <Box>{sub.text}</Box>
-                  <Icon as={sub.img} size="32px" />
+                  <Box fontWeight="500">{sub.text}</Box>
+                  <Icon as={sub.img} boxSize="24px" size="32px" />
                 </Flex>
               </MenuItem>
             ))}
@@ -213,7 +214,7 @@ const index = () => {
     },
     {
       text: "Update Status",
-      img: ICON_CONST.deleteIcon,
+      img: RiEdit2Line,
       action: (item) => {
         console.log("");
         setId(item._id);

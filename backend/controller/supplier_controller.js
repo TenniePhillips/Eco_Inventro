@@ -44,7 +44,11 @@ const createSupplier = async (req, res) => {
 
 const fetchAllSupplier = async (req, res) => {
   try {
-    const supplier = await Supplier.find({ userId: req.user.id });
+    const supplier = await Supplier.find({ userId: req.user.id })
+      .sort({
+        createdAt: -1,
+      })
+      .limit(500);
 
     if (supplier) {
       res.status(200).json({

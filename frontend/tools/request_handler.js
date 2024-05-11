@@ -36,7 +36,7 @@ export const HandleAllRequest = async (
   switch (request) {
     case "post":
       let postResponse = await apiClient.post(URL, jsonData).catch((err) => {
-        if (err.response?.status === 401) {
+        if (err.response?.status === 401 || err.response?.status === 403) {
           window.localStorage.clear();
           sessionStorage.clear();
           window.location.replace("/");
@@ -48,7 +48,7 @@ export const HandleAllRequest = async (
 
     case "put":
       let putResponse = await apiClient.put(URL, jsonData).catch((err) => {
-        if (err.response?.status === 401) {
+        if (err.response?.status === 401 || err.response?.status === 403) {
           window.localStorage.clear();
           sessionStorage.clear();
           window.location.replace("/");
@@ -69,7 +69,7 @@ export const HandleAllRequest = async (
         let errRespData = {
           error: errResponse?.message,
         };
-        if (err.response?.status === 401) {
+        if (err.response?.status === 401 || err.response?.status === 403) {
           window.localStorage.clear();
           sessionStorage.clear();
           window.location.replace("/");
@@ -80,7 +80,7 @@ export const HandleAllRequest = async (
 
     case "patch":
       let patchResponse = await apiClient.patch(URL, jsonData).catch((err) => {
-        if (err.response?.status === 401) {
+        if (err.response?.status === 401 || err.response?.status === 403) {
           window.localStorage.clear();
           sessionStorage.clear();
           window.location.replace("/");
@@ -92,7 +92,7 @@ export const HandleAllRequest = async (
 
     case "delete":
       let deleteResponse = await apiClient.delete(URL).catch((err) => {
-        if (err.response?.status === 401) {
+        if (err.response?.status === 401 || err.response?.status === 403) {
           window.localStorage.clear();
           sessionStorage.clear();
           window.location.replace("/");

@@ -1,14 +1,30 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from "react";
 import { Layout, Menu } from "antd";
-import { Avatar, Box, Flex, Icon, Image, Spacer, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Flex,
+  Icon,
+  Image,
+  Spacer,
+  Text,
+  Menu as Menu2,
+  MenuButton as MenuButton2,
+  MenuList as MenuList2,
+  MenuItem as MenuItem2,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
+} from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { BsLaptopFill } from "react-icons/bs";
 import { PiArrowFatLineUpFill } from "react-icons/pi";
 import { RiPieChart2Fill } from "react-icons/ri";
 import { HiUserGroup } from "react-icons/hi";
-import { IoIosSettings } from "react-icons/io";
+import { IoIosSettings, IoIosLogOut } from "react-icons/io";
 const { Header, Content, Sider } = Layout;
 
 const DashboardLayout = ({ children }) => {
@@ -101,16 +117,35 @@ const DashboardLayout = ({ children }) => {
         }}
       >
         <Flex height="100%" justifyContent="end" alignItems="center">
-          <Avatar
-            size="sm"
-            onClick={() => {
-              sessionStorage.clear();
-              router.push("/");
-            }}
-          />
-          <Box ml="20px" mr="50px" fontSize="16px" fontWeight="600">
-            Hi {name}
-          </Box>
+          <Menu2>
+            <MenuButton2>
+              <Avatar size="sm" mt="14px" />
+              <Box
+                ml="10px"
+                mr="50px"
+                display="inline-block"
+                fontSize="16px"
+                fontWeight="600"
+              >
+                Hi {name}
+              </Box>
+            </MenuButton2>
+            <MenuList2>
+              <MenuItem2
+                py="5px"
+                px="20px"
+                onClick={() => {
+                  sessionStorage.clear();
+                  router.push("/");
+                }}
+              >
+                <IoIosLogOut size="20px" />{" "}
+                <Box fontSize="16px" fontWeight="600" ml="10px">
+                  Logout
+                </Box>
+              </MenuItem2>
+            </MenuList2>
+          </Menu2>
         </Flex>
       </Header>
 

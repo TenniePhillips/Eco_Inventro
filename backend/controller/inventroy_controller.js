@@ -61,7 +61,8 @@ const fetchAllInventory = async (req, res) => {
   try {
     const inventory = await InventoryModel.find({ userId: req.user.id })
       .populate("supplier")
-      .limit(100);
+      .sort({ createdAt: -1 })
+      .limit(500);
 
     if (inventory) {
       res.status(200).json({
@@ -343,10 +344,6 @@ const checkBalanceOverview = async (req, res) => {
       styrofoam: materialInventory.Styrofoam - (materialTotals.Styrofoam || 0),
       biodegradable:
         materialInventory.Biodegradable - (materialTotals.Biodegradable || 0),
-      // plastic: materialInventory.Plastic - materialTotals.Plastic,
-      // styrofoam: materialInventory.Styrofoam - materialTotals.Styrofoam,
-      // biodegradable:
-      //   materialInventory.Biodegradable - materialTotals.Biodegradable,
     };
 
     if (transaction) {
