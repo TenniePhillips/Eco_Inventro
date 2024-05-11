@@ -61,7 +61,7 @@ const Index = () => {
       router.push("/dashboard");
       toast({
         position: "bottom-right",
-        description: req.message,
+        description: req?.message ?? "Success",
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -69,7 +69,7 @@ const Index = () => {
     } else {
       toast({
         position: "bottom-right",
-        description: req.message,
+        description: req?.message ?? "Error",
         status: "error",
         duration: 5000,
         isClosable: true,
