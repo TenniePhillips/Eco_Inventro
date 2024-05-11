@@ -26,7 +26,6 @@ export const HandleAllRequest = async (
     baseURL: BaseURL.Api,
     headers: {
       "Content-type": "application/json",
-      "Access-Control-Allow-Origin": "*",
       Accept: "application/json",
       Authorization: `Bearer ${getUserToken()}`,
     },
