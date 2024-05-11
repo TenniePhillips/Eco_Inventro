@@ -37,9 +37,9 @@ const InventorySchema = new mongoose.Schema(
       type: Date,
       validate: {
         validator: function (value) {
-          return value >= new Date();
+          return value >= this.orderDate;
         },
-        message: "Date cannot be in the past",
+        message: "Delivery date must be after or equal to order date",
       },
       required: true,
     },
