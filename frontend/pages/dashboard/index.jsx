@@ -140,14 +140,14 @@ const Index = () => {
     {
       icon: <MdInventory size={size} color={color} />,
       title: "Volume Of Waste",
-      total: summary.plastic,
+      total: summary.plastic.toFixed(2),
       sub: "Plastic",
     },
 
     {
       icon: <MdFactory size={size} color={color} />,
       title: "Volume Of Waste",
-      total: summary.styrofoam,
+      total: summary.styrofoam.toFixed(2),
       sub: "Styrofoam",
     },
 

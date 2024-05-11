@@ -1,9 +1,12 @@
 const TransactionSchema = require("../model/transaction_model");
-const nodemailer = require("nodemailer");
 const {
   Types: { ObjectId },
 } = require("mongoose");
+const sendFcmToken = require("../config/fem_controller");
+const admin = require("firebase-admin");
 
+const fcmToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2M2E4YmFlZmIyZDU0NmU5NzdiODYwMSIsImlhdCI6MTcxNTQyNDAzMCwiZXhwIjoxNzE4MDE2MDMwfQ.3e4mOVrDQzoaIeYLXFgu8Bc5nrQOngaWzCAF3Ojh9jk";
 // const objectId = new ObjectId();
 
 const createTransaction = async (req, res) => {
@@ -24,6 +27,16 @@ const createTransaction = async (req, res) => {
       action,
       userId: req.user.id,
     });
+
+    const message = {
+      notification: {
+        title: "Transaction Update",
+        body: "Inventroy stats updated",
+      },
+      to: fcmToken,
+    };
+    sendFcmToken(message);
+
     res.status(200).json({
       message: "Transaction created successfully",
       data: createTransactions,
@@ -136,7 +149,7 @@ const sumTotalOfMaterial = async (req, res) => {
       { $sort: { date: -1 } },
     ]);
 
-    console.log("Transactions:", transactions); // Log transactions array for inspection
+    // console.log("Transactions:", transactions);.to // Log transactions array for inspection
 
     // Fill in missing dates with 0 total
     const filledTransactions = fillMissingDates(
