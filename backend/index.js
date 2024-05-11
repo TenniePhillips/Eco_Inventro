@@ -8,7 +8,7 @@ const inventoryRoutes = require("./routes/inventory_route");
 const transactionRoutes = require("./routes/transaction_route");
 const metricsRoutes = require("./routes/metrics_route");
 const connectDb = require("./config/db");
-const path = require("path");
+// const path = require("path");
 const cors = require("cors");
 
 // const Analytics = "@vercel/analytics/react"
@@ -20,7 +20,7 @@ connectDb();
 app.use(
   cors({
     origin: "*",
-    methods: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
@@ -35,6 +35,3 @@ app.use("/inventory", inventoryRoutes);
 app.use("/metrics", metricsRoutes);
 
 app.listen(port, () => console.log("app started on", port));
-
-//mongodb+srv://donmarito5:znb8RFCsk0aYKiPq@cluster0.uwyfr2o.mongodb.net/?retryWrites=true&w=majority .
-// "test": "echo \"Error: no test specified\" && exit 1"
