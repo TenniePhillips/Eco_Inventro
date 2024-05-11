@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 
 const connectDb = async () => {
   try {
-    mongoose.set("strictQuery", false);
+    // mongoose.set("strictQuery", false);
 
     const conns = await mongoose.connect(
       "mongodb+srv://devMosh:devMosh@cluster0.uu47p7v.mongodb.net/?retryWrites=true&w=majority",
       {
-        useUnifiedTopology: true,
+        useNewUrlParser: true,
         autoIndex: true,
       }
     );
