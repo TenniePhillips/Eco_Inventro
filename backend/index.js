@@ -15,7 +15,12 @@ const cors = require("cors");
 
 const app = express();
 connectDb();
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: "https://invetro.netlify.app",
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
