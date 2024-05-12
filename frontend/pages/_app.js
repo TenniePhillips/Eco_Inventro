@@ -1,14 +1,12 @@
 import "../styles/globals.css";
 import React, { useEffect } from "react";
-import { ChakraProvider, useToast } from "@chakra-ui/react";
+import { Box, ChakraProvider, useToast } from "@chakra-ui/react";
 import "antd/dist/reset.css";
 import { Analytics } from "@vercel/analytics/react";
 import useFcmToken from "../tools/useFcmToken";
 import { getMessaging, onMessage } from "firebase/messaging";
 import firebaseApp from "../firebase";
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
-// import { getTokens, onMessageListener } from "../firebase";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }) {
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
@@ -23,24 +21,6 @@ function MyApp({ Component, pageProps }) {
       window.sessionStorage.setItem("fcmToken", fcmToken) || null;
       const messaging = getMessaging(firebaseApp);
       const unsubscribe = onMessage(messaging, (payload) => {
-        // console.log("Foreground push notification received:", payload);
-        // toast(
-        //   {
-        //     title: payload.notification.title,
-        //     description: payload.notification.body,
-        //   },
-        //   {
-        //     position: "top-right",
-        //     autoClose: 5000,
-        //     hideProgressBar: false,
-        //     closeOnClick: true,
-        //     pauseOnHover: true,
-        //     draggable: true,
-        //     progress: undefined,
-        //     theme: "light",
-        //     transition: "Bounce",
-        //   }
-        // );
         toast({
           title: payload.notification.title,
           description: payload.notification.body,
@@ -59,8 +39,17 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <ChakraProvider>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0"
+        />
+        {/* <meta name="viewport" content="width=device-width, initial-scale=0.6" /> */}
+      </Head>
       <Analytics />
-      <Component {...pageProps} />
+      <Box className="App">
+        <Component {...pageProps} />
+      </Box>
     </ChakraProvider>
   );
 }

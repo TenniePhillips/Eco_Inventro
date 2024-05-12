@@ -107,7 +107,7 @@ const DahsboardLineChart = () => {
         justifyContent="space-between"
       >
         <Text fontSize="20px" fontWeight="600" mb="0px">
-          Recycle chart
+          Material Chart
         </Text>
         <RangePicker />
       </CardHeader>

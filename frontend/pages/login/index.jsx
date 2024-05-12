@@ -86,14 +86,22 @@ const Index = () => {
   return (
     <Box
       height="100vh"
+      // zoom={{ base: "1", md: "0.9", lg: "1" }}
+      minHeight="100%"
       display="flex"
+      // flexDir="column"
       justifyContent="center"
       alignItems="center"
       bg="#319795"
     >
-      <Box width="580px" py="40px">
-        <Card>
-          <CardBody py="40px" px="32px">
+      <Box py="40px">
+        <Card
+          maxWidth="580px"
+          style={{
+            zoom: "0.8",
+          }}
+        >
+          <CardBody py="40px" px={{ base: "14px", lg: "32px" }}>
             <Flex justifyContent="center">
               <Image
                 src="/images/eco.png"

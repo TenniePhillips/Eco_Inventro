@@ -9,6 +9,18 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
 }
 
+/* @media (min-width: 1280px) and (max-width: 1919px) {
+  html {
+    zoom: 0.9;
+  }
+}
+
+@media (min-width: 1920px) {
+  html {
+    zoom: 1;
+  }
+} */
+
 :root {
   --main-bg: #027f82;
   /* #09e82e; */

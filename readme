@@ -1,0 +1,85 @@
+## Eco-Inventro
+
+This is a full-stack project built with React (Next.js) for the frontend and Node.js (Express) for the backend, with MongoDB as the database.
+
+### Getting Started
+
+To start the application, follow these steps:
+
+1. Navigate to the backend folder: `cd backend`.
+2. Run the development server: `npm run dev`.
+3. To run only the frontend, navigate to the frontend folder: `cd frontend` and run `npm run dev`.
+4. To run test, navigate to the frontend folder: `cd frontend` and run `npm run test`.
+
+### Frontend Dependencies
+
+The frontend project includes the following additional dependencies:
+
+- **@chakra-ui/next-js**: Provides UI components for Next.js applications.
+- **@chakra-ui/react**: React components for Chakra UI design system.
+- **@emotion/react**: Library for styling React components with emotion.
+- **@emotion/styled**: Library for styling React components with emotion.
+- **@firebase/app**: Firebase app module for web applications.
+- **@firebase/messaging**: Firebase Cloud Messaging module for web applications.
+- **@vercel/analytics**: Vercel Analytics for collecting and analyzing user data.
+- **antd**: A design system for enterprise-level products.
+- **axios**: Promise based HTTP client for the browser and Node.js.
+- **firebase**: Firebase SDK for web applications.
+- **framer-motion**: A library for creating animations in React applications.
+- **moment**: A library for parsing, validating, manipulating, and formatting dates.
+- **next**: The React framework for production.
+- **react**: A JavaScript library for building user interfaces.
+- **react-dom**: React package for working with the DOM.
+- **react-icons**: Icons for React applications.
+- **react-toastify**: Notification system for React applications.
+- **recharts**: A charting library built on React components.
+
+To run frontend tests, navigate to the frontend folder and run `npm run test`.
+
+### Backend Dependencies
+
+- **bcryptjs**: Library for hashing passwords.
+- **cors**: Middleware for enabling CORS in Express.js.
+- **dotenv**: Library for loading environment variables from a .env file.
+- **express**: Web application framework for Node.js.
+- **fcm-node**: Library for sending Firebase Cloud Messaging (FCM) notifications from Node.js.
+- **firebase-admin**: Firebase Admin SDK for managing Firebase services from a server.
+- **jsonwebtoken**: Library for generating and verifying JSON Web Tokens (JWT).
+- **moment**: Library for parsing, validating, manipulating, and formatting dates and times.
+- **mongoose**: MongoDB object modeling tool designed to work in an asynchronous environment.
+- **nodemailer**: Library for sending emails from Node.js.
+- **validator**: Library for string validation and sanitization.
+
+### Folder Structure
+
+The project has the following folder structure:
+
+- **backend**: Contains the Node.js server code.
+- **frontend**: Contains the React (Next.js) frontend code.
+
+### Development Workflow
+
+During development, you can use the following npm scripts:
+
+- **dev**: Start the development server.
+- **server**: Start the development server with nodemon.
+- **client**: Start development for frontend.
+- **build**: Build the production-ready frontend code.
+- **start**: Start the production server.
+- **lint**: Run linting checks.
+- **test**: Run tests.
+- **test:watch**: Run tests in watch mode.
+
+### Contributing
+
+If you would like to contribute to the project, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or fix: `git checkout -b feature-name`.
+3. Make your changes and commit them: `git commit -m 'Add some feature'`.
+4. Push to the branch: `git push origin feature-name`.
+5. Submit a pull request.
+
+### License
+
+This project is licensed under the [MIT License](link-to-license).

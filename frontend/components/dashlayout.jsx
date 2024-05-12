@@ -212,8 +212,11 @@ const DashboardLayout = ({ children }) => {
           </Menu>
           <Spacer />
         </Sider>
+
         <Layout style={{ marginLeft: 296, padding: "20px" }}>
-          <Content style={{ paddingTop: "80px" }}>{children}</Content>
+          <Content style={{ paddingTop: "80px", zoom: "0.8" }}>
+            {children}
+          </Content>
         </Layout>
       </Layout>
     </div>
