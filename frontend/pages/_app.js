@@ -7,6 +7,7 @@ import useFcmToken from "../tools/useFcmToken";
 import { getMessaging, onMessage } from "firebase/messaging";
 import firebaseApp from "../firebase";
 import Head from "next/head";
+// import zoomLevel from "zoom-level";
 
 function MyApp({ Component, pageProps }) {
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
@@ -15,8 +16,20 @@ function MyApp({ Component, pageProps }) {
   fcmToken && console.log("FCM token:", fcmToken);
   const toast = useToast();
 
+  // useEffect(() => {
+  //   document.body.style.transform = "scale(0.9)";
+  //   // document.body.style.transformOrigin = "top left";
+  //   // document.body.style.width = "125%";
+  //   // document.body.style.height = "125%";
+  //   // document.body.style.overflowX = "hidden";
+  // }, []);
+
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
+    // const currentZoomLevel = zoomLevel(); // Get the current browser's zoom level
+    // console.log("Current Zoom Level:", currentZoomLevel);
+    // zoomLevel(0.8);
+    // You can set the desired zoom level here
     if (typeof window !== "undefined" && "serviceWorker" in navigator) {
       window.sessionStorage.setItem("fcmToken", fcmToken) || null;
       const messaging = getMessaging(firebaseApp);
@@ -40,10 +53,14 @@ function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider>
       <Head>
-        <meta
+        {/* <meta
           name="viewport"
           content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0"
-        />
+        /> */}
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
+        ></meta>
         {/* <meta name="viewport" content="width=device-width, initial-scale=0.6" /> */}
       </Head>
       <Analytics />

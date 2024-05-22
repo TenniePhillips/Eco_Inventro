@@ -53,10 +53,15 @@ const Index = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    var fcmToken;
+    if (typeof window !== "undefined") {
+      fcmToken = window.sessionStorage.getItem("fcmToken") || null;
+    }
     setLoading(true);
     var req = await HandleAllRequest("/user/login", "post", "", {
       email: userData.email,
       password: userData.password,
+      fcmToken,
     });
 
     setLoading(false);
@@ -94,18 +99,18 @@ const Index = () => {
       alignItems="center"
       bg="#319795"
     >
-      <Box py="40px">
+      <Box py={{ base: "24px", md: "28px", lg: "38px" }}>
         <Card
-          maxWidth="580px"
-          style={{
-            zoom: "0.8",
-          }}
+          maxWidth="480px"
+          // style={{
+          //   zoom: "0.8",
+          // }}
         >
           <CardBody py="40px" px={{ base: "14px", lg: "32px" }}>
             <Flex justifyContent="center">
               <Image
                 src="/images/eco.png"
-                height="90px"
+                height="70px"
                 alt="recycle"
                 mr="10px"
               />
@@ -113,14 +118,14 @@ const Index = () => {
 
             <Text
               textAlign="center"
-              fontSize="34px"
+              fontSize="24px"
               fontWeight="800"
               color="#000"
               mt="20px"
             >
               Eco Inventro
             </Text>
-            <Text fontSize="26px" fontWeight="700" mb="10px" color="#000">
+            <Text fontSize="18px" fontWeight="700" mb="10px" color="#000">
               Login
             </Text>
             <Text fontSize="18px" fontWeight="500" color="GrayText">
@@ -137,7 +142,7 @@ const Index = () => {
               />
               <Input
                 placeholder="Password"
-                mb="30px"
+                mb="20px"
                 size="md"
                 name="password"
                 type="password"
@@ -146,8 +151,8 @@ const Index = () => {
               />
               <Button
                 isLoading={loading}
-                mt="20px"
-                height="52px"
+                mt="14px"
+                height="48px"
                 colorScheme="teal"
                 width="100%"
                 type="submit"

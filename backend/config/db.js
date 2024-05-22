@@ -5,6 +5,7 @@ const connectDb = async () => {
     // mongoose.set("strictQuery", false);
 
     const conns = await mongoose.connect(
+      // process.env.MONGODB_URI,
       "mongodb+srv://devMosh:devMosh@cluster0.uu47p7v.mongodb.net/?retryWrites=true&w=majority",
       {
         useUnifiedTopology: true,

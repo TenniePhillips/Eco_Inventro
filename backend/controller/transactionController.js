@@ -107,9 +107,9 @@ const fetchAllTransaction = async (req, res) => {
   }
 };
 
-const checkSummaryOverview = async (req, res, fcmToken) => {
+const checkSummaryOverview = async (req, res, fcmToken, userId) => {
   try {
-    const id = new ObjectId(req.user.id);
+    const id = new ObjectId(userId ? userId : req.user.id);
 
     // Fetch total inventory quantities for each material
     const inventory = await InventoryModel.aggregate([
@@ -330,10 +330,6 @@ const sumRecycledMaterial = async (req, res) => {
       { $sort: { date: -1 } },
     ]);
 
-    console.log("Recycled Transactions:", transactions); // Log transactions array for inspection
-
-    // Fill in missing dates with 0 total for each material
-
     if (transactions) {
       res.status(200).json({
         success: true,
@@ -383,4 +379,5 @@ module.exports = {
   deleteTransaction,
   sumTotalOfMaterial,
   sumRecycledMaterial,
+  checkSummaryOverview,
 };

@@ -60,7 +60,7 @@ const DashboardPieChart = () => {
   const data = [
     { name: "Plastic", value: pieChartData?.Plastic ?? 0, color: "#0E3EC6" },
     {
-      name: "Polystyrene",
+      name: "Styrofoam",
       value: pieChartData?.Styrofoam ?? 0,
       color: "#09E82E",
     },
@@ -84,30 +84,39 @@ const DashboardPieChart = () => {
       setLoading(false);
       if (req.success == true) {
         const data = req.data;
+        // setChartData({
+        //   ...pieChartData,
+        //   Plastic: data[0]?.totalQuantity ?? 0,
+        //   Styrofoam: data[1]?.totalQuantity ?? 0,
+        //   Biodegradable: data[2]?.totalQuantity ?? 0,
+        // });
+
+        const mappedData = data.map((item) => ({
+          [item.material]: item.totalQuantity || 0,
+        }));
+
         setChartData({
           ...pieChartData,
-          Plastic: data[0]?.totalQuantity ?? 0,
-          Styrofoam: data[2]?.totalQuantity ?? 0,
-          Biodegradable: data[1]?.totalQuantity ?? 0,
+          ...Object.assign({}, ...mappedData),
         });
         console.log("data", data);
       } else {
-        toast({
-          position: "bottom-right",
-          description: req.message,
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
+        // toast({
+        //   position: "bottom-right",
+        //   description: req.message,
+        //   status: "error",
+        //   duration: 5000,
+        //   isClosable: true,
+        // });
       }
     } catch (error) {
-      toast({
-        position: "bottom-right",
-        description: error.message ?? "Error",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
+      // toast({
+      //   position: "bottom-right",
+      //   description: error.message ?? "Error",
+      //   status: "error",
+      //   duration: 5000,
+      //   isClosable: true,
+      // });
     }
   };
 
@@ -148,22 +157,8 @@ const DashboardPieChart = () => {
         justifyContent="space-between"
       >
         <Text fontSize="16px" fontWeight="600" mb="0px">
-          Material Chart
+          Overall Stock
         </Text>
-        <Box h="30px" pos="relative">
-          <Icon
-            as={MdCalendarMonth}
-            size="20px"
-            pos="absolute"
-            top="12px"
-            right="12px"
-          />
-          <Select icon={<Box></Box>} width="140px">
-            <option value="">Weekly</option>
-            <option value="">Daily</option>
-            <option value="">Monthly</option>
-          </Select>
-        </Box>
       </CardHeader>
       <CardBody>
         <Box width="100%" pt={{ base: "20px", lg: "20px" }} px="auto">

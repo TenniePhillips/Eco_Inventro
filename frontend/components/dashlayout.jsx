@@ -214,9 +214,7 @@ const DashboardLayout = ({ children }) => {
         </Sider>
 
         <Layout style={{ marginLeft: 296, padding: "20px" }}>
-          <Content style={{ paddingTop: "80px", zoom: "0.8" }}>
-            {children}
-          </Content>
+          <Content style={{ paddingTop: "80px" }}>{children}</Content>
         </Layout>
       </Layout>
     </div>

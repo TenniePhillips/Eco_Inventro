@@ -2,9 +2,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../model/user_model");
 const SubUser = require("../model/sub_user_model");
+const { checkSummaryOverview } = require("./transactionController");
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, fcmToken } = req.body;
 
   var isSub = false;
 
@@ -37,6 +38,7 @@ const login = async (req, res) => {
         token: generateToken(user.id),
         success: true,
       });
+      checkSummaryOverview(req, res, fcmToken, user.id);
     } else {
       // console.log("user data".blue, user.message);
       res.status(400).json({

@@ -19,10 +19,9 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-
-import { DatePicker, Space } from "antd";
+import moment from "moment";
 import { HandleAllRequest } from "../../tools/request_handler";
-const { RangePicker } = DatePicker;
+import { LoaderWidget } from "../../tools/helpers";
 
 // inventory/recent_inventory
 
@@ -46,7 +45,7 @@ const DahsboardMultiChart = () => {
         const data = req.data;
         setChartData(data);
         // formatChartData(data);
-        console.log("data", data);
+        console.log("recent inventory", data);
       } else {
         toast({
           position: "bottom-right",
@@ -85,6 +84,29 @@ const DahsboardMultiChart = () => {
     );
   };
 
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      console.log("payload data ", payload[0]);
+      var deliDate = moment(payload[0].payload.createdAt).format("DD-MM-YYYY");
+      return (
+        <Box
+          p="4px 18px"
+          pt="20px"
+          background="#ffff"
+          boxShadow="0px 12.21240234375px 29.30976676940918px 0px #F2F2F240"
+          borderRadius="7px"
+          border="1.22px solid #CCCCCC"
+        >
+          <Text className="label">{`Supplier: ${payload[0].payload.supplier.name}`}</Text>
+          <Text className="intro">{`Quantity: ${payload[0].value}`}</Text>
+          <Text className="intro">{`Created: ${deliDate}`}</Text>
+        </Box>
+      );
+    }
+
+    return null;
+  };
+
   useEffect(() => {
     getRecentInventory();
   }, []);
@@ -101,35 +123,35 @@ const DahsboardMultiChart = () => {
         <Text fontSize="20px" fontWeight="600" mb="0px">
           Recent Inventory
         </Text>
-        <RangePicker />
+        {/* <RangePicker /> */}
       </CardHeader>
       <CardBody>
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart
-            width="100%"
-            height={300}
-            data={chartData}
-            margin={{
-              top: 20,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            {/* <CartesianGrid strokeDasharray="3 3" /> */}
-            <XAxis tick={<CustomXAxis />} dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-
-            <Bar
-              key="name"
-              dataKey="quantity" // This specifies the data property to be used as the value for the bar
-              name="quantity" // This specifies the label for the bar
-              fill="#0E3EC6"
-            />
-          </BarChart>
-        </ResponsiveContainer>
+        {loading || chartData.length == 0 ? (
+          <LoaderWidget loading={loading} height="400px" />
+        ) : (
+          <ResponsiveContainer width="100%" height={400}>
+            <BarChart
+              width="100%"
+              height={300}
+              data={chartData}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip
+                content={<CustomTooltip />}
+                cursor={{ fill: "rgba(255, 255, 255, 0.2)" }}
+              />
+              <Legend />
+              <Bar dataKey="quantity" name="name" fill="#0E3EC6" />
+            </BarChart>
+          </ResponsiveContainer>
+        )}
       </CardBody>
     </Card>
   );

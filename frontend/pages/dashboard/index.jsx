@@ -111,22 +111,22 @@ const Index = () => {
         //   totalTransactions: data.totalTransaction ?? 0,
         // });
       } else {
-        toast({
-          position: "bottom-right",
-          description: req?.message ?? "No Data",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
+        // toast({
+        //   position: "bottom-right",
+        //   description: req?.message ?? "No Data",
+        //   status: "error",
+        //   duration: 5000,
+        //   isClosable: true,
+        // });
       }
     } catch (error) {
-      toast({
-        position: "bottom-right",
-        description: error.message ?? "Error",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
+      // toast({
+      //   position: "bottom-right",
+      //   description: error.message ?? "Error",
+      //   status: "error",
+      //   duration: 5000,
+      //   isClosable: true,
+      // });
     }
   };
 
@@ -187,7 +187,7 @@ const Index = () => {
                 <Flex justifyContent="space-between">
                   <Box>
                     <Box
-                      fontSize="32px"
+                      fontSize="20px"
                       fontWeight="800"
                       mb="0px"
                       color="#495057"
@@ -197,7 +197,7 @@ const Index = () => {
                         <Box
                           as="span"
                           mr="10px"
-                          fontSize="18px"
+                          fontSize="12px"
                           fontWeight="600"
                         >
                           KG
@@ -207,15 +207,15 @@ const Index = () => {
                       )}
                     </Box>
                     <Text
-                      fontSize="16px"
+                      fontSize="14px"
                       fontWeight="500"
                       color="#878a99"
-                      mb="20px"
+                      mb="16px"
                     >
                       {item.title}
                     </Text>
 
-                    <Text mb="0px" fontSize="14px" fontWeight="600">
+                    <Text mt="20px" mb="0px" fontSize="14px" fontWeight="600">
                       {item.sub}
                     </Text>
                   </Box>
@@ -242,8 +242,8 @@ const Index = () => {
           <CardBody px="20px" py="24px">
             <Flex justifyContent="space-between">
               <Box>
-                <Text fontSize="32px" fontWeight="800" mb="0px" color="#495057">
-                  Calculator
+                <Text fontSize="20px" fontWeight="800" mb="0px" color="#495057">
+                  Impact <br /> Calculator
                   <span
                     style={{
                       fontSize: "18px",
@@ -255,7 +255,8 @@ const Index = () => {
                   fontSize="16px"
                   fontWeight="500"
                   color="#878a99"
-                  mb="20px"
+                  mb="5px"
+                  mt="14px"
                 >
                   Calculator pet, bottles etc
                 </Text>

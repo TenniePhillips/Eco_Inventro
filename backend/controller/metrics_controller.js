@@ -46,7 +46,7 @@ async function getInventoryData(req, res) {
 
     return chartData;
   } catch (error) {
-    console.error("Error fetching chart data:", error);
+    // console.error("Error fetching chart data:", error);
     throw error;
   }
 }
@@ -89,7 +89,7 @@ const getOverview = async (req, res) => {
 
 const getMaterialOverview = async (req, res) => {
   try {
-    const inventoryData = await Inventory.find({ userId: req.user.id });
+    const inventoryData = await Transaction.find({ userId: req.user.id });
 
     // Group inventory data by material and calculate total quantity for each material
     const groupedData = inventoryData.reduce((acc, inventory) => {
@@ -109,7 +109,7 @@ const getMaterialOverview = async (req, res) => {
       };
     });
 
-    console.log("chart data", chartData);
+    // console.log("chart data", chartData);
 
     if (inventoryData) {
       res.status(200).json({

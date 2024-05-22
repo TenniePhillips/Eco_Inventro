@@ -1,7 +1,14 @@
 "use client";
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { Text, Card, CardHeader, CardBody, useToast } from "@chakra-ui/react";
+import {
+  Text,
+  Card,
+  CardHeader,
+  CardBody,
+  useToast,
+  Box,
+} from "@chakra-ui/react";
 import {
   BarChart,
   Bar,
@@ -32,6 +39,7 @@ import {
 // } from "recharts";
 import { DatePicker, Space } from "antd";
 import { HandleAllRequest } from "../../tools/request_handler";
+import { LoaderWidget } from "../../tools/helpers";
 const { RangePicker } = DatePicker;
 
 const DahsboardLineChart = () => {
@@ -74,6 +82,51 @@ const DahsboardLineChart = () => {
         // formatChartData(data);
         console.log("data", data);
       } else {
+        // toast({
+        //   position: "bottom-right",
+        //   description: req.message,
+        //   status: "error",
+        //   duration: 5000,
+        //   isClosable: true,
+        // });
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  const [date, setDate] = useState({
+    startDate: "",
+    endDate: "",
+  });
+
+  const onDateChange = (dates, dateStrings) => {
+    setDate({
+      startDate: dateStrings[0],
+      endDate: dateStrings[1],
+    });
+    console.log(date);
+    getRecycledByDate();
+  };
+
+  const getRecycledByDate = async () => {
+    const { startDate, endDate } = date;
+    setLoading(true);
+    try {
+      var req = await HandleAllRequest(
+        `/transaction/recycled?startDate=${startDate}&endDate=${endDate}`,
+        "get",
+        "",
+        {}
+      );
+
+      setLoading(false);
+      if (req.success == true) {
+        const data = req.data;
+        transformDataForRecharts(data);
+        // formatChartData(data);
+        console.log("data", data);
+      } else {
         toast({
           position: "bottom-right",
           description: req.message,
@@ -107,34 +160,38 @@ const DahsboardLineChart = () => {
         justifyContent="space-between"
       >
         <Text fontSize="20px" fontWeight="600" mb="0px">
-          Material Chart
+          Transaction by Material type
         </Text>
-        <RangePicker />
+        <RangePicker onChange={onDateChange} />
       </CardHeader>
       <CardBody>
-        <ResponsiveContainer height={400} width="100%">
-          {/* transformedData */}
-          <BarChart
-            width="100%"
-            height={300}
-            data={transformedData}
-            margin={{
-              top: 20,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis yAxisId="left" orientation="left" />
-            <YAxis yAxisId="right" orientation="right" />
-            <Tooltip />
-            <Legend />
-            <Bar yAxisId="left" dataKey="plastic" fill="#09E82E" />
-            <Bar yAxisId="right" dataKey="styrofoam" fill="#EBF400" />
-          </BarChart>
-        </ResponsiveContainer>
+        {loading || transformedData.length == 0 ? (
+          <LoaderWidget loading={loading} height="400px" />
+        ) : (
+          <ResponsiveContainer height={400} width="100%">
+            <BarChart
+              width="100%"
+              height={300}
+              data={transformedData}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              {/* <CartesianGrid strokeDasharray="3 3" /> */}
+              <XAxis dataKey="name" />
+              <YAxis yAxisId="left" orientation="left" />
+              <YAxis yAxisId="right" orientation="right" />
+              <Tooltip />
+              <Legend />
+              <Bar yAxisId="left" dataKey="plastic" fill="#0E3EC6" />
+              <Bar yAxisId="right" dataKey="styrofoam" fill="#09E82E" />
+              <Bar yAxisId="right" dataKey="biodegradable" fill="#EBF400" />
+            </BarChart>
+          </ResponsiveContainer>
+        )}
       </CardBody>
     </Card>
   );
