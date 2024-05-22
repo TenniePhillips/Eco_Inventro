@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const BaseURL = {
   // Api: "http://localhost:4000",
-  Api: "https://eco-inventro-8z3a.vercel.app/",
+  Api: "https://eco-inventro-8z3a.vercel.app",
 };
 
 const getUserToken = () => {

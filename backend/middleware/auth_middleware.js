@@ -12,7 +12,7 @@ const protect = async (req, res, next) => {
   }
 
   // Verify the token
-  jwt.verify(token, process.env.JWT_KEY, async (err, decoded) => {
+  jwt.verify(token, "inventro8080", async (err, decoded) => {
     if (err) {
       return res.status(403).json({ success: false, message: "Invalid token" });
     }
